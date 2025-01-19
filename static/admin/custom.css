@@ -1,0 +1,77 @@
+/* Устанавливаем черный фон для тела страницы с белым текстом */
+body {
+    background-color: #000000 !important;
+    color: #FFFFFF !important;
+}
+
+/* Область содержимого (основная часть страницы) */
+.content-wrapper {
+    background-color: #000000 !important;
+    color: #FFFFFF !important;
+}
+
+.brand-link {
+	background-color: #1a1a1a !important; /* Темно-серый для боковой панели */
+}
+
+/* Настройка фона боковой панели */
+.main-sidebar {
+    background-color: #1a1a1a !important; /* Темно-серый для боковой панели */
+    color: #FFFFFF !important;
+}
+
+/* Стили ссылок в боковой панели */
+.sidebar a {
+    color: #FFFFFF !important;
+}
+.sidebar a:hover {
+    color: #FF0000 !important; /* Красный цвет при наведении */
+}
+
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+	background-color: #FF0000;
+}
+
+/* Настройка фона верхней панели */
+.navbar {
+    background-color: #000000 !important; /* Черный фон для верхней панели */
+    color: #FFFFFF !important;
+}
+
+/* Таблицы с черным фоном и белым текстом */
+.table {
+    background-color: #000000 !important; /* Черный фон таблиц */
+    color: #FFFFFF !important; /* Белый текст */
+}
+.table th, .table td {
+    border-color: #FF0000 !important; /* Красная рамка ячеек */
+}
+
+/* Кнопки */
+.btn {
+    background-color: #FF0000 !important; /* Красный фон кнопок */
+    color: #FFFFFF !important; /* Белый текст на кнопках */
+}
+.btn:hover {
+    background-color: #FFFFFF !important; /* Белый фон при наведении */
+    color: #FF0000 !important; /* Красный текст при наведении */
+}
+
+/* Подвал */
+.main-footer {
+    background-color: #000000 !important; /* Черный фон подвала */
+    color: #FFFFFF !important; /* Белый текст */
+}
+
+/* Заголовки */
+h1, h2, h3, h4, h5, h6 {
+    color: #FF0000 !important; /* Красный цвет заголовков */
+}
+
+/* Ссылки в содержимом */
+a {
+    color: #FF0000 !important; /* Красный цвет ссылок */
+}
+a:hover {
+    color: #FFFFFF !important; /* Белый цвет ссылок при наведении */
+}
