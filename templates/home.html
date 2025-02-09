@@ -1,16 +1,33 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-    <h1>Home page</h1>
-    <hr>
+    <main class="hero">
+        <div class="ellipse left-ellipse"></div>
+        <div class="ellipse right-ellipse"></div>
 
-    {% if user.is_authenticated %}
-        <form action="{% url 'logout' %}" method="post" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit">Logout</button>
-        </form>
-    {% else %}
-        <a href="{% url 'login' %}">Login</a> |
-        <a href="{% url 'register' %}">Register</a>
-    {% endif %}
+        <!-- Include Header -->
+        {% include 'header.html' %}
+
+        <div class="content">
+            <div class="left">
+                <h1>ULTIMATE <br><span class="red">GAMERS</span> <br>HEAVEN</h1>
+                <button>УЗНАТЬ ПОДРОБНЕЕ</button>
+            </div>
+            <div class="right">
+                <div class="news">
+                    <h3>Последние новости</h3>
+                    <div class="user">
+                        <img src="static/images/profile.svg" alt="Профиль">
+                        <span>Bakhytzhan</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="games">
+        <div class="game cs2">CS 2</div>
+        <div class="game dota2">DOTA 2</div>
+    </div>
 {% endblock %}
