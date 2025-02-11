@@ -30,4 +30,75 @@
         <div class="game cs2">CS 2</div>
         <div class="game dota2">DOTA 2</div>
     </div>
+    
+    <!-- Best Players Section -->
+    <section class="best-players">
+        <!-- Background Image -->
+        <div class="best-players-bg" style="background-image: url('{% static 'images/cs2_bg.jpg' %}');"></div>
+        
+        <!-- Red SVG Overlay -->
+        <img src="{% static 'images/best_players_overlay.svg' %}" alt="Best Players" class="best-players-overlay">
+
+        <h2 class="best-players-title">COUNTER STRIKE 2</h2>
+
+        <div class="players-grid">
+            <div class="player-card" style="background-color: #FF4848; background-image: url('{% static 'images/g2_logo.png' %}');">
+                <div class="player-img-container">
+                    <img src="{% static 'images/m0nesy.png' %}" alt="m0NESY">
+                </div>
+                <span class="player-name">M0NESY</span>
+            </div>
+            <div class="player-card" style="background-color: #2317A8; background-image: url('{% static 'images/eternal_fire_logo.png' %}');">
+                <div class="player-img-container">
+                    <img src="{% static 'images/xantares.png' %}" alt="XANTARES">
+                </div>
+                <span class="player-name">XANTARES</span>
+            </div>
+            <div class="player-card" style="background-color: #FFED4B; background-image: url('{% static 'images/vitality_logo.png' %}');">
+                <div class="player-img-container">
+                    <img src="{% static 'images/zywoo.png' %}" alt="ZYWOO">
+                </div>
+                <span class="player-name">ZYWOO</span>
+            </div>
+            <div class="player-card" style="background-color: #6FB200; background-image: url('{% static 'images/liquid_logo.png' %}');">
+                <div class="player-img-container">
+                    <img src="{% static 'images/elige.png' %}" alt="ELIGE">
+                </div>
+                <span class="player-name">ELIGE</span>
+            </div>
+            <div class="player-card" style="background-color: #3CDFF5; background-image: url('{% static 'images/g2_logo.png' %}');">
+                <div class="player-img-container">
+                    <img src="{% static 'images/donk.png' %}" alt="DONK">
+                </div>
+                <span class="player-name">DONK</span>
+            </div>
+            <div class="player-card" style="background-color: #B22000; background-image: url('{% static 'images/spirit_logo.png' %}');">
+                <div class="player-img-container">
+                    <img src="{% static 'images/magixx.png' %}" alt="MAGIXX">
+                </div>
+                <span class="player-name">MAGIXX</span>
+            </div>
+        </div>
+
+        <!-- Next Slide Button -->
+        <div class="next-slide">
+            <img src="{% static 'images/arrow.svg' %}" alt="Next">
+        </div>
+    </section>
+
+    <!-- Глобальный турнирный блок -->
+    <section class="global-tournament">
+        <div class="tournament-bg" style="background-image: url('{% static 'images/tournament_bg.jpg' %}');"></div>
+
+        <div class="tournament-content">
+            <p class="tournament-subtitle">Скоро состоится</p>
+            <h2 class="tournament-title">ГЛОБАЛЬНЫЙ ТУРНИР <br> THE INTERNATIONAL</h2>
+            <p class="tournament-location">Место проведения: Китай, Пекин</p>
+            <h3 class="tournament-date">
+                <span class="bold">2025</span> <span class="bold">SEP</span> <span class="bold">03-09</span>
+            </h3>
+            <button class="red-button">УЗНАТЬ ПОДРОБНЕЕ</button>
+        </div>
+    </section>
+
 {% endblock %}
