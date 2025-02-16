@@ -17,10 +17,18 @@
             <div class="right">
                 <div class="news">
                     <h3>Последние новости</h3>
-                    <div class="user">
+                    <!-- <div class="user">
                         <img src="static/images/profile.svg" alt="Профиль">
                         <span>Bakhytzhan</span>
-                    </div>
+                    </div> -->
+                    {% for news in latest_news %}
+                        <div class="news-item">
+                            <h5>{{ news.title }}</h5>
+                            <p><small>{{ news.created_at|date:"d.m.Y" }}</small></p>
+                        </div>
+                    {% empty %}
+                        <p>Новостей пока нет.</p>
+                    {% endfor %}
                 </div>
             </div>
         </div>

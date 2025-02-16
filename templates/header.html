@@ -4,7 +4,9 @@
     <div class="header-content d-flex align-items-center justify-content-between">
         <!-- Left Section (Logo) -->
         <div class="logo-container">
-            <img src="{% static 'ESPORTSHUB.svg' %}" alt="ESPORT HUB Logo" class="logo-img">
+            <a href="{% url 'home' %}">
+                <img src="{% static 'ESPORTSHUB.svg' %}" alt="ESPORT HUB Logo" class="logo-img">
+            </a>
         </div>
 
         <!-- Center Section (Navigation) -->
@@ -18,7 +20,7 @@
         <div class="auth d-flex align-items-center gap-4">
             {% if user.is_authenticated %}
                 <div class="d-flex align-items-center">
-                    <img src="{% static 'person.svg' %}" alt="User" class="auth-icon">
+                    <img src="{% static 'images/person.svg' %}" alt="User" class="auth-icon">
                     <span class="text-white fs-5">{{ user.username }}</span>
                 </div>
                 <form action="{% url 'logout' %}" method="post" class="d-inline">

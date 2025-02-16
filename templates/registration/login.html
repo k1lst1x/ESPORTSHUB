@@ -1,18 +1,58 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-    <h1>Login</h1>
-    <hr>
+<div class="container-fluid d-flex justify-content-center vh-100">
+    <div class="row w-75 shadow-lg rounded-3 overflow-hidden d-flex align-items-stretch" style="max-width: 100%; height: 100%;">
+        <!-- Левая часть с формой -->
+        <div class="col-md-6 p-5 text-white d-flex flex-column justify-content-center position-relative" style="font-size: 1.25rem; background-color: #131313">
+            <!-- Логотип в верхнем левом углу -->
+            <div class="position-absolute top-0 start-0 ps-5">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'ESPORTSHUB.svg' %}" alt="ESPORT HUB" style="height: 140px;">
+                </a>
+            </div>
 
-    {% if form.errors %}
-        <p>{{ form.errors.error }}</p>
-    {% endif %}
+            <div class="mb-2">
+                <h1 class="display-4" style="font-weight: 900 !important;">Добро пожаловать!</h1>
+            </div>
 
-    <form action="{% url 'login' %}" method="post">
-        {% csrf_token %}
-        {{ form }}
-    <button type="submit" class="btn btn-success">submit</button>
-    </form>
+            {% if form.errors %}
+            <div class="alert alert-danger">
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            {{ error }}
+                        {% endfor %}
+                    {% endfor %}
+            </div>
+            {% endif %}
 
-    <a href="{% url 'password_reset' %}">Forgot password?</a>
+            <form action="{% url 'login' %}" method="post">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="id_username" class="form-label">Почтовый адрес</label>
+                    <input type="email" name="username" id="id_username" class="form-control bg-transparent border border-light text-white" placeholder="Ваш E-mail" required style="padding: 15px; font-size: 1.2rem;">
+                </div>
+                <div class="mb-4">
+                    <label for="id_password" class="form-label">Пароль</label>
+                    <input type="password" name="password" id="id_password" class="form-control bg-transparent border border-light text-white" placeholder="Ваш пароль" required style="padding: 15px; font-size: 1.2rem;">
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn text-white py-3" 
+                        style="background-color: #B60000; border-color: #B60000; font-size: 1.3rem; border-radius: 10px; max-width: 376px; width: 100%;">
+                        ВХОД
+                    </button>
+                </div>         
+            </form>
+            <div class="text-center mt-4">
+                <small style="font-size: 1.1rem;">Нет аккаунта? <a href="{% url 'register' %}" style="color: #B60000; font-weight: bold;">Зарегистрироваться</a></small>
+                <br>
+                <small style="font-size: 1.1rem;">Забыли пароль? <a href="{% url 'password_reset' %}" style="color: #B60000; font-weight: bold;">Восстановить</a></small>
+            </div>
+        </div>
+
+        <!-- Правая часть с изображением -->
+        <div class="col-md-6 d-none d-md-block" style="background: url('{% static 'images/login-bg.svg' %}') center/cover no-repeat;"></div>
+    </div>
+</div>
 {% endblock %}

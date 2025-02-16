@@ -425,3 +425,12 @@ body {
     border-radius: 5px;
     font-weight: bold;
 }
+
+.news-item {
+    padding: 10px 0;
+    border-bottom: 1px solid white; /* Белая линия снизу */
+}
+
+.news-item:last-child {
+    border-bottom: none; /* Убираем линию у последней новости */
+}

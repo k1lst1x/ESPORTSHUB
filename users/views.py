@@ -3,6 +3,7 @@ from django.views import View
 from django.shortcuts import render, redirect
 
 from users.forms import UserCreationForm
+from news.models import News
 
 
 class Register(View):
@@ -28,3 +29,7 @@ class Register(View):
             'form': form
         }
         return render(request, self.template_name, context)
+
+def home(request):
+    latest_news = News.objects.order_by('-created_at')[:4]
+    return render(request, 'home.html', {'latest_news': latest_news})
