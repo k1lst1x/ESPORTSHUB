@@ -109,4 +109,81 @@
         </div>
     </section>
 
+    <!-- Блок Таблица матчей -->
+    <section class="match-table">
+        <div class="match-bg" style="background-image: url('{% static 'images/match_table_bg.png' %}');"></div>
+
+        <h2 class="match-title">ТАБЛИЦА МАТЧЕЙ</h2>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Игра</th>
+                        <th>Команда</th>
+                        <th>Счет</th>
+                        <th>Противник</th>
+                        <th>Дата</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img src="{% static 'images/dota_logo.png' %}" alt="Dota 2"></td>
+                        <td class="team-cell" style="background-image: url('{% static 'images/liquid_logo.png' %}');"> Team Liquid</td>
+                        <td><span class="score-win">37</span> vs <span class="score-lose">20</span></td>
+                        <td class="team-cell" style="background-image: url('{% static 'images/psg_lgd_logo.png' %}');"> PSG.LGD</td>
+                        <td>24 ноября 2024</td>
+                    </tr>
+                    <tr>
+                        <td><img src="{% static 'images/dota_logo.png' %}" alt="Dota 2"></td>
+                        <td class="team-cell" style="background-image: url('{% static 'images/navi_logo.png' %}');"> Natus Vincere</td>
+                        <td><span class="score-win">15</span> vs <span class="score-lose">12</span></td>
+                        <td class="team-cell" style="background-image: url('{% static 'images/vitality_logo.png' %}');"> Team Vitality</td>
+                        <td>23 ноября 2024</td>
+                    </tr>
+                    <tr>
+                        <td><img src="{% static 'images/dota_logo.png' %}" alt="Dota 2"></td>
+                        <td class="team-cell" style="background-image: url('{% static 'images/nigma_logo.png' %}');"> Nigma Galaxy</td>
+                        <td><span class="score-lose">10</span> vs <span class="score-win">25</span></td>
+                        <td class="team-cell" style="background-image: url('{% static 'images/s2g_logo.png' %}');"> S2G Esports</td>
+                        <td>22 ноября 2024</td>
+                    </tr>
+                    <tr>
+                        <td><img src="{% static 'images/dota_logo.png' %}" alt="Dota 2"></td>
+                        <td class="team-cell" style="background-image: url('{% static 'images/spirit_logo.png' %}');"> Team Spirit</td>
+                        <td><span class="score-win">12</span> vs <span class="score-lose">11</span></td>
+                        <td class="team-cell" style="background-image: url('{% static 'images/tundra.png' %}');"> Tundra</td>
+                        <td>22 марта 2025</td>
+                    </tr>
+                    <tr>
+                        <td><img src="{% static 'images/dota_logo.png' %}" alt="Dota 2"></td>
+                        <td class="team-cell" style="background-image: url('{% static 'images/psg_lgd_logo.png' %}');"> PSG.LGD</td>
+                        <td><span class="score-win">15</span> vs <span class="score-lose">13</span></td>
+                        <td class="team-cell" style="background-image: url('{% static 'images/gg_logo.png' %}');"> Gaimin Gladiators</td>
+                        <td>10 мая 2025</td>
+                    </tr>
+                </tbody>
+                
+            </table>
+        </div>
+
+        <!-- Навигация -->
+        <div class="match-nav">
+            <button class="nav-btn"><img src="{% static 'images/arrow_left.svg' %}" alt="Previous"></button>
+            <button class="nav-btn"><img src="{% static 'images/arrow_right.svg' %}" alt="Next"></button>
+        </div>
+    </section>
+
+    <section class="tournament-section" style="background-image: url('{% static 'images/tournament_promo_bg.jpg' %}');">
+        <div class="tournament-content">
+            <p class="tournament-highlight">Создавай и побеждай!</p>
+            <h2 class="tournament-title">Твой турнир — твои возможности!</h2>
+            <div class="tournament-divider">
+                <img src="{% static 'images/avatar.png' %}" alt="Avatar" class="tournament-avatar">
+            </div>
+            <p class="tournament-description">Организуй турнир любого масштаба за пару кликов. Настрой правила, пригласи участников и сделай свой вклад в киберспортивную историю!</p>
+            <button class="tournament-btn">УЗНАТЬ ПОДРОБНЕЕ</button>
+        </div>
+    </section>
+
 {% endblock %}

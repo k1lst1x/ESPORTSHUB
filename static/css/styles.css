@@ -434,3 +434,236 @@ body {
 .news-item:last-child {
     border-bottom: none; /* Убираем линию у последней новости */
 }
+
+/* Блок "Таблица матчей" */
+.match-table {
+    position: relative;
+    width: 100%; /* Установленная ширина */
+    height: 1210px; /* Установленная высота */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+    margin: 0 auto; /* Центрирование секции */
+}
+
+/* Фон */
+.match-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
+/* Заголовок */
+.match-title {
+    font-family: 'Terminator Cyr', sans-serif;
+    font-size: 42px;
+    font-weight: normal;
+    color: white;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+}
+
+/* Таблица */
+.table-container {
+    width: 90%;
+    max-width: 1200px;
+    background: rgba(255, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Фиксированная ширина столбцов */
+}
+
+/* Заголовок таблицы */
+thead {
+    background: #710000; /* Цвет заголовка */
+    color: white;
+}
+
+thead th {
+    padding: 15px;
+    font-size: 18px;
+    font-family: 'Muller', sans-serif;
+    width: 20%; /* Каждому столбцу равная ширина */
+}
+
+/* Высота строки */
+tbody tr {
+    height: 145px; /* Высота строки */
+    transition: background 0.3s ease;
+}
+
+/* Чередующиеся строки */
+tbody tr:nth-child(odd) {
+    background: rgba(255, 118, 118, 0.7); /* Первый вариант фона */
+}
+
+tbody tr:nth-child(even) {
+    background: rgba(255, 157, 157, 0.7); /* Второй вариант фона */
+}
+
+tbody tr:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+tbody td {
+    padding: 15px;
+    font-weight: 900; /* Жирность 900 */
+    font-size: 20px; /* Размер шрифта 32px */
+    color: white;
+    font-family: 'Helvetica', sans-serif;
+    text-align: center;
+    vertical-align: middle;
+    width: 20%; /* Одинаковая ширина для всех столбцов */
+}
+
+/* Логотипы команд */
+.team-logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+/* Стили для счета */
+.score-win, .score-lose {
+    background: #1C0000; /* Задний фон счета */
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: 900; /* Жирность 900 */
+    font-size: 32px; /* Размер шрифта 32px */
+    display: inline-block;
+    min-width: 60px;
+    text-align: center;
+}
+
+/* Цвет победившей команды */
+.score-win {
+    color: #8AFF80;
+}
+
+/* Цвет проигравшей команды */
+.score-lose {
+    color: #FF0000;
+}
+
+/* Навигация */
+.match-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 315px; /* Расстояние между кнопками */
+}
+
+.nav-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.nav-btn img {
+    width: 40px;
+    height: 40px;
+    transition: transform 0.3s;
+}
+
+.nav-btn:hover img {
+    transform: scale(1.1);
+}
+
+/* Ячейка команды с фоновым логотипом */
+.team-cell {
+    position: relative;
+    text-align: center;
+    font-weight: 900;
+    font-size: 22px;
+    color: white;
+    font-family: 'Helvetica', sans-serif;
+    width: 20%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 110px 100px; /* Размер логотипа */
+    opacity: 1; /* Прозрачность текста */
+}
+
+/* Фон логотипа команды */
+.team-cell::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.2; /* Полупрозрачный логотип */
+    transform: translate(-50%, -50%);
+}
+
+/* Вторая секция с турниром */
+.tournament-section {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 100px 20px;
+    color: white;
+}
+
+.tournament-highlight {
+    color: red;
+    font-size: 32px; /* Размер текста */
+    font-weight: 900; /* Жирность */
+}
+
+.tournament-divider {
+    margin: 20px 0;
+}
+
+.tournament-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.tournament-description {
+    font-size: 24px; /* Размер текста */
+    font-weight: 400; /* Обычный вес */
+    line-height: 1.5;
+    max-width: 800px;
+    margin: 0 auto 20px;
+}
+
+.tournament-btn {
+    background: red;
+    color: white;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.tournament-btn:hover {
+    background: darkred;
+}
+
