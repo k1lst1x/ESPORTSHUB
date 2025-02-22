@@ -426,9 +426,22 @@ body {
     font-weight: bold;
 }
 
+.news a,h3 {
+    text-decoration: none;
+    color: #fff;
+    transition: color 0.3s ease-in-out;
+}
+
+.news a:hover {
+    color: red;
+}
+.news h3:hover {
+    color: red;
+}
+
 .news-item {
     padding: 10px 0;
-    border-bottom: 1px solid white; /* Белая линия снизу */
+    border-bottom: 1px solid red; /* Белая линия снизу */
 }
 
 .news-item:last-child {

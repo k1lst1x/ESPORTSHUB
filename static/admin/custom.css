@@ -25,7 +25,7 @@ body {
     color: #FFFFFF !important;
 }
 .sidebar a:hover {
-    color: #FF0000 !important; /* Красный цвет при наведении */
+    color: #808080 !important; /* Красный цвет при наведении */
 }
 
 .sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {

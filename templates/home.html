@@ -16,16 +16,18 @@
             </div>
             <div class="right">
                 <div class="news">
-                    <h3>Последние новости</h3>
+                    <a href="{% url 'news_list' %}" class="back-link"><h3>Последние новости</h3></a>
                     <!-- <div class="user">
                         <img src="static/images/profile.svg" alt="Профиль">
                         <span>Bakhytzhan</span>
                     </div> -->
                     {% for news in latest_news %}
-                        <div class="news-item">
-                            <h5>{{ news.title }}</h5>
-                            <p><small>{{ news.created_at|date:"d.m.Y" }}</small></p>
-                        </div>
+                        <a href="{% url 'news_detail' news.id %}">
+                            <div class="news-item">
+                                <h5>{{ news.title }}</h5>
+                                <p><small>{{ news.created_at|date:"d.m.Y" }}</small></p>
+                            </div>
+                        </a>
                     {% empty %}
                         <p>Новостей пока нет.</p>
                     {% endfor %}

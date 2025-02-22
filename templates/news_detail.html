@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    body {
+		background: linear-gradient(116.46deg, #141414 57.5%, #930000 100%);
+		color: white;
+		font-size: 16px;
+		line-height: 1.5;
+		margin: 0;
+		padding: 0;
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+	}
+
+    .container {
+		max-width: 875px;
+		width: 100%;
+		padding: 20px;
+		text-align: center;
+	}
+
+	@media (max-width: 768px) {
+		.container {
+			max-width: 100%;
+			padding: 10px;
+		}
+	}
+
+
+    /* Заголовок новости */
+    .news-header h1 {
+        font-size: 32px;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    /* Дата новости */
+    .news-date {
+        color: white;
+        font-size: 18px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+    }
+
+    .news-date img {
+        width: 32px;
+        height: 32px;
+        margin-right: 8px;
+    }
+
+    /* Основное изображение */
+    .news-image {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .news-img {
+        width: 100%;
+        max-height: 410px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+
+    /* Контент новости */
+    .news-content p {
+        font-size: 20px;
+        line-height: 1.6;
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    /* Секция комментариев */
+	.comments-section {
+		margin-top: 40px;
+		max-width: 328px;
+		text-align: left;
+	}
+
+	/* Форма комментариев */
+	.comment-form {
+		align-items: flex-start;
+	}
+
+	.comment-form input {
+		width: 100%;
+		max-width: 328px;
+	}
+
+	.comment-form button {
+		width: auto;
+	}
+
+	/* Выравнивание комментариев */
+	.comment {
+		max-width: 328px;
+	}
+
+    .comments-section h2 {
+        font-size: 26px;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+    }
+
+    .comment {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        text-align: left;
+    }
+
+    .comment p {
+        font-size: 18px;
+    }
+
+    /* Форма комментариев */
+    .comment-form {
+        display: flex;
+        flex-direction: column;
+		margin-top: 15px;
+		align-items: end;
+    }
+
+    /* Форма комментариев */
+	.comment-form input {
+		width: 100%;
+		max-width: 700px;
+		padding: 12px 12px 12px 0px;
+		border: none;
+		border-bottom: 2px solid #999999; /* Добавляем линию снизу */
+		border-radius: 0; /* Убираем закругления */
+		font-size: 18px;
+		margin-bottom: 10px;
+		background: none;
+		color: #999999;
+		outline: none;
+		transition: border-color 0.3s ease-in-out;
+	}
+
+	.comment-form input:focus {
+		border-bottom: 2px solid red; /* Меняем цвет линии при фокусе */
+	}
+
+    .comment-form input::placeholder {
+        color: #ddd;
+    }
+
+    .comment-form button {
+        padding: 12px 20px;
+        border: none;
+        background: red;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .comment-form button:hover {
+        background: darkred;
+    }
+
+    /* Кнопка назад */
+    .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        color: red;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .back-link:hover {
+        color: white;
+	}
+</style>
+
+<div class="container">
+    {% if news_item.image %}
+    <div class="news-image">
+        <img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" class="news-img">
+    </div>
+	{% endif %}
+	<div class="container">
+		<div class="news-header">
+			<h1>{{ news_item.title }}</h1>
+			<p class="news-date">
+				<img src="{% static 'images/calendar_icon.svg' %}" alt="Дата"> {{ news_item.created_at|date:"d.m.Y H:i" }}
+			</p>
+		</div>
+
+		<div class="news-content">
+			<p>{{ news_item.content|linebreaksbr  }}</p>
+		</div>
+
+		<div class="comments-section">
+			{% for comment in comments %}
+			<div class="comment">
+				<p><b>@{{ comment.user.username }}</b>: {{ comment.text }}</p>
+			</div>
+			{% empty %}
+			<p>Комментариев пока нет. Будьте первым!</p>
+			{% endfor %}
+			<form class="comment-form" method="post">
+				{% csrf_token %}
+				<input type="text" name="comment_text" placeholder="Оставить комментарий...">
+				<button type="submit">Отправить</button>
+			</form>
+			<a href="{% url 'news_list' %}" class="back-link">← Назад ко всем новостям</a>
+		</div>
+	</div>
+	
+</div>
+{% endblock %}

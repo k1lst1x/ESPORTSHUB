@@ -12,17 +12,17 @@
         <!-- Center Section (Navigation) -->
         <nav class="nav-container d-flex gap-5">
             <a href="{% url 'home' %}" class="text-white text-decoration-none">Главная</a>
-            <a href="#" class="text-white text-decoration-none">Новости</a>
+            <a href="{% url 'news_list' %}" class="text-white text-decoration-none">Новости</a>
             <a href="#" class="text-white text-decoration-none">Рейтинг</a>
         </nav>
 
         <!-- Right Section (Auth) -->
         <div class="auth d-flex align-items-center gap-4">
             {% if user.is_authenticated %}
-                <div class="d-flex align-items-center">
+                <a href="{% url 'profile' %}" class="d-flex align-items-center text-white text-decoration-none">
                     <img src="{% static 'images/person.svg' %}" alt="User" class="auth-icon">
-                    <span class="text-white fs-5">{{ user.username }}</span>
-                </div>
+                    <span class="fs-5">{{ user.username }}</span>
+                </a>
                 <form action="{% url 'logout' %}" method="post" class="d-inline">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger btn-lg">Выйти</button>

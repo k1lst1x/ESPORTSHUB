@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    body {
+        background: linear-gradient(116.46deg, #141414 57.5%, #930000 100%);
+        color: white;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        flex-direction: column;
+    }
+
+    .profile-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 800px;
+        max-width: 100%;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .profile-header h1 {
+        margin: 0;
+    }
+
+    .edit-profile-btn {
+        padding: 10px 15px;
+        background: #FFFFFF;
+        color: #131313;
+        font-size: 16px;
+        font-weight: 900;
+        text-decoration: none;
+        border-radius: 15px;
+        transition: background 0.3s, color 0.3s;
+        border: none;
+        cursor: pointer;
+    }
+
+    .edit-profile-btn:hover {
+        background: #E0E0E0;
+    }
+
+    .profile-container {
+        max-width: 800px;
+        width: 100%;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        text-align: left;
+    }
+
+    .profile-img-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+    }
+
+    .profile-img {
+        width: 360px;
+        height: 360px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid white;
+    }
+
+    .profile-info {
+        flex: 2;
+        padding-left: 20px;
+    }
+
+    .profile-info h1 {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .profile-info h1:nth-child(2) {
+        color: #FF1212;
+    }
+
+    .profile-info p {
+        font-size: 18px;
+        margin: 5px 0;
+    }
+
+    .profile-links a {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 10px 20px;
+        background: red;
+        color: white;
+        font-size: 18px;
+        text-decoration: none;
+        border-radius: 25px;
+        transition: background 0.3s;
+    }
+
+    .profile-links a:hover {
+        background: darkred;
+    }
+
+    .favorite-games {
+        margin-top: 15px;
+    }
+
+    .favorite-games span {
+        background: #FFFFFF;
+        color: #121212;
+        padding: 8px 15px;
+        border-radius: 10px;
+        display: inline-block;
+        margin-top: 10px;
+        margin-right: 5px;
+    }
+
+    @media (max-width: 720px) {
+        .profile-container {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .profile-header {
+            flex-direction: column;
+            text-align: center;
+		}
+		
+		.edit-profile-btn {
+			margin-top: 10px;
+		}
+
+        .profile-img {
+            width: 180px;
+            height: 180px;
+        }
+
+        .profile-info {
+            padding-left: 0;
+            margin-top: 15px;
+        }
+    }
+</style>
+
+<div class="profile-header">
+    <h1>Ваш профиль</h1>
+    <a href="#" class="edit-profile-btn">Изменить профиль</a>
+</div>
+
+<div class="profile-container">
+    <div class="profile-img-container">
+        {% if user.profile_picture %}
+            <img src="{{ user.profile_picture.url }}" alt="Фото профиля" class="profile-img">
+        {% else %}
+            <img src="{% static 'images/default_avatar.png' %}" alt="Фото профиля" class="profile-img">
+        {% endif %}
+    </div>
+    
+    <div class="profile-info">
+        <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+        <h1>{{ user.username }}</h1>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        {% if user.age %}<p><strong>Возраст:</strong> {{ user.age }}</p>{% endif %}
+        {% if user.city %}<p><strong>Город:</strong> {{ user.city }}</p>{% endif %}
+        {% if user.country %}<p><strong>Страна:</strong> {{ user.country }}</p>{% endif %}
+        {% if user.steam_profile %}
+            <p><strong>Steam профиль:</strong> <a href="{{ user.steam_profile }}" target="_blank" style="color: lightblue;">Перейти в Steam</a></p>
+        {% endif %}
+
+        {% if user.favorite_games.all %}
+        <div class="favorite-games">
+            <p><strong>Любимые игры:</strong></p>
+            {% for game in user.favorite_games.all %}
+                <span class="game-tag">{{ game.name }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="profile-links">
+            <a href="{% url 'home' %}">← Вернуться на главную</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
