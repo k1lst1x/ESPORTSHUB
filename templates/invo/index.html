@@ -1,0 +1,126 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Invoke</title>
+		<link rel="stylesheet" href="{% static 'invo/css/style.css' %}">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:600,700" rel="stylesheet">
+		<link rel="stylesheet" href="{% static 'invo/css/max800height.css' %}">
+	</head>
+<body>
+
+<div class="invoke-challenge-hide">
+	<div id="progressBar">
+		<div class="bar"></div>
+	</div>
+	<div class="spell-to-invoke">Испытание на заклинания</div>
+	<div class="time">
+		В этом испытании тебе нужно как можно быстрее применять заклинания. 
+		После успешного применения ты заработаешь очки + множитель оставшегося времени. 
+		Если заклинание не удалось - ты потеряешь часть очков. 
+		В зависимости от количества очков скрипт присвоит тебе ранг. 
+		Постарайся показать лучший результат!
+	</div>
+	<div class="rank">Готов? Нажми на кнопку ниже</div>
+	<button class="start-challenge">Начать</button>
+</div>
+
+<div class="controls">
+	<button class="show-spell-combos">Переключить комбинации заклинаний</button>
+	<button class="show-spell-names-off">Показать названия заклинаний</button>
+	<button class="level-up">Повысить уровень</button>
+	<button class="invoke-challenge-button">Испытание на заклинания</button>
+</div>
+
+<nav>
+	<div id="elements-taken"></div>
+	<div id="elements">
+		<div class="stones">
+			<div id="stone1"></div>
+			<div id="stone2"></div>
+		</div>
+		<div id="invo-portrait">
+			<h5>INVOKER</h5>
+			<div class="stats">
+				<ul class="stats-list">
+					<li class="dmg"></li>
+					<li class="armor"></li>
+					<li class="movement-speed"></li>
+					<li class="str"></li>
+					<li class="agi"></li>
+					<li class="int"></li>
+				</ul>
+			</div>
+			<video controls autoplay loop muted>
+				<source src="{% static 'invo/media/portrait.mp4' %}" type="video/mp4">
+			</video>
+			<div id="talents">
+				<img src="{% static 'invo/css/img/talents_icon0.png' %}" alt="">
+			</div>
+			<div id="level"></div>
+		</div>
+
+		<div class="element">
+			<img src="{% static 'invo/css/img/Quas_icon.png' %}" alt="" id="quas">
+			<div class="quas-description"></div>
+		</div>
+		<div class="element">
+			<img src="{% static 'invo/css/img/Wex_icon.png' %}" alt="" id="wex">
+			<div class="wex-description"></div>
+		</div>
+		<div class="element">
+			<img src="{% static 'invo/css/img/Exort_icon.png' %}" alt="" id="exort">
+			<div class="exort-description"></div>
+		</div>
+		<div class="spells-invoked"></div>
+		<div class="element" id="invoke">
+			<img src="{% static 'invo/css/img/Invoke_icon.png' %}" alt="">
+		</div>
+		<img src="{% static 'invo/css/img/Invoke_list.png' %}" alt="" class="spell-combos-hide">
+		<img src="{% static 'invo/css/img/invoke_list_names.png' %}" alt="" class="spell-combos-names-hide">
+	</div>
+
+	<div class="bars">
+		<div class="hp-bar"></div>
+		<div class="mana-bar"></div>
+	</div>
+</nav>
+
+<div class="shop-hide">
+	<h1>Shop</h1>
+	<ul class="shop-items">
+		<li class="shop-item">
+			<img src="{% static 'invo/css/img/null_talisman.png' %}" alt="">
+			<span class="name">Null Talisman</span>
+			<span class="item-price">465</span>
+		</li>
+		<li class="shop-item">
+			<img src="{% static 'invo/css/img/boots.png' %}" alt="">
+			<span class="name">Boots Of Speed</span>
+			<span class="item-price">400</span>
+		</li>
+		<li class="shop-item">
+			<img src="{% static 'invo/css/img/midas.png' %}" alt="">
+			<span class="name">Hand of Midas</span>
+			<span class="item-price">2150</span>
+		</li>
+	</ul>
+</div>
+
+<script>
+    let staticUrl = "{% static 'invo/' %}";
+</script>
+<script src="{% static 'invo/js/invo-voice.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="{% static 'invo/js/spell-taken.js' %}"></script>
+<script src="{% static 'invo/js/stats.js' %}"></script>
+<script src="{% static 'invo/js/lvl-upgrader.js' %}"></script>
+<script src="{% static 'invo/js/spell-combinations.js' %}"></script>
+<script src="{% static 'invo/js/keys.js' %}"></script>
+<script src="{% static 'invo/js/shop.js' %}"></script>
+<script src="{% static 'invo/js/gold-system.js' %}"></script>
+<script src="{% static 'invo/js/invoke-challenge.js' %}"></script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.views import View
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 
 from users.forms import UserCreationForm
 from news.models import News
@@ -39,3 +40,7 @@ class ProfileView(View):
 def home(request):
     latest_news = News.objects.order_by('-created_at')[:3]
     return render(request, 'home.html', {'latest_news': latest_news})
+
+# Новый обработчик для /game
+def game_view(request):
+    return render(request, 'invo/index.html')
