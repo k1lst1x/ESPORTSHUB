@@ -39,8 +39,16 @@ class ProfileView(View):
 
 def home(request):
     latest_news = News.objects.order_by('-created_at')[:3]
-    return render(request, 'home.html', {'latest_news': latest_news})
+    highlighted_news = News.objects.order_by('-created_at')[:2]
+    
+    return render(request, 'home.html', {
+        'latest_news': latest_news,
+        'highlighted_news': highlighted_news,
+    })
 
 # Новый обработчик для /game
 def game_view(request):
     return render(request, 'invo/index.html')
+
+def how_it_works_view(request):
+    return render(request, 'how_it_works_page.html')

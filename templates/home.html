@@ -17,6 +17,10 @@
                 <a href="{% url 'game' %}">
                     <button>INVOKER GAME</button>
                 </a>
+                <br>
+                <a href="{% url 'how_it_works' %}">
+                    <button>КАК ЭТО РАБОТАЕТ?</button>
+                </a>
                 
             </div>
             <div class="right">
@@ -191,6 +195,42 @@
             <p class="tournament-description">Организуй турнир любого масштаба за пару кликов. Настрой правила, пригласи участников и сделай свой вклад в киберспортивную историю!</p>
             <button class="tournament-btn">УЗНАТЬ ПОДРОБНЕЕ</button>
         </div>
+    </section>
+
+    <section class="news-preview-duo">
+        {% for news in highlighted_news %}
+        <div class="news-full">
+            <div class="news-full-image">
+                <img src="{{ news.image.url }}" alt="{{ news.title }}">
+            </div>
+            <div class="news-inner">
+                <div class="news-full-content">
+                    <h3><a href="{% url 'news_detail' news.id %}">{{ news.title }}</a></h3>
+                    <p class="news-date">
+                        <img src="{% static 'images/calendar_icon.svg' %}" alt="Дата">
+                        {{ news.created_at|date:"d.m.Y" }}
+                    </p>
+                    <p class="news-text">{{ news.content|truncatewords:100 }}</p>
+        
+                    <div class="news-comments-form-wrapper">
+                        <div class="news-comments">
+                            {% for comment in news.comments.all|slice:":3" %}
+                                <p><b>@{{ comment.user.username }}</b> {{ comment.text }}</p>
+                            {% empty %}
+                                <p>Комментариев пока нет. Будьте первым!</p>
+                            {% endfor %}
+                        </div>
+                    
+                        <form method="post" action="{% url 'news_detail' news.id %}" class="news-form">
+                            {% csrf_token %}
+                            <input type="text" name="comment_text" placeholder="Оставить комментарий...">
+                            <button type="submit">Отправить</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </section>
 
 {% endblock %}

@@ -680,3 +680,141 @@ tbody td {
     background: darkred;
 }
 
+.news-preview-duo {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch; /* чтобы дочерние блоки были одинаковой высоты */
+}
+
+.news-full {
+    width: 50%;
+    background: linear-gradient(116.46deg, #141414 57.5%, #930000 100%);
+    display: flex;
+    flex-direction: column;
+}
+
+.news-full-image img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+/* NEW: внутренний контейнер с флекс-растяжением */
+.news-inner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 76px;
+}
+
+.news-full-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.spacer {
+    flex-grow: 1; /* растягивает середину */
+}
+
+.news-full-content h3 {
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+
+.news-full-content h3 a {
+    color: white;
+    text-decoration: none;
+    font-weight: 900;
+}
+
+.news-full-content h3 a:hover {
+    text-decoration: underline;
+}
+
+.news-date {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #ccc;
+    margin: 10px 0;
+}
+
+.news-date img {
+    width: 20px;
+    margin-right: 8px;
+}
+
+.news-text {
+    font-size: 18px;
+    color: #ddd;
+    margin-bottom: 15px;
+}
+
+.news-comments-form-wrapper {
+    width: 50%;
+    margin-right: auto; /* чтобы прижать блок вправо */
+    margin-bottom: 24px;
+}
+
+.news-comments p {
+    font-size: 16px;
+    color: #aaa;
+    margin-bottom: 6px;
+}
+
+.news-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 10px;
+}
+
+.news-form input {
+    width: 100%;
+    border: none;
+    background: none;
+    border-bottom: 1px solid #666;
+    padding: 10px 0;
+    margin-bottom: 10px;
+    color: white;
+    font-size: 16px;
+}
+
+.news-form input::placeholder {
+    color: #999;
+}
+
+.news-form button {
+    background: red;
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.news-form button:hover {
+    background: darkred;
+}
+
+.news-full-content h3,
+.news-text {
+    text-align: center;
+}
+
+
+/* Адаптив: на телефонах — в столбик */
+@media (max-width: 900px) {
+    .news-preview-duo {
+        flex-direction: column;
+    }
+
+    .news-full {
+        width: 100%;
+    }
+}

@@ -1,0 +1,200 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Как это работает?</title>
+  <link rel="icon" type="image/png" href="{% static 'esportshub-favicon/favicon-96x96.png' %}" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="{% static 'esportshub-favicon/favicon.svg' %}" />
+  <link rel="shortcut icon" href="{% static 'esportshub-favicon/favicon.ico' %}" />
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'esportshub-favicon/apple-touch-icon.png' %}" />
+  <meta name="apple-mobile-web-app-title" content="MyWebSite" />
+  <link rel="manifest" href="{% static 'esportshub-favicon/site.webmanifest' %}" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Helvetica, sans-serif;
+      background: linear-gradient(180deg, #FFD5A5 0%, #FFEEE3 100%);
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    .background-images {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .background-images img {
+      position: absolute;
+      object-fit: cover;
+      pointer-events: none;
+    }
+
+    .image-mask {
+      top: 110px;
+      left: 0;
+      width: 225px;
+      height: 364px;
+    }
+
+    .image-gun {
+      top: 310px;
+      right: 0;
+      width: 157px;
+      height: 486px;
+    }
+
+    .image-gold {
+      bottom: 0;
+      left: 0;
+      width: 305px;
+      height: 347px;
+    }
+
+    .image-redmage {
+	  bottom: 0px; /* Было -100px */
+	  right: 0;
+	  width: 225px;
+	  height: 494px;
+	}
+
+	.container {
+	  max-width: 1250px;
+	  margin: 0 auto;
+	  padding: 50px 20px 120px; /* Добавлен нижний padding */
+	  position: relative;
+	  z-index: 1;
+	}
+
+    .intro {
+      font-style: italic;
+      font-size: 32px;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .title {
+      font-family: 'TT Travels', sans-serif;
+      font-weight: 900;
+      font-size: 80px;
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section {
+      font-size: 24px;
+      line-height: 1.4;
+      margin-bottom: 40px;
+    }
+
+    .section strong {
+      margin-bottom: 10px;
+    }
+
+    .main-prize {
+		font-family: Helvetica;
+		font-weight: 400;
+		font-size: 24px;
+		line-height: 100%;
+		letter-spacing: 0%;
+		text-align: center;
+		margin-top: 60px;
+		padding: 20px;
+		border-radius: 10px;
+	}
+
+    .back-btn {
+	  margin: 60px auto 0;
+	  width: 109px;
+	  height: 93px;
+	  border-radius: 5px;
+	  border: 2px solid black;
+	  background-color: black;
+	  justify-content: center;
+	  align-items: center;
+	  z-index: 2;
+	  position: relative; /* Больше не absolute */
+	}
+
+    .back-btn img {
+      width: 61px;
+    }
+
+    @media (max-width: 1300px) {
+      .title {
+        font-size: 48px;
+      }
+
+      .intro {
+        font-size: 20px;
+      }
+
+      .section,
+      .main-prize {
+        font-size: 18px;
+      }
+
+      .background-images {
+        display: none;
+      }
+
+      .back-btn {
+        margin-top: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="background-images">
+	<img src="{% static 'images/mask.png' %}" class="image-mask" alt="mask">
+	<img src="{% static 'images/gun.png' %}" class="image-gun" alt="gun">
+	<img src="{% static 'images/gold.png' %}" class="image-gold" alt="gold">
+	<img src="{% static 'images/redmage.png' %}" class="image-redmage" alt="redmage">		
+  </div>
+
+  <div class="container">
+    <div class="intro">
+      Теперь каждый пользователь может не только участвовать в обсуждениях, но и зарабатывать очки, приглашая друзей и оставляя комментарии. Всё это создаёт уникальную возможность для активных участников попасть в топ и получить крутые призы!
+    </div>
+
+    <div class="title">Как это работает?</div>
+
+    <div class="section">
+      <strong>Комментарии:</strong>
+      Каждый раз, когда вы оставляете комментарий под новостью или статьёй, вы получаете очки за активность. Чем больше качественных комментариев, тем больше очков вы зарабатываете. Ваши комментарии могут быть оценены другими пользователями, что также влияет на количество очков.
+    </div>
+
+    <div class="section">
+      <strong>Приглашение друзей:</strong>
+      Пригласив друзей на сайт, вы получаете дополнительные очки. Каждый новый зарегистрированный пользователь, который пришёл по вашему приглашению, увеличивает ваш счёт. Чем больше друзей вы пригласите, тем выше будет ваш рейтинг.
+    </div>
+
+    <div class="section">
+      <strong>Рейтинг пользователей:</strong>
+      Все пользователи будут заноситься в рейтинг, который будет обновляться в реальном времени. Активные участники с наибольшим количеством очков окажутся на верхних строчках. Это стимулирует быть вовлечённым в жизнь сообщества, комментировать новости, делиться своим мнением и приводить новых людей.
+    </div>
+
+    <div class="section">
+      <strong>Призы:</strong>
+      Лучшие участники рейтинга будут получать призы за свою активность. Призы будут включать скины на героев Dota 2 и CS:GO, а также эксклюзивные бонусы от партнёров сайта. Топовые пользователи смогут выбрать скины для любимых героев или персонажей, продемонстрировав тем самым свою преданность игре.
+    </div>
+
+    <div class="main-prize">
+      <strong>Главный приз: Главным призом для самых активных пользователей станет билет на The International 2025 — один из самых ожидаемых турниров в мире киберспорта! Это шанс попасть на крупнейший турнир Dota 2 и увидеть лучшие команды мира вживую!</strong>
+    </div>
+
+    <form action="{% url 'home' %}">
+		<button type="submit" class="back-btn">
+			<img src="{% static 'images/arrow_w.svg' %}" alt="Назад">
+		</button>
+	</form>
+  </div>
+</body>
+</html>
