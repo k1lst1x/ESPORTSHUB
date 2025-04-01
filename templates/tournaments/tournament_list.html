@@ -1,0 +1,37 @@
+{% extends 'base_tournaments.html' %}
+
+{% block title %}Текущие турниры{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-5 text-center fw-bold text-white">Текущие турниры</h1>
+
+    {% if tournaments %}
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for tournament in tournaments %}
+                <div class="col">
+                    <div class="card h-100 text-white shadow-lg border-0" style="background-color: #000000; border-radius: 12px;">
+                        <div class="card-body">
+                            <h4 class="card-title mb-3" style="color: #FF8585;">{{ tournament.name }}</h4>
+                            <ul class="list-unstyled mb-4">
+                                <li><strong>Тип:</strong> {{ tournament.get_type_display }}</li>
+                                <li><strong>Дисциплина:</strong> {{ tournament.get_discipline_display }}</li>
+                                <li><strong>Формат:</strong> {{ tournament.get_format_display }}</li>
+                                <li><strong>Макс. команд:</strong> {{ tournament.max_teams }}</li>
+                                <li><strong>Игроков в команде:</strong> {{ tournament.max_team_members }}</li>
+                                <li><strong>Призовой фонд:</strong> <span style="color: #FF8585;">${{ tournament.prize_pool }}</span></li>
+                            </ul>
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'tournament_detail' tournament.pk %}" class="btn btn-outline-light">Подробнее</a>
+                                <a href="{% url 'create_team' %}" class="btn fw-semibold" style="background-color: #FF0000; color: white;">Регистрация команды</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center fs-5 mt-4 text-white">Нет доступных турниров.</p>
+    {% endif %}
+</div>
+{% endblock %}

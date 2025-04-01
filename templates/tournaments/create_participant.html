@@ -1,0 +1,39 @@
+{% extends 'base_tournaments.html' %}
+
+{% block title %}Добавление игрока{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2 class="mb-4 text-center">Добавление игрока</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.team.label_tag }} {{ form.team }}
+        {{ form.full_name.label_tag }} {{ form.full_name }}
+        {{ form.nickname.label_tag }} {{ form.nickname }}
+        {{ form.email.label_tag }} {{ form.email }}
+
+        <div class="form-check mt-4">
+            {{ form.terms }}
+            <label class="form-check-label" for="{{ form.terms.id_for_label }}">
+                Я согласен с 
+                <a href="{% url 'how_it_works' %}" target="_blank" style="color: #FF8585; text-decoration: underline;">
+                    условиями использования
+                </a>
+            </label>
+            {% if form.terms.errors %}
+                <div class="text-danger">{{ form.terms.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        {% if form.non_field_errors %}
+            <div class="text-danger mt-2">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn w-100" style="background-color: #FF0000; color: white; font-weight: bold;">
+                Добавить игрока
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

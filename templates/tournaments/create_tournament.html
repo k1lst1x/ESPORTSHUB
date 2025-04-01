@@ -1,0 +1,33 @@
+{% extends 'base_tournaments.html' %}
+
+{% block title %}Создание турнира{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2 class="mb-4 text-center">Создание турнира</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.name.label_tag }} {{ form.name }}
+        {{ form.type.label_tag }} {{ form.type }}
+        {{ form.discipline.label_tag }} {{ form.discipline }}
+        {{ form.max_teams.label_tag }} {{ form.max_teams }}
+        {{ form.max_team_members.label_tag }} {{ form.max_team_members }}
+        {{ form.format.label_tag }} {{ form.format }}
+        {{ form.prize_pool.label_tag }} {{ form.prize_pool }}
+
+        <div class="form-check mt-4">
+            {{ form.terms }}
+            <label class="form-check-label" for="{{ form.terms.id_for_label }}">
+                Я согласен с <a href="{% url 'how_it_works' %}" target="_blank" style="color: #ff6666; text-decoration: underline;">условиями использования</a>
+            </label>
+            {% if form.terms.errors %}
+                <div class="text-danger">{{ form.terms.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-custom btn-lg w-100">Создать турнир</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

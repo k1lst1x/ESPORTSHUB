@@ -1,0 +1,44 @@
+{% extends 'base_tournaments.html' %}
+
+{% block title %}{{ tournament.name }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="card bg-black text-white border-0 shadow-lg p-4" style="border-radius: 14px;">
+        <h1 class="mb-4" style="color: #FF8585;">{{ tournament.name }}</h1>
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <p><strong>Тип:</strong> {{ tournament.get_type_display }}</p>
+                <p><strong>Дисциплина:</strong> {{ tournament.get_discipline_display }}</p>
+                <p><strong>Формат:</strong> {{ tournament.get_format_display }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Макс. команд:</strong> {{ tournament.max_teams }}</p>
+                <p><strong>Игроков в команде:</strong> {{ tournament.max_team_members }}</p>
+                <p><strong>Призовой фонд:</strong> <span class="text-success">${{ tournament.prize_pool }}</span></p>
+            </div>
+        </div>
+
+        <div class="text-center my-4">
+            <a href="{% url 'create_team' %}" class="btn px-5 py-2 fw-bold" 
+               style="background-color: #FF0000; color: white; border-radius: 6px;">
+                Зарегистрировать команду
+            </a>
+        </div>
+
+        <h3 class="mt-5 mb-3" style="color: #FF8585;">Участвующие команды</h3>
+        {% if tournament.teams.all %}
+            <ul class="list-group list-group-flush">
+                {% for team in tournament.teams.all %}
+                    <li class="list-group-item bg-transparent text-white border-secondary">
+                        {{ team.name }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-muted fst-italic">Пока нет зарегистрированных команд.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

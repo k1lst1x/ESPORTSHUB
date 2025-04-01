@@ -1,0 +1,38 @@
+{% extends 'base_tournaments.html' %}
+
+{% block title %}Создание команды{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2 class="mb-4 text-center">Создание команды</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.tournament.label_tag }} {{ form.tournament }}
+        {{ form.name.label_tag }} {{ form.name }}
+        {{ form.logo.label_tag }} {{ form.logo }}
+
+        <div class="form-check mt-4">
+            {{ form.terms }}
+            <label class="form-check-label" for="{{ form.terms.id_for_label }}">
+                Я согласен с 
+                <a href="{% url 'how_it_works' %}" target="_blank" style="color: #FF8585; text-decoration: underline;">
+                    условиями использования
+                </a>
+            </label>
+            {% if form.terms.errors %}
+                <div class="text-danger">{{ form.terms.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        {% if form.non_field_errors %}
+            <div class="text-danger mt-2">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn w-100" style="background-color: #FF0000; color: white; font-weight: bold;">
+                Создать команду
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
