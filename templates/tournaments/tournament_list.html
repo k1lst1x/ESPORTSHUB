@@ -1,4 +1,5 @@
 {% extends 'base_tournaments.html' %}
+{% load static %}
 
 {% block title %}Текущие турниры{% endblock %}
 
@@ -11,6 +12,9 @@
             {% for tournament in tournaments %}
                 <div class="col">
                     <div class="card h-100 text-white shadow-lg border-0" style="background-color: #000000; border-radius: 12px;">
+                        <!-- Баннер турнира -->
+                        <img src="{% static 'images/banner.png' %}" class="card-img-top" alt="Баннер турнира" style="height: 280px; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+                        
                         <div class="card-body">
                             <h4 class="card-title mb-3" style="color: #FF8585;">{{ tournament.name }}</h4>
                             <ul class="list-unstyled mb-4">
