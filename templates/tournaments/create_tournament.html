@@ -1,33 +1,31 @@
 {% extends 'base_tournaments.html' %}
+{% load static %}
 
 {% block title %}Создание турнира{% endblock %}
 
 {% block content %}
-<div class="form-container">
-    <h2 class="mb-4 text-center">Создание турнира</h2>
+<div class="form-wrapper">
+    <h2 class="text-center mb-4">Создание турнира</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.name.label_tag }} {{ form.name }}
-        {{ form.type.label_tag }} {{ form.type }}
-        {{ form.discipline.label_tag }} {{ form.discipline }}
-        {{ form.max_teams.label_tag }} {{ form.max_teams }}
-        {{ form.max_team_members.label_tag }} {{ form.max_team_members }}
-        {{ form.format.label_tag }} {{ form.format }}
-        {{ form.prize_pool.label_tag }} {{ form.prize_pool }}
 
-        <div class="form-check mt-4">
+        <div class="form-field">{{ form.name.label_tag }}{{ form.name }}</div>
+        <div class="form-field">{{ form.type.label_tag }}{{ form.type }}</div>
+        <div class="form-field">{{ form.discipline.label_tag }}{{ form.discipline }}</div>
+        <div class="form-field">{{ form.max_teams.label_tag }}{{ form.max_teams }}</div>
+        <div class="form-field">{{ form.max_team_members.label_tag }}{{ form.max_team_members }}</div>
+        <div class="form-field">{{ form.format.label_tag }}{{ form.format }}</div>
+        <div class="form-field">{{ form.prize_pool.label_tag }}{{ form.prize_pool }}</div>
+
+        <div class="form-check mt-3">
             {{ form.terms }}
-            <label class="form-check-label" for="{{ form.terms.id_for_label }}">
-                Я согласен с <a href="{% url 'how_it_works' %}" target="_blank" style="color: #ff6666; text-decoration: underline;">условиями использования</a>
+            <label class="form-check-label terms-label" for="{{ form.terms.id_for_label }}">
+                Я согласен с <a href="{% url 'how_it_works' %}" target="_blank">условиями использования</a>
             </label>
-            {% if form.terms.errors %}
-                <div class="text-danger">{{ form.terms.errors.0 }}</div>
-            {% endif %}
+            {% if form.terms.errors %}<div class="text-danger">{{ form.terms.errors.0 }}</div>{% endif %}
         </div>
 
-        <div class="text-center mt-4">
-            <button type="submit" class="btn btn-custom btn-lg w-100">Создать турнир</button>
-        </div>
+        <button type="submit" class="btn btn-accent w-100 mt-4">Создать турнир</button>
     </form>
 </div>
 {% endblock %}

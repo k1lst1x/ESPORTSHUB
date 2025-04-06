@@ -1,51 +1,184 @@
 {% extends 'base_tournaments.html' %}
 {% load static %}
+{% load math_filters %}
 
 {% block title %}{{ tournament.name }}{% endblock %}
 
 {% block content %}
 <div class="container py-5">
-    <div class="card bg-black text-white border-0 shadow-lg overflow-hidden" style="border-radius: 14px;">
+    <div class="card bg-black text-white border-0 shadow-lg overflow-hidden" style="border-radius: 18px;">
         <!-- Баннер турнира -->
         <img src="{% static 'images/banner.png' %}" alt="Баннер турнира" class="w-100"
-             style="height: 650px; object-fit: cover; border-top-left-radius: 14px; border-top-right-radius: 14px;">
+             style="height: 500px; object-fit: cover; border-top-left-radius: 18px; border-top-right-radius: 18px;">
 
-        <div class="p-4">
-            <h1 class="mb-4 text-center" style="color: #FF8585;">{{ tournament.name }}</h1>
+        <div class="p-5">
+            <h1 class="mb-4 text-center fw-bold display-5" style="color: #FF6B6B;">🎯 {{ tournament.name }}</h1>
 
-            <div class="row mb-4">
-                <div class="col-md-6 mb-3">
-                    <p><strong>Тип:</strong> {{ tournament.get_type_display }}</p>
-                    <p><strong>Дисциплина:</strong> {{ tournament.get_discipline_display }}</p>
-                    <p><strong>Формат:</strong> {{ tournament.get_format_display }}</p>
+            <div class="row mb-5">
+                <div class="col-md-6">
+                    <ul class="list-unstyled fs-5">
+                        <li class="mb-2">🎮 <strong>Тип:</strong> {{ tournament.get_type_display }}</li>
+                        <li class="mb-2">🕹️ <strong>Дисциплина:</strong> {{ tournament.get_discipline_display }}</li>
+                        <li class="mb-2">📋 <strong>Формат:</strong> {{ tournament.get_format_display }}</li>
+                    </ul>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <p><strong>Макс. команд:</strong> {{ tournament.max_teams }}</p>
-                    <p><strong>Игроков в команде:</strong> {{ tournament.max_team_members }}</p>
-                    <p><strong>Призовой фонд:</strong> <span class="text-success">${{ tournament.prize_pool }}</span></p>
+                <div class="col-md-6">
+                    <ul class="list-unstyled fs-5">
+                        <li class="mb-2">👥 <strong>Макс. команд:</strong> {{ tournament.max_teams }}</li>
+                        <li class="mb-2">🧑‍🤝‍🧑 <strong>Игроков в команде:</strong> {{ tournament.max_team_members }}</li>
+                        <li class="mb-2">💰 <strong>Призовой фонд:</strong> <span style="color: #FFD700;">${{ tournament.prize_pool }}</span></li>
+                    </ul>
                 </div>
+            </div>
+
+            <!-- 💸 Распределение призов -->
+            <div class="bg-dark p-4 rounded-3 border border-secondary mb-4">
+                <h5 class="fw-bold mb-3" style="color: #FF8585;">🏆 Призовые места:</h5>
+                {% if tournament.max_teams > 2 %}
+                    <p class="mb-2">🥇 1 место — <span style="color: #FFD700;">${{ tournament.prize_pool|mul:0.5|to_int }}</span></p>
+                    <p class="mb-2">🥈 2 место — <span style="color: #C0C0C0;">${{ tournament.prize_pool|mul:0.3|to_int }}</span></p>
+                    <p class="mb-0">🥉 3 место — <span style="color: #CD7F32;">${{ tournament.prize_pool|mul:0.2|to_int }}</span></p>
+                {% elif tournament.max_teams == 2 %}
+                    <p class="mb-2">🥇 1 место — <span style="color: #FFD700;">${{ tournament.prize_pool|mul:0.6|to_int }}</span></p>
+                    <p class="mb-0">🥈 2 место — <span style="color: #C0C0C0;">${{ tournament.prize_pool|mul:0.4|to_int }}</span></p>
+                {% else %}
+                    <p class="mb-0">🥇 Победитель получает всё — <span style="color: #FFD700;">${{ tournament.prize_pool|to_int }}</span></p>
+                {% endif %}
+            </div>
+
+            <!-- ℹ️ Правила -->
+            <div class="bg-secondary bg-opacity-10 p-4 rounded-3 border border-secondary mb-4">
+                <h5 class="fw-bold mb-3 text-white">📘 Правила участия</h5>
+                <ul class="mb-0">
+                    <li>📅 Зарегистрируй команду до начала турнира</li>
+                    <li>⏱️ Будь вовремя в Discord/на платформе</li>
+                    <li>⚔️ Соблюдай правила честной игры</li>
+                    <li>🏅 Победители получат денежные призы и респект 🎉</li>
+                </ul>
+            </div>
+
+            <div class="alert alert-danger text-center fw-semibold fs-5 rounded-3">
+                🚨 Успей зарегистрироваться, пока есть свободные места!
             </div>
 
             <div class="text-center my-4">
-                <a href="{% url 'create_team' %}" class="btn px-5 py-2 fw-bold"
-                   style="background-color: #FF0000; color: white; border-radius: 6px;">
-                    Зарегистрировать команду
+                <a href="{% url 'create_team' %}" class="btn btn-lg px-5 py-3 fw-bold" style="background-color: #E63946; color: white; border-radius: 10px;">
+                    🚀 Зарегистрировать команду
                 </a>
             </div>
 
-            <h3 class="mt-5 mb-3" style="color: #FF8585;">Участвующие команды</h3>
+            <!-- Команды -->
+            <h3 class="mt-5 mb-3 text-white border-bottom pb-2" style="border-color: #444;">📢 Участвующие команды</h3>
             {% if tournament.teams.all %}
-                <ul class="list-group list-group-flush">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                     {% for team in tournament.teams.all %}
-                        <li class="list-group-item bg-transparent text-white border-secondary">
-                            {{ team.name }}
-                        </li>
+                        <div class="col">
+                            <a href="{% url 'team_detail' team.pk %}" class="text-decoration-none text-white">
+                                <div class="team-card bg-dark rounded-4 p-3 h-100 d-flex justify-content-between align-items-center shadow-sm"
+                                     style="transition: transform 0.2s ease, box-shadow 0.2s ease;">
+                                    <div class="d-flex align-items-center">
+                                        {% if team.logo %}
+                                            <img src="{{ team.logo.url }}" alt="Логотип {{ team.name }}" class="me-3 border border-light shadow"
+                                                 style="width: 56px; height: 56px; object-fit: cover; border-radius: 10px;">
+                                        {% else %}
+                                            <div class="me-3 bg-secondary d-flex align-items-center justify-content-center rounded"
+                                                 style="width: 56px; height: 56px;">
+                                                <span class="fw-bold fs-6">🎲</span>
+                                            </div>
+                                        {% endif %}
+                                        <span class="fw-semibold fs-5">{{ team.name }}</span>
+                                    </div>
+                                    <span class="badge bg-danger px-2 py-2 fs-6">🔍 Подробнее</span>
+                                </div>
+                            </a>
+                        </div>
                     {% endfor %}
-                </ul>
+                </div>
             {% else %}
-                <p class="text-muted fst-italic">Пока нет зарегистрированных команд.</p>
+                <div class="alert alert-secondary text-center fw-semibold mt-4">
+                    😢 Пока нет зарегистрированных команд. Будь первым!
+                </div>
             {% endif %}
         </div>
     </div>
 </div>
+
+<style>
+    .team-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 18px rgba(255, 255, 255, 0.15);
+        background-color: #1f1f1f;
+    }
+</style>
+
+<style>
+/* Общая защита от выхода за экран */
+body {
+    overflow-x: hidden;
+}
+
+/* Снижение размеров для баннера на мобилке */
+@media (max-width: 768px) {
+    .card img {
+        height: 200px !important;
+    }
+    .card .display-5 {
+        font-size: 1.8rem;
+    }
+    .card .fs-5,
+    .card .lead {
+        font-size: 1rem;
+    }
+    .card .btn-lg {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+    .card ul {
+        padding-left: 1rem;
+    }
+}
+
+/* Команда на мобилке: авторазмещение + сжатый стиль */
+@media (max-width: 576px) {
+    .team-card {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 10px;
+    }
+    .team-card .badge {
+        align-self: flex-end;
+        font-size: 0.8rem;
+    }
+    .team-card img,
+    .team-card div[style*="width: 56px"] {
+        width: 48px !important;
+        height: 48px !important;
+    }
+    .team-card span.fw-semibold {
+        font-size: 1rem;
+    }
+}
+
+/* Улучшение адаптации списков */
+.card ul li {
+    word-break: break-word;
+}
+
+/* Призовые блоки и правила */
+.card .bg-dark,
+.card .bg-secondary {
+    font-size: 0.95rem;
+}
+
+/* Снижаем внутренние отступы на мобилке */
+@media (max-width: 576px) {
+    .card .p-5 {
+        padding: 1.5rem 1rem !important;
+    }
+    .card .mb-5 {
+        margin-bottom: 2rem !important;
+    }
+}
+</style>
+
 {% endblock %}

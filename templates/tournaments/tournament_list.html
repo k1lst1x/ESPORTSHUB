@@ -1,33 +1,79 @@
 {% extends 'base_tournaments.html' %}
 {% load static %}
+{% load math_filters %}
 
 {% block title %}Текущие турниры{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <h1 class="mb-5 text-center fw-bold text-white">Текущие турниры</h1>
+
+<!-- 🎥 Видеобаннер -->
+<section class="video-banner position-relative overflow-hidden mb-5" style="height: 790px;">
+    <video id="loopingVideo" autoplay muted playsinline class="position-absolute w-100 h-100" style="object-fit: cover;">
+        <source src="{% static 'images/bg1.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0, 0, 0, 0.6);"></div>
+
+    <div class="container h-100 d-flex flex-column justify-content-center align-items-center position-relative text-white text-center">
+        <h1 class="display-3 fw-bold mb-3" style="text-shadow: 0 0 10px black;">🔥 Текущие турниры</h1>
+        <p class="lead fs-4 mb-4" style="max-width: 600px;">
+            Участвуй в самых горячих соревнованиях, побеждай, прославляй свою команду и получай реальные призы! 🏆
+        </p>
+        <a href="#tournaments" class="btn btn-lg px-4 py-2 fw-bold rounded-pill" style="background-color: #E63946; color: white;">
+            📌 Смотреть турниры
+        </a>
+    </div>
+</section>
+
+
+<div class="container py-5" id="tournaments">
 
     {% if tournaments %}
-        <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
             {% for tournament in tournaments %}
                 <div class="col">
-                    <div class="card h-100 text-white shadow-lg border-0" style="background-color: #000000; border-radius: 12px;">
-                        <!-- Баннер турнира -->
-                        <img src="{% static 'images/banner.png' %}" class="card-img-top" alt="Баннер турнира" style="height: 280px; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px;">
-                        
-                        <div class="card-body">
-                            <h4 class="card-title mb-3" style="color: #FF8585;">{{ tournament.name }}</h4>
-                            <ul class="list-unstyled mb-4">
-                                <li><strong>Тип:</strong> {{ tournament.get_type_display }}</li>
-                                <li><strong>Дисциплина:</strong> {{ tournament.get_discipline_display }}</li>
-                                <li><strong>Формат:</strong> {{ tournament.get_format_display }}</li>
-                                <li><strong>Макс. команд:</strong> {{ tournament.max_teams }}</li>
-                                <li><strong>Игроков в команде:</strong> {{ tournament.max_team_members }}</li>
-                                <li><strong>Призовой фонд:</strong> <span style="color: #FF8585;">${{ tournament.prize_pool }}</span></li>
-                            </ul>
-                            <div class="d-flex justify-content-between">
-                                <a href="{% url 'tournament_detail' tournament.pk %}" class="btn btn-outline-light">Подробнее</a>
-                                <a href="{% url 'create_team' %}" class="btn fw-semibold" style="background-color: #FF0000; color: white;">Регистрация команды</a>
+                    <div class="card h-100 text-white shadow-lg border-0 bg-dark" style="border-radius: 18px;">
+                        <img src="{% static 'images/banner.png' %}" 
+                             class="card-img-top" 
+                             alt="Баннер турнира" 
+                             style="height: 240px; object-fit: cover; border-top-left-radius: 18px; border-top-right-radius: 18px;">
+
+                        <div class="card-body px-4 py-4 d-flex flex-column justify-content-between">
+                            <div>
+                                <h4 class="card-title mb-3 fw-bold" style="color: #FF6B6B;">🎯 {{ tournament.name }}</h4>
+                                <ul class="list-unstyled fs-6 mb-4">
+                                    <li class="mb-1">🎮 <strong>Тип:</strong> {{ tournament.get_type_display }}</li>
+                                    <li class="mb-1">🕹️ <strong>Дисциплина:</strong> {{ tournament.get_discipline_display }}</li>
+                                    <li class="mb-1">📋 <strong>Формат:</strong> {{ tournament.get_format_display }}</li>
+                                    <li class="mb-1">👥 <strong>Макс. команд:</strong> {{ tournament.max_teams }}</li>
+                                    <li class="mb-1">🧑‍🤝‍🧑 <strong>Игроков в команде:</strong> {{ tournament.max_team_members }}</li>
+                                    <li class="mb-3">💰 <strong>Призовой фонд:</strong> <span style="color: #FFD700;">${{ tournament.prize_pool }}</span></li>
+                                </ul>
+
+                                <!-- Распределение призов -->
+                                <div class="bg-secondary bg-opacity-25 p-3 rounded">
+                                    <h6 class="fw-bold mb-2">🏅 Распределение призов:</h6>
+                                    {% if tournament.max_teams > 2 %}
+                                        <p class="mb-1">🥇 1 место — <span style="color:#FFD700;">${{ tournament.prize_pool|mul:0.5|to_int }}</span></p>
+                                        <p class="mb-1">🥈 2 место — <span style="color:#C0C0C0;">${{ tournament.prize_pool|mul:0.3|to_int }}</span></p>
+                                        <p class="mb-0">🥉 3 место — <span style="color:#CD7F32;">${{ tournament.prize_pool|mul:0.2|to_int }}</span></p>
+                                    {% elif tournament.max_teams == 2 %}
+                                        <p class="mb-1">🥇 1 место — <span style="color:#FFD700;">${{ tournament.prize_pool|mul:0.6|to_int }}</span></p>
+                                        <p class="mb-0">🥈 2 место — <span style="color:#C0C0C0;">${{ tournament.prize_pool|mul:0.4|to_int }}</span></p>
+                                    {% else %}
+                                        <p class="mb-0">🥇 Победитель получает всё — <span style="color:#FFD700;">${{ tournament.prize_pool|to_int }}</span></p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mt-auto pt-4">
+                                <a href="{% url 'tournament_detail' tournament.pk %}" class="btn btn-outline-light px-4 py-2 rounded-pill">
+                                    📖 Подробнее
+                                </a>
+                                <a href="{% url 'create_team' %}" class="btn px-4 py-2 fw-semibold rounded-pill" style="background-color: #E63946; color: white;">
+                                    🚀 Регистрация
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -35,7 +81,90 @@
             {% endfor %}
         </div>
     {% else %}
-        <p class="text-center fs-5 mt-4 text-white">Нет доступных турниров.</p>
+        <div class="alert alert-warning text-center fs-5 mt-5 rounded-4" role="alert">
+            😕 Пока нет активных турниров. Следите за обновлениями!
+        </div>
     {% endif %}
 </div>
+
+<script>
+    const video = document.getElementById('loopingVideo');
+    const sources = [
+        "{% static 'images/bg1.mp4' %}",
+        "{% static 'images/bg2.mp4' %}"
+    ];
+    let current = 0;
+
+    video.addEventListener('ended', () => {
+        current = (current + 1) % sources.length;
+        video.src = sources[current];
+        video.load();
+        video.play();
+    });
+</script>
+
+<style>
+.card:hover {
+    transform: translateY(-4px);
+    transition: 0.2s ease-in-out;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+</style>
+<style>
+/* Видео-баннер: адаптивный */
+@media (max-width: 768px) {
+    .video-banner {
+        height: 420px !important;
+    }
+    .video-banner h1 {
+        font-size: 2rem;
+    }
+    .video-banner p {
+        font-size: 1rem;
+    }
+    .video-banner a.btn {
+        font-size: 0.95rem;
+        padding: 10px 24px;
+    }
+}
+
+/* Карточки турниров */
+@media (max-width: 576px) {
+    .card-body ul li {
+        font-size: 0.95rem;
+    }
+    .card-body .btn {
+        font-size: 0.9rem;
+        padding: 8px 14px;
+    }
+}
+</style>
+
+<style>
+
+/* Обеспечивает, чтобы все вложенные блоки не выходили */
+#tournaments {
+    overflow-x: hidden;
+}
+
+/* Обнулим внутренние паддинги на очень маленьких экранах */
+@media (max-width: 576px) {
+    #tournaments .card-body {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    #tournaments .card {
+        border-radius: 12px;
+    }
+
+    #tournaments h4.card-title {
+        font-size: 1.1rem;
+    }
+
+    #tournaments ul li {
+        word-break: break-word;
+    }
+}
+</style>
 {% endblock %}

@@ -1,23 +1,23 @@
 {% load static %}
 
-<header class="header-container">
+<!-- DESKTOP HEADER -->
+<header class="header-container d-none d-lg-flex">
     <div class="header-content d-flex align-items-center justify-content-between">
-        <!-- Left Section (Logo) -->
+        <!-- Logo -->
         <div class="logo-container">
             <a href="{% url 'home' %}">
                 <img src="{% static 'ESPORTSHUB.svg' %}" alt="ESPORT HUB Logo" class="logo-img">
             </a>
         </div>
 
-        <!-- Center Section (Navigation) -->
+        <!-- Nav -->
         <nav class="nav-container d-flex gap-5">
-            <!-- <a href="{% url 'home' %}" class="text-white text-decoration-none">Главная</a> -->
             <a href="{% url 'tournament_list' %}" class="text-white text-decoration-none">Турниры</a>
             <a href="{% url 'news_list' %}" class="text-white text-decoration-none">Новости</a>
             <a href="#" class="text-white text-decoration-none">Рейтинг</a>
         </nav>
 
-        <!-- Right Section (Auth) -->
+        <!-- Auth -->
         <div class="auth d-flex align-items-center gap-4">
             {% if user.is_authenticated %}
                 <a href="{% url 'profile' %}" class="d-flex align-items-center text-white text-decoration-none">
@@ -39,3 +39,48 @@
         </div>
     </div>
 </header>
+
+<!-- MOBILE NAVBAR -->
+<nav class="navbar navbar-dark bg-dark d-lg-none px-3 py-2 fixed-top shadow">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <!-- Logo -->
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="{% static 'ESPORTSHUB.svg' %}" alt="Logo" style="height: 40px;">
+        </a>
+
+        <!-- Toggle -->
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+
+    <div class="collapse navbar-collapse bg-dark px-3 pt-3 pb-4" id="mobileNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link text-white fs-5" href="{% url 'tournament_list' %}">🎮 Турниры</a></li>
+            <li class="nav-item"><a class="nav-link text-white fs-5" href="{% url 'news_list' %}">📰 Новости</a></li>
+            <li class="nav-item"><a class="nav-link text-white fs-5" href="#">🏆 Рейтинг</a></li>
+            <li class="dropdown-divider bg-secondary my-2"></li>
+            {% if user.is_authenticated %}
+                <li class="nav-item"><a class="nav-link text-white fs-5" href="{% url 'profile' %}">👤 {{ user.username }}</a></li>
+                <li class="nav-item">
+                    <form action="{% url 'logout' %}" method="post" class="d-block">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger w-100 mt-2">🚪 Выйти</button>
+                    </form>
+                </li>
+            {% else %}
+                <li class="nav-item"><a class="nav-link text-white fs-5" href="{% url 'login' %}">🔐 Вход</a></li>
+                <li class="nav-item"><a class="nav-link text-white fs-5" href="{% url 'register' %}">📝 Регистрация</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+<style>
+/* Убираем отступ под fixed-navbar на мобилке */
+@media (max-width: 991.98px) {
+    main {
+        padding-top: 50px !important;
+    }
+}
+</style>

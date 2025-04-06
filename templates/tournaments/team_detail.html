@@ -1,0 +1,57 @@
+{% extends 'base_tournaments.html' %}
+{% load static %}
+
+{% block title %}Команда {{ team.name }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="card bg-dark text-white shadow-lg border-0" style="border-radius: 16px;">
+        <div class="row g-0">
+            <!-- LOGO + NAME -->
+            <div class="col-md-4 text-center p-4 d-flex flex-column align-items-center justify-content-center">
+                {% if team.logo %}
+                    <img src="{{ team.logo.url }}" alt="Логотип команды" class="img-fluid rounded-circle border border-light shadow" style="width: 180px; height: 180px; object-fit: cover;">
+                {% else %}
+                    <img src="{% static 'images/default_team_logo.png' %}" alt="Без логотипа" class="img-fluid rounded-circle border border-light shadow" style="width: 180px; height: 180px; object-fit: cover;">
+                {% endif %}
+                <h2 class="mt-4 fw-bold">{{ team.name }} 🛡️</h2>
+                <span class="badge bg-danger fs-6 px-3 py-2 mt-2">🏆 Турнир: {{ team.tournament.name }}</span>
+            </div>
+
+            <!-- INFO + MEMBERS -->
+            <div class="col-md-8 p-4">
+                <h4 class="mb-4" style="color: #FF8585;">👥 Состав команды</h4>
+                
+                {% if team.members.all %}
+                    <ul class="list-group list-group-flush mb-4">
+                        {% for member in team.members.all %}
+                            <li class="list-group-item bg-transparent text-white border-bottom border-secondary">
+                                <strong>🎮 {{ member.nickname }}</strong><br>
+                                <span>{{ member.full_name }}</span> — <span>{{ member.email }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <div class="alert alert-warning text-center" role="alert">
+                        😶 Пока нет участников в команде.
+                    </div>
+                {% endif %}
+
+                {% if is_creator and can_add %}
+                    <div class="d-grid">
+                        <a href="{% url 'create_participant' %}?team={{ team.pk }}" class="btn btn-accent btn-lg fw-semibold">
+                            ➕ Добавить участника
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Дополнительный Блок -->
+    <div class="card mt-5 bg-black text-white shadow-lg border-0 p-4" style="border-radius: 16px;">
+        <h5 class="mb-3" style="color: #FF8585;">ℹ️ О команде</h5>
+        <p class="lead">Это команда <strong>{{ team.name }}</strong>, участвующая в турнире <strong>{{ team.tournament.name }}</strong>. Следите за обновлениями состава и пожелайте удачи! 🍀</p>
+    </div>
+</div>
+{% endblock %}

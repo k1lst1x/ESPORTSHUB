@@ -73,3 +73,10 @@ class ParticipantForm(forms.ModelForm):
             'nickname': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)  # получаем пользователя
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['team'].queryset = Team.objects.filter(creator=user)
+

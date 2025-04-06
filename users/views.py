@@ -71,7 +71,7 @@ def create_tournament(request):
             tournament = form.save(commit=False)
             tournament.creator = request.user
             tournament.save()
-            return redirect('home')  # или на страницу турнира
+            return redirect('tournament_list')  # или на страницу турнира
     else:
         form = TournamentForm()
     return render(request, 'tournaments/create_tournament.html', {'form': form})
@@ -90,7 +90,7 @@ def create_team(request):
             else:
                 team.creator = request.user
                 team.save()
-                return redirect('home')  # или на страницу турнира/команды
+                return redirect('tournament_list')  # или на страницу турнира/команды
     else:
         form = TeamForm()
     return render(request, 'tournaments/create_team.html', {'form': form})
@@ -98,23 +98,22 @@ def create_team(request):
 @login_required
 def create_participant(request):
     if request.method == 'POST':
-        form = ParticipantForm(request.POST)
+        form = ParticipantForm(request.POST, user=request.user)
         if form.is_valid():
             participant = form.save(commit=False)
             team = participant.team
 
-            # проверка на лимит участников в команде
             if team.members.count() >= team.tournament.max_team_members:
                 form.add_error('team', 'В этой команде уже максимальное количество участников.')
             else:
-                # Автоматическая привязка пользователя по email, если он существует
                 user_with_email = User.objects.filter(email=participant.email).first()
                 if user_with_email:
                     participant.user = user_with_email
                 participant.save()
-                return redirect('home')  # можно заменить на redirect('team_detail', pk=team.pk)
+                return redirect('tournament_list')
     else:
-        form = ParticipantForm()
+        form = ParticipantForm(user=request.user)
+
     return render(request, 'tournaments/create_participant.html', {'form': form})
 
 def tournament_list(request):
@@ -124,3 +123,14 @@ def tournament_list(request):
 def tournament_detail(request, pk):
     tournament = get_object_or_404(Tournament, pk=pk)
     return render(request, 'tournaments/tournament_detail.html', {'tournament': tournament})
+
+@login_required
+def team_detail(request, pk):
+    team = get_object_or_404(Team, pk=pk)
+    is_creator = request.user == team.creator
+    can_add = team.can_add_member()
+    return render(request, 'tournaments/team_detail.html', {
+        'team': team,
+        'is_creator': is_creator,
+        'can_add': can_add,
+    })

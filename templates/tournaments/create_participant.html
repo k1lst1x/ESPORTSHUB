@@ -1,39 +1,30 @@
 {% extends 'base_tournaments.html' %}
+{% load static %}
 
 {% block title %}Добавление игрока{% endblock %}
 
 {% block content %}
-<div class="form-container">
-    <h2 class="mb-4 text-center">Добавление игрока</h2>
+<div class="form-wrapper">
+    <h2 class="text-center mb-4">Добавление игрока</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.team.label_tag }} {{ form.team }}
-        {{ form.full_name.label_tag }} {{ form.full_name }}
-        {{ form.nickname.label_tag }} {{ form.nickname }}
-        {{ form.email.label_tag }} {{ form.email }}
 
-        <div class="form-check mt-4">
+        <div class="form-field">{{ form.team.label_tag }}{{ form.team }}</div>
+        <div class="form-field">{{ form.full_name.label_tag }}{{ form.full_name }}</div>
+        <div class="form-field">{{ form.nickname.label_tag }}{{ form.nickname }}</div>
+        <div class="form-field">{{ form.email.label_tag }}{{ form.email }}</div>
+
+        <div class="form-check mt-3">
             {{ form.terms }}
-            <label class="form-check-label" for="{{ form.terms.id_for_label }}">
-                Я согласен с 
-                <a href="{% url 'how_it_works' %}" target="_blank" style="color: #FF8585; text-decoration: underline;">
-                    условиями использования
-                </a>
+            <label class="form-check-label terms-label" for="{{ form.terms.id_for_label }}">
+                Я согласен с <a href="{% url 'how_it_works' %}" target="_blank">условиями использования</a>
             </label>
-            {% if form.terms.errors %}
-                <div class="text-danger">{{ form.terms.errors.0 }}</div>
-            {% endif %}
+            {% if form.terms.errors %}<div class="text-danger">{{ form.terms.errors.0 }}</div>{% endif %}
         </div>
 
-        {% if form.non_field_errors %}
-            <div class="text-danger mt-2">{{ form.non_field_errors }}</div>
-        {% endif %}
+        {% if form.non_field_errors %}<div class="text-danger mt-2">{{ form.non_field_errors }}</div>{% endif %}
 
-        <div class="text-center mt-4">
-            <button type="submit" class="btn w-100" style="background-color: #FF0000; color: white; font-weight: bold;">
-                Добавить игрока
-            </button>
-        </div>
+        <button type="submit" class="btn btn-accent w-100 mt-4">Добавить игрока</button>
     </form>
 </div>
 {% endblock %}
