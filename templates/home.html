@@ -236,5 +236,30 @@
         </div>
         {% endfor %}
     </section>
-
+    <section class="subscribe-section">
+        <div class="subscribe-container">
+            <div class="subscribe-left">
+                <h2>БУДЬ В КУРСЕ СОБЫТИЙ</h2>
+                <p>Подпишись, чтобы первым узнавать о новых материалах, эксклюзивных обновлениях и интересных фактах!</p>
+            </div>
+            <div class="subscribe-right">
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <input type="email" name="email" placeholder="Почтовый адрес" required class="styled-input">
+                    <div class="subscribe-bottom">
+                        <label class="subscribe-checkbox">
+                            <input type="checkbox" required class="custom-checkbox">
+                            <span class="checkmark"></span>
+                            <span class="checkbox-text">
+                                Я соглашаюсь с условиями <a href="{% url 'how_it_works' %}" target="_blank">Пользовательского соглашения</a> и <a href="{% url 'how_it_works' %}" target="_blank">Политики конфиденциальности</a>.
+                            </span>
+                        </label>
+                        <button type="submit" class="styled-button">ПОДПИСАТЬСЯ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    {% include 'footer.html' %}
 {% endblock %}

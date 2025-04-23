@@ -818,3 +818,128 @@ tbody td {
         width: 100%;
     }
 }
+
+.subscribe-section {
+    background: #141414;
+    padding: 80px 5%;
+    color: white;
+}
+
+.subscribe-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.subscribe-left {
+    flex: 1;
+    min-width: 300px;
+}
+
+.subscribe-left h2 {
+    font-family: 'Muller', sans-serif;
+    font-weight: 900;
+    font-size: 42px;
+    margin-bottom: 20px;
+}
+
+.subscribe-left p {
+    font-size: 18px;
+    color: #ccc;
+}
+
+.subscribe-right {
+    flex: 1;
+    min-width: 300px;
+}
+
+.subscribe-right form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.styled-input {
+    padding: 15px 20px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: 1px solid #666;
+    outline: none;
+    background: transparent;
+    color: white;
+}
+
+.subscribe-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.subscribe-checkbox {
+    display: flex;
+    align-items: flex-start;
+    max-width: 70%;
+    position: relative;
+    padding-left: 42px;
+    font-size: 14px;
+    color: #aaa;
+    line-height: 1.4;
+}
+
+.subscribe-checkbox input[type="checkbox"] {
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    top: 2px;
+    width: 32px;
+    height: 32px;
+    margin: 0;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.subscribe-checkbox .checkmark {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 32px;
+    height: 32px;
+    background-color: #FF0000;
+    border: 2px solid #FFFFFF;
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.subscribe-checkbox input:checked + .checkmark::after {
+    content: "";
+    position: absolute;
+    left: 9px;
+    top: 5px;
+    width: 7px;
+    height: 14px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+.subscribe-checkbox a {
+    color: #FF4848;
+    text-decoration: underline;
+    word-break: break-word;
+}
+
+.styled-button {
+    background: red;
+    color: white;
+    font-size: 16px;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 900;
+    white-space: nowrap;
+}

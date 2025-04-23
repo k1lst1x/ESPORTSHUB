@@ -14,6 +14,28 @@
     <meta name="apple-mobile-web-app-title" content="MyWebSite" />
     <link rel="manifest" href="{% static 'esportshub-favicon/site.webmanifest' %}" />
 </head>
+<style>
+    input::placeholder {
+        color: #FFFFFF80 !important;
+    }
+
+    /* Для кросс-браузерной поддержки (особенно Safari и старых версий) */
+    input::-webkit-input-placeholder {
+        color: #FFFFFF80 !important;
+    }
+
+    input::-moz-placeholder {
+        color: #FFFFFF80 !important;
+    }
+
+    input:-ms-input-placeholder {
+        color: #FFFFFF80 !important;
+    }
+
+    input:-moz-placeholder {
+        color: #FFFFFF80 !important;
+    }
+</style>
 <body>
 
     {% block content %}
