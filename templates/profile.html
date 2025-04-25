@@ -25,10 +25,12 @@
         max-width: 100%;
         padding: 20px;
         margin-bottom: 20px;
+        padding-top: 200px;
     }
 
     .profile-header h1 {
         margin: 0;
+        font-size: 32px;
     }
 
     .edit-profile-btn {
@@ -55,6 +57,9 @@
         display: flex;
         align-items: center;
         text-align: left;
+        background-color: rgba(255,255,255,0.05);
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.3);
     }
 
     .profile-img-container {
@@ -121,20 +126,43 @@
         margin-right: 5px;
     }
 
+    .tournaments-wrapper {
+        max-width: 800px;
+        width: 100%;
+        padding: 20px;
+        background-color: rgba(255,255,255,0.05);
+        border-radius: 15px;
+        margin-top: 30px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+
+    .tournaments-wrapper h2 {
+        font-size: 26px;
+        margin-bottom: 15px;
+    }
+
+    .tournament-card {
+        background: rgba(255,255,255,0.08);
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        border-left: 5px solid #FF5656;
+    }
+
+    .tournament-card h3 {
+        margin: 0 0 5px 0;
+        font-size: 20px;
+    }
+
+    .tournament-card p {
+        margin: 5px 0;
+    }
+
     @media (max-width: 720px) {
-        .profile-container {
+        .profile-container, .tournaments-wrapper {
             flex-direction: column;
             text-align: center;
         }
-
-        .profile-header {
-            flex-direction: column;
-            text-align: center;
-		}
-		
-		.edit-profile-btn {
-			margin-top: 10px;
-		}
 
         .profile-img {
             width: 180px;
@@ -145,12 +173,52 @@
             padding-left: 0;
             margin-top: 15px;
         }
+
+        .profile-header {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .edit-profile-btn {
+            margin-top: 10px;
+        }
+    }
+    .btn-action {
+        background-color: #FF1212;
+        color: white;
+        padding: 8px 14px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 14px;
+        text-align: center;
+        transition: background-color 0.3s;
+    }
+
+    .btn-action:hover {
+        background-color: #ff4343;
+    }
+
+    @media (max-width: 720px) {
+        .tournament-card {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .tournament-actions {
+            flex-direction: row;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 10px;
+        }
     }
 </style>
 
+{% include 'header.html' %}
+
 <div class="profile-header">
-    <h1>Ваш профиль</h1>
-    <a href="#" class="edit-profile-btn">Изменить профиль</a>
+    <h1>👤 Ваш профиль</h1>
+    <a href="#" class="edit-profile-btn">✏️ Изменить профиль</a>
 </div>
 
 <div class="profile-container">
@@ -161,21 +229,21 @@
             <img src="{% static 'images/default_avatar.png' %}" alt="Фото профиля" class="profile-img">
         {% endif %}
     </div>
-    
+
     <div class="profile-info">
-        <h1>{{ user.first_name }} {{ user.last_name }}</h1>
-        <h1>{{ user.username }}</h1>
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        {% if user.age %}<p><strong>Возраст:</strong> {{ user.age }}</p>{% endif %}
-        {% if user.city %}<p><strong>Город:</strong> {{ user.city }}</p>{% endif %}
-        {% if user.country %}<p><strong>Страна:</strong> {{ user.country }}</p>{% endif %}
+        <h1>🧑 {{ user.first_name }} {{ user.last_name }}</h1>
+        <h1>🔰 {{ user.username }}</h1>
+        <p>📧 <strong>Email:</strong> {{ user.email }}</p>
+        {% if user.age %}<p>🎂 <strong>Возраст:</strong> {{ user.age }}</p>{% endif %}
+        {% if user.city %}<p>🏙️ <strong>Город:</strong> {{ user.city }}</p>{% endif %}
+        {% if user.country %}<p>🌍 <strong>Страна:</strong> {{ user.country }}</p>{% endif %}
         {% if user.steam_profile %}
-            <p><strong>Steam профиль:</strong> <a href="{{ user.steam_profile }}" target="_blank" style="color: lightblue;">Перейти в Steam</a></p>
+            <p>🎮 <strong>Steam:</strong> <a href="{{ user.steam_profile }}" target="_blank" style="color: lightblue;">Перейти в Steam</a></p>
         {% endif %}
 
         {% if user.favorite_games.all %}
         <div class="favorite-games">
-            <p><strong>Любимые игры:</strong></p>
+            <p>🔥 <strong>Любимые игры:</strong></p>
             {% for game in user.favorite_games.all %}
                 <span class="game-tag">{{ game.name }}</span>
             {% endfor %}
@@ -187,4 +255,30 @@
         </div>
     </div>
 </div>
+
+<div class="tournaments-wrapper">
+    <h2>🏆 Турниры, созданные вами</h2>
+    {% if tournaments %}
+        <ul style="list-style: none; padding: 0;">
+            {% for t in tournaments %}
+                <li class="tournament-card" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h3>📛 {{ t.name }}</h3>
+                        <p>🎯 <strong>Дисциплина:</strong> {{ t.get_discipline_display }}</p>
+                        <p>🏷️ <strong>Тип:</strong> {{ t.get_type_display }}</p>
+                        <p>🧾 <strong>Формат:</strong> {{ t.get_format_display }}</p>
+                        <p>💰 <strong>Призовой фонд:</strong> ${{ t.prize_pool }}</p>
+                    </div>
+                    <div class="tournament-actions" style="display: flex; flex-direction: column; gap: 10px;">
+                        <a href="{% url 'tournament_detail' t.pk %}" class="btn-action">📄 Подробнее</a>
+                        <a href="{% url 'create_team' %}" class="btn-action">📝 Регистрация</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>😔 Вы пока не создавали турниры.</p>
+    {% endif %}
+</div>
+
 {% endblock %}

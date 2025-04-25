@@ -40,14 +40,20 @@ class Register(View):
         }
         return render(request, self.template_name, context)
 
+
 class ProfileView(View):
     template_name = 'profile.html'
 
     def get(self, request):
-        return render(request, self.template_name, {'user': request.user})
+        user = request.user
+        tournaments = Tournament.objects.filter(creator=user)
+        return render(request, self.template_name, {
+            'user': user,
+            'tournaments': tournaments
+        })
 
 def home(request):
-    latest_news = News.objects.order_by('-created_at')[:3]
+    latest_news = News.objects.order_by('-created_at')[:2]
     highlighted_news = News.objects.order_by('-created_at')[:2]
     
     return render(request, 'home.html', {

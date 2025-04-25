@@ -13,14 +13,14 @@
             <div class="left">
                 <h1>ULTIMATE <br><span class="red">GAMERS</span> <br>HEAVEN</h1>
                 <!-- <button>УЗНАТЬ ПОДРОБНЕЕ</button> -->
-                <br>
+                <!-- <br>
                 <a href="{% url 'create_tournament' %}">
                     <button>СОЗДАТЬ ТУРНИР</button>
                 </a>
                 <br>
                 <a href="{% url 'game' %}">
                     <button>INVOKER GAME</button>
-                </a>
+                </a> -->
                 <br>
                 <a href="{% url 'how_it_works' %}">
                     <button>КАК ЭТО РАБОТАЕТ?</button>
@@ -47,104 +47,116 @@
                 </div>
             </div>
         </div>
+        <div class="games-svg-wrapper container">
+            <img id="game-svg" src="{% static 'images/group_35.svg' %}" alt="Game Selector">
+        </div>
     </main>
-
-    <div class="games-svg-wrapper container">
-        <img id="game-svg" src="{% static 'images/group_35.svg' %}" alt="Game Selector">
-    </div>
     
     <style>
-    .games-svg-wrapper {
-        padding-top: 100px;
-        position: relative;
-        height: 60vh; /* Показываем только верхнюю половину */
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start; /* важное отличие – контент прижат к верху */
-        cursor: pointer;
-        margin-bottom: -2px; /* аккуратная стыковка со следующим блоком */
-        z-index: 10;
-    }
-
-    #game-svg {
-        width: 100%;
-        height: auto;
-        transition: transform 0.8s ease, opacity 0.8s ease;
-    }
-
-    #game-svg.rotate {
-        animation: spin 0.4s ease-out forwards;
-    }
-
-    @keyframes spin {
-        from {
-            transform: rotate(0deg);
+        .games-svg-wrapper {
+            position: absolute;
+            bottom: 0;
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 35vh;
+            cursor: pointer;
+            z-index: 3;
         }
-        to {
-            transform: rotate(720deg); /* два оборота */
+
+        #game-svg {
+            width: 100%;
+            height: auto;
+            transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+            transform-origin: center;
         }
-    }
 
-    .best-players {
-        transition: opacity 0.5s ease;
-    }
+        #game-svg.rotate {
+            animation: bounce-spin 0.6s ease-out forwards;
+        }
 
-    .best-players.hidden {
-        opacity: 0;
-        pointer-events: none;
-        position: absolute;
-        z-index: -1;
-    }
+        @keyframes bounce-spin {
+            0% {
+                transform: scale(1) rotate(0deg);
+            }
+            30% {
+                transform: scale(1.05) rotate(180deg);
+            }
+            60% {
+                transform: scale(0.95) rotate(540deg);
+            }
+            100% {
+                transform: scale(1) rotate(720deg);
+            }
+        }
+
+        #game-svg:hover {
+            transform: scale(1.05);
+        }
+
+        .best-players {
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .best-players.hidden {
+            opacity: 0;
+            transform: scale(0.9);
+            pointer-events: none;
+            position: absolute;
+            z-index: -1;
+        }
     </style>
     <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const svgEl = document.getElementById('game-svg');
-                const svgFiles = ["group_54.svg", "group_56.svg"];
-                const verticalOffsets = {
-                    "group_54.svg": "37px",
-                    "group_56.svg": "0px"
-                };
-                const staticBase = "{% static 'images/' %}";
-                let current = 0;
-            
-                const updateSvg = () => {
-                    const file = svgFiles[current];
-                    const offset = verticalOffsets[file];
-                    svgEl.style.transform = `translateY(${offset}) rotate(0deg)`;
-                    svgEl.src = staticBase + file;
-                };
-            
-                const togglePlayersSection = () => {
-                    const csSection = document.querySelector('.best-players:not(.best-players-dota)');
-                    const dotaSection = document.querySelector('.best-players-dota');
-            
-                    if (current === 0) {
-                        csSection.classList.remove('hidden');
-                        dotaSection.classList.add('hidden');
-                    } else {
-                        csSection.classList.add('hidden');
-                        dotaSection.classList.remove('hidden');
-                    }
-                };
-            
-                document.querySelector('.games-svg-wrapper').addEventListener('click', () => {
-                    const next = (current + 1) % svgFiles.length;
-                    const offset = verticalOffsets[svgFiles[next]];
-                    svgEl.style.transition = 'transform 0.4s ease-out, opacity 0.4s ease';
-                    svgEl.style.transform = `translateY(${offset}) rotate(720deg)`;
-            
-                    setTimeout(() => {
-                        current = next;
-                        updateSvg();
-                        togglePlayersSection();
-                    }, 400);
-                });
-            
-                updateSvg();
-                togglePlayersSection(); // init
+        document.addEventListener('DOMContentLoaded', () => {
+            const svgEl = document.getElementById('game-svg');
+            const svgFiles = ["group_54.svg", "group_56.svg"];
+            const verticalOffsets = {
+                "group_54.svg": "45px",
+                "group_56.svg": "0px"
+            };
+            const staticBase = "{% static 'images/' %}";
+            let current = 0;
+
+            const updateSvg = () => {
+                const file = svgFiles[current];
+                const offset = verticalOffsets[file];
+                svgEl.src = staticBase + file;
+                svgEl.style.transform = `translateY(${offset}) rotate(0deg)`;
+                svgEl.style.opacity = '1';
+            };
+
+            const togglePlayersSection = () => {
+                const csSection = document.querySelector('.best-players:not(.best-players-dota)');
+                const dotaSection = document.querySelector('.best-players-dota');
+
+                if (current === 0) {
+                    csSection.classList.remove('hidden');
+                    dotaSection.classList.add('hidden');
+                } else {
+                    csSection.classList.add('hidden');
+                    dotaSection.classList.remove('hidden');
+                }
+            };
+
+            document.querySelector('.games-svg-wrapper').addEventListener('click', () => {
+                svgEl.classList.add('rotate');
+                svgEl.style.opacity = '0';
+
+                setTimeout(() => {
+                    current = (current + 1) % svgFiles.length;
+                    updateSvg();
+                    togglePlayersSection();
+                    svgEl.classList.remove('rotate');
+                }, 600);
             });
-            </script>
+
+            updateSvg();
+            togglePlayersSection();
+        });
+    </script>
             
     <!-- Best Players Section -->
     <section class="best-players">

@@ -43,7 +43,7 @@ body {
     z-index: 100;
     display: flex;
     justify-content: center;
-    padding: 21px 260px;
+    padding: 21px 110px;
 }
 
 /* Ensures content stays centered */
@@ -128,11 +128,11 @@ body {
 }
 
 .left-ellipse {
-    left: -47%;
+    left: -52%;
 }
 
 .right-ellipse {
-    right: -47%;
+    right: -52%;
 }
 
 /* HERO CONTENT */
@@ -141,7 +141,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 63%;
+    width: 75%;
     z-index: 2;
     padding-top: 30px;
 }
@@ -182,7 +182,7 @@ body {
 /* NEWS SECTION */
 .news {
     background: linear-gradient(203.89deg, rgba(255, 0, 0, 0.4) 0%, rgba(255, 255, 255, 0.4) 84.65%);
-    padding: 30px;
+    padding: 25px;
     border-radius: 12px;
     width: 320px;
     text-align: left;
@@ -191,9 +191,13 @@ body {
 .news h3 {
     color: white;
     margin-bottom: 15px;
-    font-size: 22px;
+    font-size: 30px;
     font-weight: 900;
     font-family: 'Muller', sans-serif;
+}
+
+.news h5 {
+    font-size: 15px;
 }
 
 .user {
@@ -422,7 +426,7 @@ body {
     padding: 15px 30px;
     font-size: 18px;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 30px;
     font-weight: bold;
 }
 
@@ -440,7 +444,6 @@ body {
 }
 
 .news-item {
-    padding: 10px 0;
     border-bottom: 1px solid red; /* Белая линия снизу */
 }
 
