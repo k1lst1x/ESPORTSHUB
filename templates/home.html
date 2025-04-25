@@ -49,11 +49,103 @@
         </div>
     </main>
 
-    <div class="games">
-        <div class="game cs2">CS 2</div>
-        <div class="game dota2">DOTA 2</div>
+    <div class="games-svg-wrapper container">
+        <img id="game-svg" src="{% static 'images/group_35.svg' %}" alt="Game Selector">
     </div>
     
+    <style>
+    .games-svg-wrapper {
+        padding-top: 100px;
+        position: relative;
+        height: 60vh; /* Показываем только верхнюю половину */
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start; /* важное отличие – контент прижат к верху */
+        cursor: pointer;
+        margin-bottom: -2px; /* аккуратная стыковка со следующим блоком */
+        z-index: 10;
+    }
+
+    #game-svg {
+        width: 100%;
+        height: auto;
+        transition: transform 0.8s ease, opacity 0.8s ease;
+    }
+
+    #game-svg.rotate {
+        animation: spin 0.4s ease-out forwards;
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(720deg); /* два оборота */
+        }
+    }
+
+    .best-players {
+        transition: opacity 0.5s ease;
+    }
+
+    .best-players.hidden {
+        opacity: 0;
+        pointer-events: none;
+        position: absolute;
+        z-index: -1;
+    }
+    </style>
+    <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const svgEl = document.getElementById('game-svg');
+                const svgFiles = ["group_54.svg", "group_56.svg"];
+                const verticalOffsets = {
+                    "group_54.svg": "37px",
+                    "group_56.svg": "0px"
+                };
+                const staticBase = "{% static 'images/' %}";
+                let current = 0;
+            
+                const updateSvg = () => {
+                    const file = svgFiles[current];
+                    const offset = verticalOffsets[file];
+                    svgEl.style.transform = `translateY(${offset}) rotate(0deg)`;
+                    svgEl.src = staticBase + file;
+                };
+            
+                const togglePlayersSection = () => {
+                    const csSection = document.querySelector('.best-players:not(.best-players-dota)');
+                    const dotaSection = document.querySelector('.best-players-dota');
+            
+                    if (current === 0) {
+                        csSection.classList.remove('hidden');
+                        dotaSection.classList.add('hidden');
+                    } else {
+                        csSection.classList.add('hidden');
+                        dotaSection.classList.remove('hidden');
+                    }
+                };
+            
+                document.querySelector('.games-svg-wrapper').addEventListener('click', () => {
+                    const next = (current + 1) % svgFiles.length;
+                    const offset = verticalOffsets[svgFiles[next]];
+                    svgEl.style.transition = 'transform 0.4s ease-out, opacity 0.4s ease';
+                    svgEl.style.transform = `translateY(${offset}) rotate(720deg)`;
+            
+                    setTimeout(() => {
+                        current = next;
+                        updateSvg();
+                        togglePlayersSection();
+                    }, 400);
+                });
+            
+                updateSvg();
+                togglePlayersSection(); // init
+            });
+            </script>
+            
     <!-- Best Players Section -->
     <section class="best-players">
         <!-- Background Image -->
@@ -104,10 +196,54 @@
         </div>
 
         <!-- Next Slide Button -->
-        <div class="next-slide">
+        <!-- <div class="next-slide">
             <img src="{% static 'images/arrow.svg' %}" alt="Next">
-        </div>
+        </div> -->
     </section>
+
+    <section class="best-players best-players-dota">
+        <div class="best-players-bg" style="background-image: url('{% static 'images/cs2_bg.jpg' %}');"></div>
+        <img src="{% static 'images/best_players_overlay.svg' %}" alt="Best Players" class="best-players-overlay">
+        <h2 class="best-players-title">DOTA 2</h2>
+        <div class="players-grid">
+            <div class="player-card" style="background-color: #FF4848; background-image: url('{% static 'images/liquid_logo.png' %}');">
+                <div class="player-img-container">
+                    <img src="{% static 'images/nisha.png' %}" alt="Nisha">
+                </div>
+                <span class="player-name">NISHA</span>
+            </div>
+            <div class="player-card" style="background-color: #2317A8; background-image: url('{% static 'images/vp_logo.png' %}');">
+                <div class="player-img-container">
+                    <img src="{% static 'images/skiter.png' %}" alt="skiter">
+                </div>
+                <span class="player-name">SKITER</span>
+            </div>
+            <div class="player-card" style="background-color: #FFED4B; background-image: url('{% static 'images/tundra_logo.png' %}');">
+                <div class="player-img-container">
+                    <img src="{% static 'images/33.png' %}" alt="33">
+                </div>
+                <span class="player-name">33</span>
+            </div>
+            <div class="player-card" style="background-color: #FF4848; background-image: url('{% static 'images/gg_logo.png' %}');">
+                <div class="player-img-container">
+                    <img src="{% static 'images/watson.png' %}" alt="Watson">
+                </div>
+                <span class="player-name">WATSON</span>
+            </div>
+            <div class="player-card" style="background-color: #3CDFF5; background-image: url('{% static 'images/vp_logo.png' %}');">
+                <div class="player-img-container">
+                    <img src="{% static 'images/ramzes666.png' %}" alt="RAMZES666">
+                </div>
+                <span class="player-name">RAMZES666</span>
+            </div>
+            <div class="player-card" style="background-color: #FF4848; background-image: url('{% static 'images/navi_logo.png' %}');">
+                <div class="player-img-container">
+                    <img src="{% static 'images/puppey.png' %}" alt="Puppey">
+                </div>
+                <span class="player-name">Puppey</span>
+            </div>
+        </div>
+    </section>        
 
     <!-- Глобальный турнирный блок -->
     <section class="global-tournament">
@@ -167,7 +303,7 @@
                         <td><img src="{% static 'images/dota_logo.png' %}" alt="Dota 2"></td>
                         <td class="team-cell" style="background-image: url('{% static 'images/spirit_logo.png' %}');"> Team Spirit</td>
                         <td><span class="score-win">12</span> vs <span class="score-lose">11</span></td>
-                        <td class="team-cell" style="background-image: url('{% static 'images/tundra.png' %}');"> Tundra</td>
+                        <td class="team-cell" style="background-image: url('{% static 'images/tundra_logo.png' %}');"> Tundra</td>
                         <td>22 марта 2025</td>
                     </tr>
                     <tr>
@@ -197,7 +333,8 @@
                 <img src="{% static 'images/avatar.png' %}" alt="Avatar" class="tournament-avatar">
             </div>
             <p class="tournament-description">Организуй турнир любого масштаба за пару кликов. Настрой правила, пригласи участников и сделай свой вклад в киберспортивную историю!</p>
-            <button class="tournament-btn">УЗНАТЬ ПОДРОБНЕЕ</button>
+            <!-- <button class="tournament-btn">УЗНАТЬ ПОДРОБНЕЕ</button> -->
+            <a href="{% url 'create_tournament' %}" class="tournament-btn" style="text-decoration: none;">УЗНАТЬ ПОДРОБНЕЕ</a>
         </div>
     </section>
 
