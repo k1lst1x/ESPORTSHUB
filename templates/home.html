@@ -255,20 +255,19 @@
                 <span class="player-name">Puppey</span>
             </div>
         </div>
-    </section>        
+    </section>
 
-    <!-- Глобальный турнирный блок -->
     <section class="global-tournament">
-        <div class="tournament-bg" style="background-image: url('{% static 'images/tournament_bg.jpg' %}');"></div>
-
+        <div class="tournament-bg" style="background-image: url('{% static 'images/invoker_bg.jpg' %}');"></div>
+    
         <div class="tournament-content">
-            <p class="tournament-subtitle">Скоро состоится</p>
-            <h2 class="tournament-title">ГЛОБАЛЬНЫЙ ТУРНИР <br> THE INTERNATIONAL</h2>
-            <p class="tournament-location">Место проведения: Китай, Пекин</p>
+            <p class="tournament-subtitle">Проверь свою реакцию</p>
+            <h2 class="tournament-title">ИГРА <br> INVOKER CHALLENGE</h2>
+            <p class="tournament-location">Легендарные заклинания ждут тебя!</p>
             <h3 class="tournament-date">
-                <span class="bold">2025</span> <span class="bold">SEP</span> <span class="bold">03-09</span>
+                <span class="bold">Готов?</span> <span class="bold">Начни</span> <span class="bold">СЕЙЧАС</span>
             </h3>
-            <button class="red-button">УЗНАТЬ ПОДРОБНЕЕ</button>
+            <a href="{% url 'game' %}" class="red-button" style="text-decoration: none;">ИГРАТЬ СЕЙЧАС</a>
         </div>
     </section>
 
@@ -384,6 +383,20 @@
             </div>
         </div>
         {% endfor %}
+    </section>
+    <!-- Глобальный турнирный блок -->
+    <section class="global-tournament">
+        <div class="tournament-bg" style="background-image: url('{% static 'images/tournament_bg.jpg' %}');"></div>
+
+        <div class="tournament-content">
+            <p class="tournament-subtitle">Скоро состоится</p>
+            <h2 class="tournament-title">ГЛОБАЛЬНЫЙ ТУРНИР <br> THE INTERNATIONAL</h2>
+            <p class="tournament-location">Место проведения: Китай, Пекин</p>
+            <h3 class="tournament-date">
+                <span class="bold">2025</span> <span class="bold">SEP</span> <span class="bold">03-09</span>
+            </h3>
+            <a href="{% url 'tournament_list' %}" class="red-button" style="text-decoration: none;">УЗНАТЬ ПОДРОБНЕЕ</a>
+        </div>
     </section>
     <section class="subscribe-section">
         <div class="subscribe-container">
