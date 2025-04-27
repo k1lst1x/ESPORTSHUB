@@ -18,6 +18,17 @@ class UserCreationForm(UserCreationForm):
         model = User
         fields = ("username", "email")
 
+class UserChangeForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        if self.instance and self.instance.pk:
+            self.fields['selected_frame'].queryset = self.instance.purchased_frames.all()
+
 class TournamentForm(forms.ModelForm):
     terms = forms.BooleanField(
         required=True,

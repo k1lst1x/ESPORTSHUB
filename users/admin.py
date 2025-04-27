@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
-from .models import Game, Tournament, Team, Participant
+from .models import Game, ProfileFrame, Tournament, Team, Participant
 
-from users.forms import UserCreationForm
+from users.forms import UserCreationForm, UserChangeForm
 
 User = get_user_model()
 
@@ -22,9 +22,10 @@ User = get_user_model()
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
     model = User
+    form = UserChangeForm
     add_form = UserCreationForm
 
-    list_display = ('id', 'username', 'email', 'first_name', 'last_name', 'age', 'city', 'country', 'is_staff', 'is_active')
+    list_display = ('id', 'username', 'email', 'first_name', 'last_name', 'age', 'city', 'country', 'points', 'selected_frame', 'is_staff', 'is_active')
     list_display_links = ('id', 'username')
     list_filter = ('is_staff', 'is_active', 'city', 'country')
     search_fields = ('username', 'email', 'first_name', 'last_name', 'city', 'country')
@@ -32,7 +33,20 @@ class CustomUserAdmin(UserAdmin):
 
     fieldsets = (
         (None, {'fields': ('username', 'email', 'password')}),
-        ('Персональная информация', {'fields': ('first_name', 'last_name', 'profile_picture', 'age', 'city', 'country', 'steam_profile')}),
+        ('Персональная информация', {
+            'fields': (
+                'first_name',
+                'last_name',
+                'profile_picture',
+                'age',
+                'city',
+                'country',
+                'steam_profile',
+                'points',
+                'purchased_frames',
+                'selected_frame',
+            )
+        }),
         ('Любимые игры', {'fields': ('favorite_games',)}),
         ('Права доступа', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Даты', {'fields': ('last_login', 'date_joined')}),
@@ -45,8 +59,11 @@ class CustomUserAdmin(UserAdmin):
         }),
     )
 
-    filter_horizontal = ('favorite_games', 'groups', 'user_permissions')
+    filter_horizontal = ('favorite_games', 'groups', 'user_permissions', 'purchased_frames')
 
+@admin.register(ProfileFrame)
+class ProfileFrameAdmin(admin.ModelAdmin):
+    list_display = ('name', 'price')
 
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):

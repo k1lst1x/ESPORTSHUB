@@ -68,14 +68,6 @@
         justify-content: center;
     }
 
-    .profile-img {
-        width: 360px;
-        height: 360px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 3px solid white;
-    }
-
     .profile-info {
         flex: 2;
         padding-left: 20px;
@@ -164,11 +156,6 @@
             text-align: center;
         }
 
-        .profile-img {
-            width: 180px;
-            height: 180px;
-        }
-
         .profile-info {
             padding-left: 0;
             margin-top: 15px;
@@ -213,6 +200,51 @@
         }
     }
 </style>
+<style>
+    .frame-wrapper {
+        position: relative;
+        width: 380px;
+        height: 380px;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .profile-img {
+        width: 360px;
+        height: 360px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid white;
+    }
+
+    .profile-img-with-frame {
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid white;
+    }
+
+    @media (max-width: 720px) {
+        .frame-wrapper {
+            width: 200px;
+            height: 200px;
+            padding: 5px;
+        }
+        .profile-img {
+            width: 180px;
+            height: 180px;
+        }
+        .profile-img-with-frame {
+            width: 90px;
+            height: 90px;
+        }
+    }
+</style>
 
 {% include 'header.html' %}
 
@@ -224,15 +256,27 @@
 <div class="profile-container">
     <div class="profile-img-container">
         {% if user.profile_picture %}
-            <img src="{{ user.profile_picture.url }}" alt="Фото профиля" class="profile-img">
+            {% if user.selected_frame %}
+                <div class="frame-wrapper" style="background-image: url('{{ user.selected_frame.image.url }}');">
+                    <img src="{{ user.profile_picture.url }}" alt="Фото профиля" class="profile-img-with-frame">
+                </div>
+            {% else %}
+                <img src="{{ user.profile_picture.url }}" alt="Фото профиля" class="profile-img">
+            {% endif %}
         {% else %}
-            <img src="{% static 'images/default_avatar.png' %}" alt="Фото профиля" class="profile-img">
+            {% if user.selected_frame %}
+                <div class="frame-wrapper" style="background-image: url('{% static 'images/default_avatar.png' %}');">
+                    <img src="{% static 'images/default_avatar.png' %}" alt="Фото профиля" class="profile-img-with-frame">
+                </div>
+            {% else %}
+                <img src="{% static 'images/default_avatar.png' %}" alt="Фото профиля" class="profile-img">
+            {% endif %}
         {% endif %}
-    </div>
+    </div>      
 
     <div class="profile-info">
-        <h1>🧑 {{ user.first_name }} {{ user.last_name }}</h1>
-        <h1>🔰 {{ user.username }}</h1>
+        <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+        <h1>{{ user.username }}</h1>
         <p>📧 <strong>Email:</strong> {{ user.email }}</p>
         {% if user.age %}<p>🎂 <strong>Возраст:</strong> {{ user.age }}</p>{% endif %}
         {% if user.city %}<p>🏙️ <strong>Город:</strong> {{ user.city }}</p>{% endif %}

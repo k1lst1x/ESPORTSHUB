@@ -54,7 +54,10 @@
                                 <!-- Распределение призов -->
                                 <div class="bg-secondary bg-opacity-25 p-3 rounded">
                                     <h6 class="fw-bold mb-2">🏅 Распределение призов:</h6>
-                                    {% if tournament.max_teams > 2 %}
+
+                                    {% if tournament.type == 'solo' %}
+                                        <p class="mb-0">🥇 Победитель получает всё — <span style="color:#FFD700;">${{ tournament.prize_pool|to_int }}</span></p>
+                                    {% elif tournament.max_teams > 2 %}
                                         <p class="mb-1">🥇 1 место — <span style="color:#FFD700;">${{ tournament.prize_pool|mul:0.5|to_int }}</span></p>
                                         <p class="mb-1">🥈 2 место — <span style="color:#C0C0C0;">${{ tournament.prize_pool|mul:0.3|to_int }}</span></p>
                                         <p class="mb-0">🥉 3 место — <span style="color:#CD7F32;">${{ tournament.prize_pool|mul:0.2|to_int }}</span></p>

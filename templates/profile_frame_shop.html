@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+    body {
+        background: linear-gradient(116.46deg, #141414 57.5%, #930000 100%);
+        color: white;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .frames-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 50px;
+    }
+    .frame-card {
+        background-color: rgba(255,255,255,0.05);
+        padding: 15px;
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.3);
+        border: 1px solid #FFFFFF; /* добавили бордер */
+        width: 600px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    .frame-image {
+        width: 200px;
+        height: 200px;
+        object-fit: contain;
+        border-radius: 10px;
+    }
+    .frame-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+    }
+    .frame-price {
+        font-family: 'Muller', sans-serif;
+        font-weight: 900;
+        font-size: 40px;
+        color: #FFFFFF;
+        margin-bottom: 10px;
+    }
+    .frame-name {
+        font-family: 'Muller', sans-serif;
+        font-weight: 900;
+        font-size: 24px;
+        color: #FFFFFF;
+        margin-bottom: 20px;
+    }
+    .buy-button {
+        background: #FF1212;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 30px;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+        align-self: flex-start;
+    }
+    .buy-button:disabled {
+        background: grey;
+        cursor: not-allowed;
+    }
+    .buy-button:hover:not(:disabled) {
+        background: #ff4343;
+    }
+    .messages {
+        margin-top: 20px;
+        text-align: center;
+    }
+    .messages .error {
+        color: #FF5555;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    .messages .success {
+        color: #55FF55;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    @media (max-width: 720px) {
+        .frame-card {
+            flex-direction: column;
+            width: 90%;
+        }
+        .frame-image {
+            width: 100%;
+            height: auto;
+        }
+        .frame-info {
+            align-items: center;
+            text-align: center;
+        }
+        .buy-button {
+            width: 100%;
+        }
+    }
+</style>
+
+{% include 'header.html' %}
+
+<h1 style="margin-top: 150px;">🛒 Магазин рамок для профиля</h1>
+<p>Ваши баллы: <strong>{{ user.points }}</strong></p>
+
+<div class="messages">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div class="frames-container">
+    {% for frame in frames %}
+    <div class="frame-card">
+        <img src="{{ frame.image.url }}" alt="{{ frame.name }}" class="frame-image">
+        
+        <div class="frame-info">
+            <div class="frame-price">{{ frame.price }} баллов</div>
+            <div class="frame-name">{{ frame.name }}</div>
+
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="frame_id" value="{{ frame.id }}">
+                {% if frame in user.purchased_frames.all %}
+                    <button class="buy-button" disabled>✅ Уже куплена</button>
+                {% else %}
+                    <button class="buy-button" type="submit">🛒 Купить</button>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

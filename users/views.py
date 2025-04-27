@@ -9,10 +9,11 @@ from news.models import News
 from django.contrib.auth.decorators import login_required
 from .forms import TournamentForm, TeamForm, ParticipantForm
 
-from .models import Team, Participant, Tournament
+from .models import Team, Participant, Tournament, ProfileFrame
 
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+from django.contrib import messages
 
 User = get_user_model()
 
@@ -140,3 +141,26 @@ def team_detail(request, pk):
         'is_creator': is_creator,
         'can_add': can_add,
     })
+
+@login_required
+def profile_frame_shop(request):
+    frames = ProfileFrame.objects.all()
+    user = request.user
+
+    if request.method == 'POST':
+        frame_id = request.POST.get('frame_id')
+        frame = get_object_or_404(ProfileFrame, id=frame_id)
+
+        if frame in user.purchased_frames.all():
+            messages.error(request, "Вы уже купили эту рамку.")
+        elif user.points < frame.price:
+            messages.error(request, "Недостаточно баллов для покупки этой рамки.")
+        else:
+            user.points -= frame.price
+            user.purchased_frames.add(frame)
+            user.save()
+            messages.success(request, f"Вы успешно купили рамку: {frame.name}!")
+
+        return redirect('profile_frame_shop')
+
+    return render(request, 'profile_frame_shop.html', {'frames': frames, 'user': user})

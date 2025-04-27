@@ -4,6 +4,18 @@ from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from django.core.exceptions import ValidationError
 
+class ProfileFrame(models.Model):
+    name = models.CharField(max_length=100, verbose_name=_('Название рамки'))
+    image = models.ImageField(upload_to='profile_frames/', verbose_name=_('Изображение рамки'))
+    price = models.PositiveIntegerField(verbose_name=_('Цена в очках или валюте'))
+
+    class Meta:
+        verbose_name = _('Рамка профиля')
+        verbose_name_plural = _('Рамки профиля')
+
+    def __str__(self):
+        return self.name
+
 class Game(models.Model):
     name = models.CharField(max_length=100, unique=True, verbose_name=_('Название игры'))
 
@@ -65,6 +77,14 @@ class User(AbstractUser):
         blank=True,
         verbose_name=_('Любимые игры')
     )
+
+    points = models.PositiveIntegerField(
+        default=0,
+        verbose_name=_('Баллы пользователя')
+    )
+
+    purchased_frames = models.ManyToManyField('ProfileFrame', blank=True, verbose_name=_('Купленные рамки'))
+    selected_frame = models.ForeignKey('ProfileFrame', blank=True, null=True, on_delete=models.SET_NULL, related_name='users_with_frame', verbose_name=_('Выбранная рамка'))
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
