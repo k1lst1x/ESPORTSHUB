@@ -13,6 +13,6 @@ urlpatterns = [
     path('team/<int:pk>/', team_detail, name='team_detail'),
     path('teams/create/', create_team, name='create_team'),
     path('players/create/', create_participant, name='create_participant'),
-    path('shop', profile_frame_shop, name='shop')
+    path('shop/', profile_frame_shop, name='shop')
 
 ]
