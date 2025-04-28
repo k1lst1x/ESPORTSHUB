@@ -5,16 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
     body {
+        margin: 0;
+        padding: 0;
         background: linear-gradient(116.46deg, #141414 57.5%, #930000 100%);
         color: white;
         font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
+    }
+
+    .page-wrapper {
         display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
         flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .main-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        padding-top: 200px;
     }
 
     .profile-header {
@@ -25,7 +35,6 @@
         max-width: 100%;
         padding: 20px;
         margin-bottom: 20px;
-        padding-top: 200px;
     }
 
     .profile-header h1 {
@@ -246,87 +255,93 @@
     }
 </style>
 
-{% include 'header.html' %}
+<div class="page-wrapper">
 
-<div class="profile-header">
-    <h1>👤 Ваш профиль</h1>
-    <a href="#" class="edit-profile-btn">✏️ Изменить профиль</a>
-</div>
+    {% include 'header.html' %}
+    <div class="main-content">
 
-<div class="profile-container">
-    <div class="profile-img-container">
-        {% if user.profile_picture %}
-            {% if user.selected_frame %}
-                <div class="frame-wrapper" style="background-image: url('{{ user.selected_frame.image.url }}');">
-                    <img src="{{ user.profile_picture.url }}" alt="Фото профиля" class="profile-img-with-frame">
-                </div>
-            {% else %}
-                <img src="{{ user.profile_picture.url }}" alt="Фото профиля" class="profile-img">
-            {% endif %}
-        {% else %}
-            {% if user.selected_frame %}
-                <div class="frame-wrapper" style="background-image: url('{% static 'images/default_avatar.png' %}');">
-                    <img src="{% static 'images/default_avatar.png' %}" alt="Фото профиля" class="profile-img-with-frame">
-                </div>
-            {% else %}
-                <img src="{% static 'images/default_avatar.png' %}" alt="Фото профиля" class="profile-img">
-            {% endif %}
-        {% endif %}
-    </div>      
-
-    <div class="profile-info">
-        <h1>{{ user.first_name }} {{ user.last_name }}</h1>
-        <h1>{{ user.username }}</h1>
-        <p>📧 <strong>Email:</strong> {{ user.email }}</p>
-        {% if user.age %}<p>🎂 <strong>Возраст:</strong> {{ user.age }}</p>{% endif %}
-        {% if user.city %}<p>🏙️ <strong>Город:</strong> {{ user.city }}</p>{% endif %}
-        {% if user.country %}<p>🌍 <strong>Страна:</strong> {{ user.country }}</p>{% endif %}
-        {% if user.steam_profile %}
-            <p>🎮 <strong>Steam:</strong> 
-                <a href="{{ user.steam_profile }}" target="_blank" style="color: lightblue;">Перейти в Steam</a>
-            </p>
-        {% endif %}
-        
-        <p>💎 <strong>Баланс баллов:</strong> {{ user.points }}</p>
-    
-        {% if user.favorite_games.all %}
-        <div class="favorite-games">
-            <p>🔥 <strong>Любимые игры:</strong></p>
-            {% for game in user.favorite_games.all %}
-                <span class="game-tag">{{ game.name }}</span>
-            {% endfor %}
+        <div class="profile-header">
+            <h1>👤 Ваш профиль</h1>
+            <a href="#" class="edit-profile-btn">✏️ Изменить профиль</a>
         </div>
-        {% endif %}
-    
-        <div class="profile-links">
-            <a href="{% url 'home' %}">← Вернуться на главную</a>
-        </div>
-    </div>    
-</div>
 
-<div class="tournaments-wrapper">
-    <h2>🏆 Турниры, созданные вами</h2>
-    {% if tournaments %}
-        <ul style="list-style: none; padding: 0;">
-            {% for t in tournaments %}
-                <li class="tournament-card" style="display: flex; justify-content: space-between; align-items: center;">
-                    <div>
-                        <h3>📛 {{ t.name }}</h3>
-                        <p>🎯 <strong>Дисциплина:</strong> {{ t.get_discipline_display }}</p>
-                        <p>🏷️ <strong>Тип:</strong> {{ t.get_type_display }}</p>
-                        <p>🧾 <strong>Формат:</strong> {{ t.get_format_display }}</p>
-                        <p>💰 <strong>Призовой фонд:</strong> ${{ t.prize_pool }}</p>
-                    </div>
-                    <div class="tournament-actions" style="display: flex; flex-direction: column; gap: 10px;">
-                        <a href="{% url 'tournament_detail' t.pk %}" class="btn-action">📄 Подробнее</a>
-                        <a href="{% url 'create_team' %}" class="btn-action">📝 Регистрация</a>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>😔 Вы пока не создавали турниры.</p>
-    {% endif %}
+        <div class="profile-container">
+            <div class="profile-img-container">
+                {% if user.profile_picture %}
+                    {% if user.selected_frame %}
+                        <div class="frame-wrapper" style="background-image: url('{{ user.selected_frame.image.url }}');">
+                            <img src="{{ user.profile_picture.url }}" alt="Фото профиля" class="profile-img-with-frame">
+                        </div>
+                    {% else %}
+                        <img src="{{ user.profile_picture.url }}" alt="Фото профиля" class="profile-img">
+                    {% endif %}
+                {% else %}
+                    {% if user.selected_frame %}
+                        <div class="frame-wrapper" style="background-image: url('{% static 'images/default_avatar.png' %}');">
+                            <img src="{% static 'images/default_avatar.png' %}" alt="Фото профиля" class="profile-img-with-frame">
+                        </div>
+                    {% else %}
+                        <img src="{% static 'images/default_avatar.png' %}" alt="Фото профиля" class="profile-img">
+                    {% endif %}
+                {% endif %}
+            </div>      
+
+            <div class="profile-info">
+                <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+                <h1>{{ user.username }}</h1>
+                <p>📧 <strong>Email:</strong> {{ user.email }}</p>
+                {% if user.age %}<p>🎂 <strong>Возраст:</strong> {{ user.age }}</p>{% endif %}
+                {% if user.city %}<p>🏙️ <strong>Город:</strong> {{ user.city }}</p>{% endif %}
+                {% if user.country %}<p>🌍 <strong>Страна:</strong> {{ user.country }}</p>{% endif %}
+                {% if user.steam_profile %}
+                    <p>🎮 <strong>Steam:</strong> 
+                        <a href="{{ user.steam_profile }}" target="_blank" style="color: lightblue;">Перейти в Steam</a>
+                    </p>
+                {% endif %}
+                
+                <p>💎 <strong>Баланс баллов:</strong> {{ user.points }}</p>
+            
+                {% if user.favorite_games.all %}
+                <div class="favorite-games">
+                    <p>🔥 <strong>Любимые игры:</strong></p>
+                    {% for game in user.favorite_games.all %}
+                        <span class="game-tag">{{ game.name }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            
+                <div class="profile-links">
+                    <a href="{% url 'home' %}">← Вернуться на главную</a>
+                </div>
+            </div>    
+        </div>
+
+        <div class="tournaments-wrapper">
+            <h2>🏆 Турниры, созданные вами</h2>
+            {% if tournaments %}
+                <ul style="list-style: none; padding: 0;">
+                    {% for t in tournaments %}
+                        <li class="tournament-card" style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h3>📛 {{ t.name }}</h3>
+                                <p>🎯 <strong>Дисциплина:</strong> {{ t.get_discipline_display }}</p>
+                                <p>🏷️ <strong>Тип:</strong> {{ t.get_type_display }}</p>
+                                <p>🧾 <strong>Формат:</strong> {{ t.get_format_display }}</p>
+                                <p>💰 <strong>Призовой фонд:</strong> ${{ t.prize_pool }}</p>
+                            </div>
+                            <div class="tournament-actions" style="display: flex; flex-direction: column; gap: 10px;">
+                                <a href="{% url 'tournament_detail' t.pk %}" class="btn-action">📄 Подробнее</a>
+                                <a href="{% url 'create_team' %}" class="btn-action">📝 Регистрация</a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>😔 Вы пока не создавали турниры.</p>
+            {% endif %}
+        </div>
+    </div>
+    {% include 'footer.html' %}
 </div>
 
 {% endblock %}

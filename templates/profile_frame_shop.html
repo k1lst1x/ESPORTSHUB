@@ -6,14 +6,40 @@
 
 <style>
     body {
-        background: linear-gradient(116.46deg, #141414 57.5%, #930000 100%);
-        color: white;
-        font-family: Arial, sans-serif;
         margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        color: white;
+        overflow-x: hidden;
+    }
+    .video-background {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        z-index: -2;
+        transform: translate(-50%, -50%);
+        object-fit: cover;
+    }
+    .video-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: blur(6px);
+        background: rgba(0, 0, 0, 0.4);
+        z-index: -1;
+    }
+    .content-wrapper {
         padding: 20px;
         display: flex;
         flex-direction: column;
         align-items: center;
+        min-height: 100vh;
     }
     .frames-container {
         display: flex;
@@ -27,7 +53,7 @@
         padding: 15px;
         border-radius: 15px;
         box-shadow: 0 0 15px rgba(0,0,0,0.3);
-        border: 1px solid #FFFFFF; /* добавили бордер */
+        border: 1px solid #FFFFFF;
         width: 600px;
         display: flex;
         align-items: center;
@@ -50,14 +76,12 @@
         font-family: 'Muller', sans-serif;
         font-weight: 900;
         font-size: 40px;
-        color: #FFFFFF;
         margin-bottom: 10px;
     }
     .frame-name {
         font-family: 'Muller', sans-serif;
         font-weight: 900;
         font-size: 24px;
-        color: #FFFFFF;
         margin-bottom: 20px;
     }
     .buy-button {
@@ -110,42 +134,94 @@
             width: 100%;
         }
     }
+    /* Анимация плавного появления */
+    .frame-card {
+        opacity: 0;
+        transform: translateY(50px);
+        animation: fadeInUp 0.8s ease forwards;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Задержка анимации для каждой карточки */
+    .frames-container .frame-card:nth-child(1) { animation-delay: 0.2s; }
+    .frames-container .frame-card:nth-child(2) { animation-delay: 0.4s; }
+    .frames-container .frame-card:nth-child(3) { animation-delay: 0.6s; }
+    .frames-container .frame-card:nth-child(4) { animation-delay: 0.8s; }
+    .frames-container .frame-card:nth-child(5) { animation-delay: 1.0s; }
+    .frames-container .frame-card:nth-child(6) { animation-delay: 1.2s; }
+    .frames-container .frame-card:nth-child(7) { animation-delay: 1.4s; }
+    .frames-container .frame-card:nth-child(8) { animation-delay: 1.6s; }
+    .frames-container .frame-card:nth-child(9) { animation-delay: 1.8s; }
+    .frames-container .frame-card:nth-child(10) { animation-delay: 2.0s; }
+
+    /* Ключевые кадры для fade-in-up */
+    @keyframes fadeInUp {
+        0% {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Эффект "премиального" подсвечивания и увеличения при наведении */
+    .frame-card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.7);
+        border-color: #FF1212;
+    }
 </style>
 
-{% include 'header.html' %}
+<!-- Видеофон -->
+<video autoplay muted loop playsinline class="video-background">
+    <source src="{% static 'images/shop_bg.mp4' %}" type="video/mp4">
+    Ваш браузер не поддерживает видео тег.
+</video>
 
-<h1 style="margin-top: 150px;">🛒 Магазин рамок для профиля</h1>
-<p>Ваши баллы: <strong>{{ user.points }}</strong></p>
+<!-- Фильтр затемнения и размытия -->
+<div class="video-overlay"></div>
 
-<div class="messages">
-    {% if messages %}
-        {% for message in messages %}
-            <div class="{{ message.tags }}">{{ message }}</div>
-        {% endfor %}
-    {% endif %}
-</div>
+<!-- Основной контент -->
+<div class="content-wrapper">
+    {% include 'header.html' %}
 
-<div class="frames-container">
-    {% for frame in frames %}
-    <div class="frame-card">
-        <img src="{{ frame.image.url }}" alt="{{ frame.name }}" class="frame-image">
-        
-        <div class="frame-info">
-            <div class="frame-price">{{ frame.price }} баллов</div>
-            <div class="frame-name">{{ frame.name }}</div>
+    <h1 style="margin-top: 150px;">🛒 Магазин рамок для профиля</h1>
+    <p>Ваши баллы: <strong>{{ user.points }}</strong></p>
 
-            <form method="post">
-                {% csrf_token %}
-                <input type="hidden" name="frame_id" value="{{ frame.id }}">
-                {% if frame in user.purchased_frames.all %}
-                    <button class="buy-button" disabled>✅ Уже куплена</button>
-                {% else %}
-                    <button class="buy-button" type="submit">🛒 Купить</button>
-                {% endif %}
-            </form>
-        </div>
+    <div class="messages">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
     </div>
-    {% endfor %}
+
+    <div class="frames-container">
+        {% for frame in frames %}
+        <div class="frame-card">
+            <img src="{{ frame.image.url }}" alt="{{ frame.name }}" class="frame-image">
+            
+            <div class="frame-info">
+                <div class="frame-price">{{ frame.price }} баллов</div>
+                <div class="frame-name">{{ frame.name }}</div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="frame_id" value="{{ frame.id }}">
+                    {% if frame in user.purchased_frames.all %}
+                        <button class="buy-button" disabled>✅ Уже куплена</button>
+                    {% else %}
+                        <button class="buy-button" type="submit">🛒 Купить</button>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
+
+{% include 'footer.html' %}
 
 {% endblock %}

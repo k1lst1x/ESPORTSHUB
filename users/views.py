@@ -162,7 +162,7 @@ def profile_frame_shop(request):
             user.save()
             messages.success(request, f"Вы успешно купили рамку: {frame.name}!")
 
-        return redirect('profile_frame_shop')
+        return redirect('shop')
 
     return render(request, 'profile_frame_shop.html', {'frames': frames, 'user': user})
 

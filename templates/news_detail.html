@@ -184,41 +184,45 @@
         color: white;
 	}
 </style>
+{% include 'header.html' %}
+<div style="padding-top: 150px;">
+    <div class="container">
+        {% if news_item.image %}
+        <div class="news-image">
+            <img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" class="news-img">
+        </div>
+        {% endif %}
+        <div class="container">
+            <div class="news-header">
+                <h1>{{ news_item.title }}</h1>
+                <p class="news-date">
+                    <img src="{% static 'images/calendar_icon.svg' %}" alt="Дата"> {{ news_item.created_at|date:"d.m.Y H:i" }}
+                </p>
+            </div>
 
-<div class="container">
-    {% if news_item.image %}
-    <div class="news-image">
-        <img src="{{ news_item.image.url }}" alt="{{ news_item.title }}" class="news-img">
+            <div class="news-content">
+                <p>{{ news_item.content|linebreaksbr  }}</p>
+            </div>
+
+            <div class="comments-section">
+                {% for comment in comments %}
+                <div class="comment">
+                    <p><b>@{{ comment.user.username }}</b>: {{ comment.text }}</p>
+                </div>
+                {% empty %}
+                <p>Комментариев пока нет. Будьте первым!</p>
+                {% endfor %}
+                <form class="comment-form" method="post">
+                    {% csrf_token %}
+                    <input type="text" name="comment_text" placeholder="Оставить комментарий...">
+                    <button type="submit">Отправить</button>
+                </form>
+                <a href="{% url 'news_list' %}" class="back-link">← Назад ко всем новостям</a>
+            </div>
+        </div>
+        
     </div>
-	{% endif %}
-	<div class="container">
-		<div class="news-header">
-			<h1>{{ news_item.title }}</h1>
-			<p class="news-date">
-				<img src="{% static 'images/calendar_icon.svg' %}" alt="Дата"> {{ news_item.created_at|date:"d.m.Y H:i" }}
-			</p>
-		</div>
-
-		<div class="news-content">
-			<p>{{ news_item.content|linebreaksbr  }}</p>
-		</div>
-
-		<div class="comments-section">
-			{% for comment in comments %}
-			<div class="comment">
-				<p><b>@{{ comment.user.username }}</b>: {{ comment.text }}</p>
-			</div>
-			{% empty %}
-			<p>Комментариев пока нет. Будьте первым!</p>
-			{% endfor %}
-			<form class="comment-form" method="post">
-				{% csrf_token %}
-				<input type="text" name="comment_text" placeholder="Оставить комментарий...">
-				<button type="submit">Отправить</button>
-			</form>
-			<a href="{% url 'news_list' %}" class="back-link">← Назад ко всем новостям</a>
-		</div>
-	</div>
-	
 </div>
+
+{% include 'footer.html' %}
 {% endblock %}

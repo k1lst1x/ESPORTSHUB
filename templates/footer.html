@@ -73,6 +73,60 @@
 }
 </style>
 
+<style>
+@media (max-width: 720px) {
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .footer-column {
+        padding: 20px 0;
+        border: none;
+        text-align: center;
+    }
+
+    .footer-column:nth-child(2),
+    .footer-column:nth-child(3) {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        text-align: left;
+        padding: 0;
+    }
+
+    .footer-column:nth-child(2) h4,
+    .footer-column:nth-child(3) h4 {
+        display: none;
+    }
+
+    .footer-column:nth-child(2) a,
+    .footer-column:nth-child(3) a {
+        font-size: 16px;
+        margin: 5px 10px;
+    }
+
+    /* Скрыть "Будьте с нами" */
+    .footer-column:nth-child(4) {
+        display: none;
+    }
+
+    .footer-logo {
+        height: 80px;
+        margin-bottom: 15px;
+    }
+
+    .footer-socials {
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+}
+</style>
+
 <footer class="site-footer">
     <div class="footer-container">
         <!-- Логотип и соцсети -->
@@ -92,7 +146,7 @@
             <h4>Навигация</h4>
             <a href="{% url 'home' %}">Главная</a>
             <a href="{% url 'news_list' %}">Новости</a>
-            <a href="#">Рейтинг</a>
+            <a href="{% url 'users_rating' %}">Рейтинг</a>
         </div>
 
         <!-- Обзор -->

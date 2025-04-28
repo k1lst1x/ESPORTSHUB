@@ -134,25 +134,31 @@
 		}
 	}
 </style>
-<section class="news-section">
-    <h1 class="news-title">
-		<a href="{% url 'home' %}">
-			<img src="{% static 'ESPORTSHUB.svg' %}" alt="ESPORT HUB Logo" class="logo-img">
-		</a>
-	</h1>
+{% include 'header.html' %}
 
-    <div class="news-container">
-        {% for news in all_news %}
-            <div class="news-item">
-                {% if news.image %}
-                    <img src="{{ news.image.url }}" alt="{{ news.title }}" class="news-image">
-                {% endif %}
-                <h2><a href="{% url 'news_detail' news.id %}">{{ news.title }}</a></h2>
-                <p class="news-date">{{ news.created_at|date:"d.m.Y" }}</p>
-                <p>{{ news.content|truncatechars:150 }}</p>
-                <a href="{% url 'news_detail' news.id %}" class="read-more">Читать дальше</a>
-            </div>
-        {% endfor %}
-    </div>
-</section>
+<div style="padding-top: 150px;">
+	<section class="news-section">
+		<!-- <h1 class="news-title">
+			<a href="{% url 'home' %}">
+				<img src="{% static 'ESPORTSHUB.svg' %}" alt="ESPORT HUB Logo" class="logo-img">
+			</a>
+		</h1> -->
+
+		<div class="news-container">
+			{% for news in all_news %}
+				<div class="news-item">
+					{% if news.image %}
+						<img src="{{ news.image.url }}" alt="{{ news.title }}" class="news-image">
+					{% endif %}
+					<h2><a href="{% url 'news_detail' news.id %}">{{ news.title }}</a></h2>
+					<p class="news-date">{{ news.created_at|date:"d.m.Y" }}</p>
+					<p>{{ news.content|truncatechars:150 }}</p>
+					<a href="{% url 'news_detail' news.id %}" class="read-more">Читать дальше</a>
+				</div>
+			{% endfor %}
+		</div>
+	</section>
+</div>
+
+{% include 'footer.html' %}
 {% endblock %}
