@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+    body {
+        background: linear-gradient(116.46deg, #141414 57.5%, #930000 100%);
+        color: white;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .frames-container {
+        display: flex;
+        flex-direction: column; /* теперь в колонку! */
+        align-items: center;
+        gap: 20px;
+        margin-top: 50px;
+        width: 100%;
+    }
+
+    .frame-card {
+        background-color: rgba(255,255,255,0.05);
+        padding: 15px;
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.3);
+        width: 600px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        border: 3px solid #FFFFFF; /* дефолтный бордер */
+    }
+
+    .frame-card.gold {
+        border-color: #FFD700; /* золото */
+    }
+    .frame-card.silver {
+        border-color: #C0C0C0; /* серебро */
+    }
+    .frame-card.bronze {
+        border-color: #CD7F32; /* бронза */
+    }
+
+    .frame-image {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 3px solid white;
+        background-color: white;
+    }
+
+    .frame-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .frame-price {
+        font-weight: 900;
+        font-size: 24px;
+        color: #FFFFFF;
+        margin-bottom: 5px;
+    }
+
+    .frame-name {
+        font-weight: 900;
+        font-size: 20px;
+        color: #FFFFFF;
+        margin-bottom: 10px;
+    }
+
+    .frame-desc {
+        font-size: 16px;
+        color: #CCCCCC;
+    }
+
+    @media (max-width: 720px) {
+        .frame-card {
+            flex-direction: column;
+            width: 90%;
+            text-align: center;
+        }
+        .frame-image {
+            width: 100px;
+            height: 100px;
+        }
+    }
+</style>
+
+{% include 'header.html' %}
+
+<h1 style="margin-top: 150px;">🏆 Рейтинг игроков</h1>
+
+<div class="frames-container">
+    {% for user in users %}
+    <div class="frame-card 
+        {% if forloop.counter == 1 %}gold{% elif forloop.counter == 2 %}silver{% elif forloop.counter == 3 %}bronze{% endif %}">
+        
+        {% if user.profile_picture %}
+            <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}" class="frame-image">
+        {% else %}
+            <img src="{% static 'images/default_avatar.png' %}" alt="{{ user.username }}" class="frame-image">
+        {% endif %}
+        
+        <div class="frame-info">
+            <div class="frame-name">
+                {% if forloop.counter == 1 %}🥇{% elif forloop.counter == 2 %}🥈{% elif forloop.counter == 3 %}🥉{% endif %}
+                {{ user.username }}
+            </div>
+            <div class="frame-price">💎 Баллы: {{ user.points }}</div>
+            {% if user.first_name or user.last_name %}
+                <div class="frame-desc">📛 {{ user.first_name }} {{ user.last_name }}</div>
+            {% endif %}
+            {% if user.city %}
+                <div class="frame-desc">🏙️ {{ user.city }}</div>
+            {% endif %}
+            {% if user.country %}
+                <div class="frame-desc">🌍 {{ user.country }}</div>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

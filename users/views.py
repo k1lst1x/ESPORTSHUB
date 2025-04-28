@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login
 from django.views import View
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.views.generic import ListView
 
 from users.forms import UserCreationForm
 from news.models import News
@@ -164,3 +165,11 @@ def profile_frame_shop(request):
         return redirect('profile_frame_shop')
 
     return render(request, 'profile_frame_shop.html', {'frames': frames, 'user': user})
+
+class UsersRatingView(ListView):
+    model = User
+    template_name = 'users_rating.html'
+    context_object_name = 'users'
+
+    def get_queryset(self):
+        return User.objects.all().order_by('-points')
