@@ -282,9 +282,13 @@
         {% if user.city %}<p>🏙️ <strong>Город:</strong> {{ user.city }}</p>{% endif %}
         {% if user.country %}<p>🌍 <strong>Страна:</strong> {{ user.country }}</p>{% endif %}
         {% if user.steam_profile %}
-            <p>🎮 <strong>Steam:</strong> <a href="{{ user.steam_profile }}" target="_blank" style="color: lightblue;">Перейти в Steam</a></p>
+            <p>🎮 <strong>Steam:</strong> 
+                <a href="{{ user.steam_profile }}" target="_blank" style="color: lightblue;">Перейти в Steam</a>
+            </p>
         {% endif %}
-
+        
+        <p>💎 <strong>Баланс баллов:</strong> {{ user.points }}</p>
+    
         {% if user.favorite_games.all %}
         <div class="favorite-games">
             <p>🔥 <strong>Любимые игры:</strong></p>
@@ -293,11 +297,11 @@
             {% endfor %}
         </div>
         {% endif %}
-
+    
         <div class="profile-links">
             <a href="{% url 'home' %}">← Вернуться на главную</a>
         </div>
-    </div>
+    </div>    
 </div>
 
 <div class="tournaments-wrapper">
