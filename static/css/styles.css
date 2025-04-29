@@ -946,3 +946,262 @@ tbody td {
     font-weight: 900;
     white-space: nowrap;
 }
+
+@media (max-width: 768px) {
+    /* Увеличиваем размер текста */
+    h1, h2, h3, .tournament-title, .tournament-subtitle, .tournament-location, .tournament-date {
+        font-size: 2.5em;
+        text-align: center;
+    }
+
+    .left h1 {
+        font-size: 3em;
+        line-height: 1.2;
+        text-align: center;
+        white-space: normal;
+    }
+
+    .news h3 {
+        font-size: 2em;
+        text-align: center;
+    }
+
+    /* Скрываем новости на мобильной версии */
+    .news {
+        display: none !important;
+    }
+
+    /* games-svg-wrapper на всю ширину и чуть ниже */
+    .games-svg-wrapper {
+        width: 100% !important;
+        height: 20vh !important;
+        justify-content: center;
+        align-items: center;
+        transform: translateY(20px);
+        z-index: 2;
+    }
+
+    #game-svg {
+        width: 100%;
+        height: auto;
+    }
+
+    /* Best Players секция */
+    .best-players {
+        margin-top: 0; /* убрали наложение */
+        padding-top: 50px;
+        padding-bottom: 50px;
+        min-height: auto;
+        height: auto;
+        justify-content: flex-start;
+    }
+
+    /* Сужаем Red SVG Overlay */
+    .best-players-overlay {
+        width: auto;
+        height: 100%;
+        left: -55%;
+    }
+
+    .best-players-title {
+        font-size: 2em;
+        margin-bottom: 40px;
+        margin-top: 0;
+        z-index: 2;
+    }
+
+    .players-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 15px;
+    }
+
+    .player-card {
+        width: auto;
+        min-width: 350px;
+        height: auto;
+        min-height: 220px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        opacity: 1;
+        transition: opacity 0.5s, transform 0.5s;
+    }
+
+    .player-img-container img {
+        max-height: 220px;
+    }
+
+    .player-name {
+        font-size: 1.5em;
+        top: 10px;
+        left: 15px;
+    }
+
+    /* Контент Hero секции */
+    .content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 30px;
+        width: 90%;
+        padding-top: 0px;
+    }
+
+    .left, .right {
+        max-width: 100%;
+    }
+
+    /* Скрыть лишние карточки игроков */
+    .players-grid .player-card:nth-child(n+4) {
+        display: none;
+    }
+}
+
+/* Скрываем мобильную таблицу на десктопе */
+.mobile-table {
+    display: none;
+}
+
+/* Показываем только на мобилке */
+@media (max-width: 768px) {
+    .table-container, table {
+        display: none !important; /* Скрыть обычную таблицу */
+    }
+
+    .mobile-table {
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+        margin: 0 auto;
+        padding: 20px 0;
+    }
+
+    /* Заголовки */
+    .mobile-table-header {
+        background: #710000;
+        color: white;
+        font-weight: 900;
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr 1fr;
+        padding: 15px 0;
+        text-align: center;
+    }
+
+    .mobile-table-header div {
+        font-size: 16px;
+    }
+
+    /* Строки матчей */
+    .mobile-table-row {
+        padding: 20px;
+        display: grid;
+        grid-template-columns: 1fr 2fr 1fr 1fr;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .mobile-game img {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+    }
+
+    .mobile-teams {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px;
+        color: white;
+        gap: 5px;
+    }
+
+    .team {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .team img {
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+        margin-bottom: 5px;
+    }
+
+    .vs {
+        font-size: 14px;
+        color: white;
+        margin: 2px 0;
+    }
+
+    .mobile-score {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-weight: 900;
+        font-size: 18px;
+        color: white;
+        gap: 5px;
+    }
+
+    .mobile-date {
+        font-size: 14px;
+        color: white;
+    }
+}
+
+@media (max-width: 1600px) {
+
+    /* Заголовки в hero меньше */
+    .left h1 {
+        font-size: 54px;
+    }
+
+    /* Размер кнопок в hero */
+    .left button {
+        font-size: 20px;
+        padding: 8px 18px 12px 18px;
+    }
+
+    /* Игровые названия ("CS2", "Dota2") чуть меньше */
+    .game {
+        font-size: 40px;
+    }
+
+    /* Сетка лучших игроков - немного меньше карточки */
+    .player-card {
+        width: 330px;
+        height: 140px;
+    }
+
+    /* Названия игроков */
+    .player-name {
+        font-size: 20px;
+    }
+
+    /* Заголовки в блоке глобального турнира */
+    .tournament-title {
+        font-size: 54px;
+    }
+    .tournament-date {
+        font-size: 54px;
+    }
+
+    /* Кнопки турниров */
+    .red-button, .tournament-btn {
+        font-size: 16px;
+        padding: 12px 24px;
+    }
+
+    /* Новости — если будет отображение */
+    .news {
+        width: 300px;
+        padding: 20px;
+    }
+    .news h3 {
+        font-size: 26px;
+    }
+}

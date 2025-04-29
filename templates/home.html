@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <main class="hero">
         <div class="ellipse left-ellipse"></div>
         <div class="ellipse right-ellipse"></div>
@@ -68,12 +69,12 @@
         #game-svg {
             width: 100%;
             height: auto;
-            transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+            transition: transform 1.2s ease-in-out, opacity 1.2s ease-in-out; /* медленнее и мягче */
             transform-origin: center;
         }
 
         #game-svg.rotate {
-            animation: bounce-spin 0.6s ease-out forwards;
+            animation: bounce-spin 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards; /* плавная кривизна */
         }
 
         @keyframes bounce-spin {
@@ -114,7 +115,7 @@
             const svgEl = document.getElementById('game-svg');
             const svgFiles = ["group_54.svg", "group_56.svg"];
             const verticalOffsets = {
-                "group_54.svg": "45px",
+                "group_54.svg": "29px",
                 "group_56.svg": "0px"
             };
             const staticBase = "{% static 'images/' %}";
@@ -328,6 +329,142 @@
                 
             </table>
         </div>
+
+        <div class="mobile-table">
+            <!-- Заголовки столбцов -->
+            <div class="mobile-table-header">
+                <div>Игра</div>
+                <div>Команды</div>
+                <div>Счет</div>
+                <div>Дата</div>
+            </div>
+        
+            <!-- Матчи -->
+            <div class="mobile-table-row" style="background: #FF7676;">
+                <div class="mobile-game">
+                    <img src="{% static 'images/dota_logo.png' %}" alt="Dota 2">
+                </div>
+                <div class="mobile-teams">
+                    <div class="team">
+                        <img src="{% static 'images/liquid_logo.png' %}" alt="Team Liquid">
+                        <span>Team Liquid</span>
+                    </div>
+                    <span class="vs">vs</span>
+                    <div class="team">
+                        <img src="{% static 'images/psg_lgd_logo.png' %}" alt="PSG.LGD">
+                        <span>PSG.LGD</span>
+                    </div>
+                </div>
+                <div class="mobile-score">
+                    <span class="score-win">37</span>
+                    <span class="vs">vs</span>
+                    <span class="score-lose">20</span>
+                </div>
+                <div class="mobile-date">
+                    24 ноября 2024
+                </div>
+            </div>
+        
+            <div class="mobile-table-row" style="background: #FF9D9D;">
+                <div class="mobile-game">
+                    <img src="{% static 'images/dota_logo.png' %}" alt="Dota 2">
+                </div>
+                <div class="mobile-teams">
+                    <div class="team">
+                        <img src="{% static 'images/navi_logo.png' %}" alt="Natus Vincere">
+                        <span>Natus Vincere</span>
+                    </div>
+                    <span class="vs">vs</span>
+                    <div class="team">
+                        <img src="{% static 'images/vitality_logo.png' %}" alt="Team Vitality">
+                        <span>Team Vitality</span>
+                    </div>
+                </div>
+                <div class="mobile-score">
+                    <span class="score-win">15</span>
+                    <span class="vs">vs</span>
+                    <span class="score-lose">12</span>
+                </div>
+                <div class="mobile-date">
+                    23 ноября 2024
+                </div>
+            </div>
+        
+            <div class="mobile-table-row" style="background: #FF7676;">
+                <div class="mobile-game">
+                    <img src="{% static 'images/dota_logo.png' %}" alt="Dota 2">
+                </div>
+                <div class="mobile-teams">
+                    <div class="team">
+                        <img src="{% static 'images/nigma_logo.png' %}" alt="Nigma Galaxy">
+                        <span>Nigma Galaxy</span>
+                    </div>
+                    <span class="vs">vs</span>
+                    <div class="team">
+                        <img src="{% static 'images/s2g_logo.png' %}" alt="S2G Esports">
+                        <span>S2G Esports</span>
+                    </div>
+                </div>
+                <div class="mobile-score">
+                    <span class="score-lose">10</span>
+                    <span class="vs">vs</span>
+                    <span class="score-win">25</span>
+                </div>
+                <div class="mobile-date">
+                    22 ноября 2024
+                </div>
+            </div>
+        
+            <div class="mobile-table-row" style="background: #FF9D9D;">
+                <div class="mobile-game">
+                    <img src="{% static 'images/dota_logo.png' %}" alt="Dota 2">
+                </div>
+                <div class="mobile-teams">
+                    <div class="team">
+                        <img src="{% static 'images/spirit_logo.png' %}" alt="Team Spirit">
+                        <span>Team Spirit</span>
+                    </div>
+                    <span class="vs">vs</span>
+                    <div class="team">
+                        <img src="{% static 'images/tundra_logo.png' %}" alt="Tundra">
+                        <span>Tundra</span>
+                    </div>
+                </div>
+                <div class="mobile-score">
+                    <span class="score-win">12</span>
+                    <span class="vs">vs</span>
+                    <span class="score-lose">11</span>
+                </div>
+                <div class="mobile-date">
+                    22 марта 2025
+                </div>
+            </div>
+        
+            <!-- <div class="mobile-table-row" style="background: #FF7676;">
+                <div class="mobile-game">
+                    <img src="{% static 'images/dota_logo.png' %}" alt="Dota 2">
+                </div>
+                <div class="mobile-teams">
+                    <div class="team">
+                        <img src="{% static 'images/psg_lgd_logo.png' %}" alt="PSG.LGD">
+                        <span>PSG.LGD</span>
+                    </div>
+                    <span class="vs">vs</span>
+                    <div class="team">
+                        <img src="{% static 'images/gg_logo.png' %}" alt="Gaimin Gladiators">
+                        <span>Gaimin Gladiators</span>
+                    </div>
+                </div>
+                <div class="mobile-score">
+                    <span class="score-win">15</span>
+                    <span class="vs">vs</span>
+                    <span class="score-lose">13</span>
+                </div>
+                <div class="mobile-date">
+                    10 мая 2025
+                </div>
+            </div> -->
+        </div>             
 
         <!-- Навигация -->
         <!-- <div class="match-nav">

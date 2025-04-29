@@ -83,20 +83,20 @@
     }
 
     .footer-column {
+        width: 100%;
         padding: 20px 0;
         border: none;
         text-align: center;
+        box-sizing: border-box;
     }
 
     .footer-column:nth-child(2),
     .footer-column:nth-child(3) {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-start;
-        text-align: left;
-        padding: 0;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 0;
     }
 
     .footer-column:nth-child(2) h4,
@@ -107,12 +107,15 @@
     .footer-column:nth-child(2) a,
     .footer-column:nth-child(3) a {
         font-size: 16px;
-        margin: 5px 10px;
+        margin: 5px 0;
+        width: 100%;
+        max-width: 250px;
+        text-align: center;
+        word-break: break-word;
     }
 
-    /* Скрыть "Будьте с нами" */
     .footer-column:nth-child(4) {
-        display: none;
+        display: none; /* Скрываем "Будьте с нами" */
     }
 
     .footer-logo {
@@ -122,7 +125,14 @@
 
     .footer-socials {
         justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
         margin-bottom: 10px;
+    }
+
+    .footer-socials a img {
+        width: 26px;
+        height: 26px;
     }
 }
 </style>
