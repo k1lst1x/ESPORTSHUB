@@ -115,10 +115,21 @@
         border-radius: 8px;
         margin-bottom: 10px;
         text-align: left;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .comment img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
     }
 
     .comment p {
         font-size: 18px;
+        margin: 0;
     }
 
     /* Форма комментариев */
@@ -206,19 +217,30 @@
 
             <div class="comments-section">
                 {% for comment in comments %}
-                <div class="comment">
-                    <p><b>@{{ comment.user.username }}</b>: {{ comment.text }}</p>
+                <div class="comment" style="display: flex; align-items: flex-start; gap: 10px;">
+                    <div style="flex-shrink: 0;">
+                        {% if comment.user.profile_picture %}
+                            <img src="{{ comment.user.profile_picture.url }}" alt="Avatar" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                        {% else %}
+                            <img src="{% static 'images/default_avatar.png' %}" alt="Avatar" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                        {% endif %}
+                    </div>
+                    <div style="flex-grow: 1;">
+                        <p style="margin: 0; font-weight: bold;">@{{ comment.user.username }}</p>
+                        <p style="margin: 5px 0 0;">{{ comment.text }}</p>
+                    </div>
                 </div>
                 {% empty %}
                 <p>Комментариев пока нет. Будьте первым!</p>
                 {% endfor %}
+            
                 <form class="comment-form" method="post">
                     {% csrf_token %}
                     <input type="text" name="comment_text" placeholder="Оставить комментарий...">
                     <button type="submit">Отправить</button>
                 </form>
                 <a href="{% url 'news_list' %}" class="back-link">← Назад ко всем новостям</a>
-            </div>
+            </div>            
         </div>
         
     </div>

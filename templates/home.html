@@ -363,27 +363,39 @@
                         {{ news.created_at|date:"d.m.Y" }}
                     </p>
                     <p class="news-text">{{ news.content|truncatewords:100 }}</p>
-        
+    
                     <div class="news-comments-form-wrapper">
                         <div class="news-comments">
                             {% for comment in news.comments.all|slice:":3" %}
-                                <p><b>@{{ comment.user.username }}</b> {{ comment.text }}</p>
+                            <div class="comment" style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px;">
+                                <div style="flex-shrink: 0;">
+                                    {% if comment.user.profile_picture %}
+                                        <img src="{{ comment.user.profile_picture.url }}" alt="Avatar" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                                    {% else %}
+                                        <img src="{% static 'images/default_avatar.png' %}" alt="Avatar" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                                    {% endif %}
+                                </div>
+                                <div style="flex-grow: 1;">
+                                    <p style="margin: 0; font-weight: bold;">@{{ comment.user.username }}</p>
+                                    <p style="margin: 5px 0 0;">{{ comment.text|truncatewords:20 }}</p>
+                                </div>
+                            </div>
                             {% empty %}
-                                <p>Комментариев пока нет. Будьте первым!</p>
+                            <p>Комментариев пока нет. Будьте первым!</p>
                             {% endfor %}
                         </div>
-                    
-                        <form method="post" action="{% url 'news_detail' news.id %}" class="news-form">
+    
+                        <form method="post" action="{% url 'news_detail' news.id %}" class="news-form" style="margin-top: 10px;">
                             {% csrf_token %}
-                            <input type="text" name="comment_text" placeholder="Оставить комментарий...">
-                            <button type="submit">Отправить</button>
+                            <input type="text" name="comment_text" placeholder="Оставить комментарий..." style="width: 100%; padding: 8px; border: none; border-bottom: 2px solid #999; background: none; color: white; outline: none;">
+                            <button type="submit" style="padding: 10px 20px; background: red; color: white; border: none; border-radius: 10px; margin-top: 10px;">Отправить</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
         {% endfor %}
-    </section>
+    </section>    
     <!-- Глобальный турнирный блок -->
     <section class="global-tournament">
         <div class="tournament-bg" style="background-image: url('{% static 'images/tournament_bg.jpg' %}');"></div>
