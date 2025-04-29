@@ -8,7 +8,7 @@ from users.forms import UserCreationForm
 from news.models import News
 
 from django.contrib.auth.decorators import login_required
-from .forms import TournamentForm, TeamForm, ParticipantForm
+from .forms import TournamentForm, TeamForm, ParticipantForm, ProfileUpdateForm
 
 from .models import Team, Participant, Tournament, ProfileFrame
 
@@ -16,7 +16,15 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+import json
+
 User = get_user_model()
+
+POINTS_FOR_TOURNAMENT_CREATION = 50
+POINTS_FOR_TEAM_CREATION = 20
 
 class Register(View):
     template_name = 'registration/register.html'
@@ -79,6 +87,11 @@ def create_tournament(request):
             tournament = form.save(commit=False)
             tournament.creator = request.user
             tournament.save()
+
+            # Начисляем баллы
+            request.user.points += POINTS_FOR_TOURNAMENT_CREATION
+            request.user.save()
+
             return redirect('tournament_list')  # или на страницу турнира
     else:
         form = TournamentForm()
@@ -98,6 +111,11 @@ def create_team(request):
             else:
                 team.creator = request.user
                 team.save()
+
+                # Начисляем баллы
+                request.user.points += POINTS_FOR_TEAM_CREATION
+                request.user.save()
+
                 return redirect('tournament_list')  # или на страницу турнира/команды
     else:
         form = TeamForm()
@@ -173,3 +191,28 @@ class UsersRatingView(ListView):
 
     def get_queryset(self):
         return User.objects.all().order_by('-points')
+
+@login_required
+@require_POST
+def save_score(request):
+    try:
+        data = json.loads(request.body)
+        score = int(data.get('score', 0))
+        if score > 0:
+            request.user.points += score
+            request.user.save()
+        return JsonResponse({'status': 'ok', 'points': request.user.points})
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')  # название твоего url на страницу профиля
+    else:
+        form = ProfileUpdateForm(instance=request.user)
+
+    return render(request, 'edit_profile.html', {'form': form})

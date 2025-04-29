@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from users.views import Register, ProfileView, create_tournament, create_team, create_participant, tournament_list, tournament_detail, team_detail, profile_frame_shop, UsersRatingView
+from users.views import Register, ProfileView, create_tournament, create_team, create_participant, tournament_list, tournament_detail, team_detail, profile_frame_shop, UsersRatingView, edit_profile
 
 urlpatterns = [
     path('', include('django.contrib.auth.urls')),
@@ -15,5 +15,6 @@ urlpatterns = [
     path('players/create/', create_participant, name='create_participant'),
     path('shop/', profile_frame_shop, name='shop'),
     path('rating/', UsersRatingView.as_view(), name='users_rating'),
+    path('profile/edit/', edit_profile, name='edit_profile'),
 
 ]

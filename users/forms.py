@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.utils.translation import gettext_lazy as _
-from .models import Tournament, Team, Participant
+from .models import Tournament, Team, Participant, Game
 
 User = get_user_model()
 
@@ -91,3 +91,33 @@ class ParticipantForm(forms.ModelForm):
         if user:
             self.fields['team'].queryset = Team.objects.filter(creator=user)
 
+class ProfileUpdateForm(forms.ModelForm):
+    favorite_games = forms.ModelMultipleChoiceField(
+        queryset=Game.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+        label='Любимые игры'
+    )
+
+    class Meta:
+        model = User
+        fields = [
+            'first_name', 'last_name', 'profile_picture', 'selected_frame',
+            'age', 'city', 'country', 'steam_profile', 'favorite_games'
+        ]
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'profile_picture': forms.FileInput(attrs={'class': 'form-control'}),
+            'selected_frame': forms.Select(attrs={'class': 'form-control'}),
+            'age': forms.NumberInput(attrs={'class': 'form-control'}),
+            'city': forms.TextInput(attrs={'class': 'form-control'}),
+            'country': forms.TextInput(attrs={'class': 'form-control'}),
+            'steam_profile': forms.URLInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            # Ограничиваем выбор рамок только купленными пользователем
+            self.fields['selected_frame'].queryset = self.instance.purchased_frames.all()

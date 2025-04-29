@@ -218,6 +218,21 @@ function startGame() {
     start_btn.classList.add('start-challenge-hide');
 }
 
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 function endGame() {
     clearInterval(interval);
     isGameActive = false;
@@ -249,6 +264,15 @@ function endGame() {
     } else {
         rank = 'miracle'; // Самый топ
     }
+
+    fetch('/game/save_score/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')  // обязательно!
+        },
+        body: JSON.stringify({ score: points/4 })
+    });    
 
     spell_container.innerHTML = 'Испытание завершено';
     time_container.innerHTML = 'Ты применяешь заклинания как:';

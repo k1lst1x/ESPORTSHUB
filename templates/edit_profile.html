@@ -1,0 +1,29 @@
+{% extends 'base_tournaments.html' %}
+{% load static %}
+
+{% block title %}Редактирование профиля{% endblock %}
+
+{% block content %}
+<div class="form-wrapper">
+    <h2 class="text-center mb-4">Редактирование профиля</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-field">{{ form.first_name.label_tag }}{{ form.first_name }}</div>
+        <div class="form-field">{{ form.last_name.label_tag }}{{ form.last_name }}</div>
+        <div class="form-field">{{ form.profile_picture.label_tag }}{{ form.profile_picture }}</div>
+        <div class="form-field">{{ form.selected_frame.label_tag }}{{ form.selected_frame }}</div>
+        <div class="form-field">{{ form.age.label_tag }}{{ form.age }}</div>
+        <div class="form-field">{{ form.city.label_tag }}{{ form.city }}</div>
+        <div class="form-field">{{ form.country.label_tag }}{{ form.country }}</div>
+        <div class="form-field">{{ form.steam_profile.label_tag }}{{ form.steam_profile }}</div>
+
+        <h4 class="mt-4 mb-2">Любимые игры</h4>
+        <div class="favorite-games-checkboxes">
+            {{ form.favorite_games }}
+        </div>
+
+        <button type="submit" class="btn btn-accent w-100 mt-4">Сохранить изменения</button>
+    </form>
+</div>
+{% endblock %}
