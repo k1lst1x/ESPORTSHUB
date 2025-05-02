@@ -1205,3 +1205,73 @@ tbody td {
         font-size: 26px;
     }
 }
+
+/* ---------- МОБИЛЬНЫЕ СТИЛИ: блоки с турнирами ---------- */
+@media (max-width: 768px) {
+
+    /* Общие настройки для всех турнирных секций */
+    .global-tournament,
+    .tournament-section {
+        height: auto;            /* убираем 100vh, чтобы секции не растягивали экран */
+        padding: 60px 5%;        /* чуть меньше отступы */
+        justify-content: flex-start;
+    }
+
+    /* Контейнер с текстом */
+    .global-tournament .tournament-content,
+    .tournament-section   .tournament-content {
+        max-width: 440px;        /* сужаем ширину, чтобы текст не «лип» к краям */
+        margin: 0 auto;
+    }
+
+    /* Подзаголовки */
+    .tournament-subtitle,
+    .tournament-highlight,
+    .tournament-location {
+        font-size: 1.3em;        /* ~20‑22 px */
+    }
+
+    /* Главные заголовки */
+    .tournament-title {
+        font-size: 2.4em;        /* ~38‑40 px */
+        line-height: 1.2;
+    }
+
+    /* Даты / 3‑строчные слоганы */
+    .tournament-date {
+        font-size: 2em;          /* ~32 px */
+        line-height: 1.1;
+        margin: 20px 0;
+    }
+
+    /* Кнопки */
+    .red-button,
+    .tournament-btn {
+        font-size: 1em;          /* 16 px */
+        padding: 12px 26px;
+    }
+
+    /* Аватар‑разделитель во второй секции */
+    .tournament-divider {
+        margin: 25px 0;
+    }
+    .tournament-avatar {
+        width: 48px;
+        height: 48px;
+    }
+
+    /* Длинное описание во второй секции — делаем читабельным */
+    .tournament-description {
+        font-size: 1.1em;        /* ~18 px */
+        max-width: 100%;
+        text-align: justify;
+    }
+}
+
+/* Ещё чуть-чуть уменьшаем размеры на совсем маленьких экранах */
+@media (max-width: 480px) {
+    .tournament-title   { font-size: 1.8em; }   /* ~29‑30 px */
+    .tournament-date    { font-size: 1.6em; }   /* ~26 px */
+    .red-button,
+    .tournament-btn     { padding: 10px 22px; }
+}

@@ -109,6 +109,16 @@
             position: absolute;
             z-index: -1;
         }
+        .match-table {          /* гладкое появление / исчезновение */
+            transition: opacity .6s ease, transform .6s ease;
+        }
+        .match-table.hidden {   /* полностью прячем и отключаем клики */
+            opacity: 0;
+            transform: scale(.95);
+            pointer-events: none;
+            position: absolute; /* убираем из потока, чтобы не занимала место */
+            z-index: -1;
+        }
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -142,6 +152,19 @@
                 }
             };
 
+            const toggleMatchesSection = () => {
+                const csMatches   = document.querySelector('.match-table-cs');
+                const dotaMatches = document.querySelector('.match-table-dota');
+
+                if (current === 0) {          // 0 — CS‑2, 1 — Dota 2
+                    csMatches.classList.remove('hidden');
+                    dotaMatches.classList.add('hidden');
+                } else {
+                    csMatches.classList.add('hidden');
+                    dotaMatches.classList.remove('hidden');
+                }
+            };
+
             document.querySelector('.games-svg-wrapper').addEventListener('click', () => {
                 svgEl.classList.add('rotate');
                 svgEl.style.opacity = '0';
@@ -150,12 +173,14 @@
                     current = (current + 1) % svgFiles.length;
                     updateSvg();
                     togglePlayersSection();
+                    toggleMatchesSection();
                     svgEl.classList.remove('rotate');
                 }, 600);
             });
 
             updateSvg();
             togglePlayersSection();
+            toggleMatchesSection();
         });
     </script>
             
@@ -273,7 +298,7 @@
     </section>
 
     <!-- Блок Таблица матчей -->
-    <section class="match-table">
+    <section class="match-table match-table-dota">
         <div class="match-bg" style="background-image: url('{% static 'images/match_table_bg.png' %}');"></div>
 
         <h2 class="match-title">ТАБЛИЦА МАТЧЕЙ</h2>
@@ -471,6 +496,191 @@
             <button class="nav-btn"><img src="{% static 'images/arrow_left.svg' %}" alt="Previous"></button>
             <button class="nav-btn"><img src="{% static 'images/arrow_right.svg' %}" alt="Next"></button>
         </div> -->
+    </section>
+
+    <!-- ===== CS2 MATCHES TABLE SECTION ===== -->
+    <section class="match-table match-table-cs">
+        <div class="match-bg" style="background-image: url('{% static 'images/match_table_bg.png' %}');"></div>
+
+        <h2 class="match-title">ТАБЛИЦА МАТЧЕЙ</h2>
+
+        <!-- ===== DESKTOP TABLE ===== -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Игра</th>
+                        <th>Команда</th>
+                        <th>Счёт</th>
+                        <th>Противник</th>
+                        <th>Дата</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 1 -->
+                    <tr>
+                        <td><img src="{% static 'images/cs_logo.png' %}" alt="Counter‑Strike 2"></td>
+                        <td class="team-cell" style="background-image: url('{% static 'images/liquid_logo.png' %}');">Team&nbsp;Liquid</td>
+                        <td><span class="score-win">11</span> vs <span class="score-lose">2</span></td>
+                        <td class="team-cell" style="background-image: url('{% static 'images/psg_lgd_logo.png' %}');">PSG.LGD</td>
+                        <td>24&nbsp;ноября&nbsp;2024</td>
+                    </tr>
+                    <!-- 2 -->
+                    <tr>
+                        <td><img src="{% static 'images/cs_logo.png' %}" alt="Counter‑Strike 2"></td>
+                        <td class="team-cell" style="background-image: url('{% static 'images/navi_logo.png' %}');">Natus&nbsp;Vincere</td>
+                        <td><span class="score-win">16</span> vs <span class="score-lose">14</span></td>
+                        <td class="team-cell" style="background-image: url('{% static 'images/vitality_logo.png' %}');">Team&nbsp;Vitality</td>
+                        <td>23&nbsp;ноября&nbsp;2024</td>
+                    </tr>
+                    <!-- 3 -->
+                    <tr>
+                        <td><img src="{% static 'images/cs_logo.png' %}" alt="Counter‑Strike 2"></td>
+                        <td class="team-cell" style="background-image: url('{% static 'images/nigma_logo.png' %}');">Nigma&nbsp;Galaxy</td>
+                        <td><span class="score-lose">12</span> vs <span class="score-win">15</span></td>
+                        <td class="team-cell" style="background-image: url('{% static 'images/s2g_logo.png' %}');">S2G&nbsp;Esports</td>
+                        <td>22&nbsp;ноября&nbsp;2024</td>
+                    </tr>
+                    <!-- 4 -->
+                    <tr>
+                        <td><img src="{% static 'images/cs_logo.png' %}" alt="Counter‑Strike 2"></td>
+                        <td class="team-cell" style="background-image: url('{% static 'images/vitality_logo.png' %}');">Team&nbsp;Vitality</td>
+                        <td><span class="score-lose">12</span> vs <span class="score-win">16</span></td>
+                        <td class="team-cell" style="background-image: url('{% static 'images/s2g_logo.png' %}');">S2G&nbsp;Esports</td>
+                        <td>15&nbsp;февраля&nbsp;2025</td>
+                    </tr>
+                    <!-- 5 -->
+                    <tr>
+                        <td><img src="{% static 'images/cs_logo.png' %}" alt="Counter‑Strike 2"></td>
+                        <td class="team-cell" style="background-image: url('{% static 'images/faze_logo.png' %}');">FaZe&nbsp;Clan</td>
+                        <td><span class="score-lose">12</span> vs <span class="score-win">16</span></td>
+                        <td class="team-cell" style="background-image: url('{% static 'images/navi_logo.png' %}');">Natus&nbsp;Vincere</td>
+                        <td>5&nbsp;апреля&nbsp;2025</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ===== MOBILE TABLE ===== -->
+        <div class="mobile-table">
+            <!-- Header -->
+            <div class="mobile-table-header">
+                <div>Игра</div>
+                <div>Команды</div>
+                <div>Счёт</div>
+                <div>Дата</div>
+            </div>
+
+            <!-- 1 -->
+            <div class="mobile-table-row" style="background:#FF7676;">
+                <div class="mobile-game">
+                    <img src="{% static 'images/cs_logo.png' %}" alt="CS2">
+                </div>
+                <div class="mobile-teams">
+                    <div class="team">
+                        <img src="{% static 'images/liquid_logo.png' %}" alt="Team Liquid">
+                        <span>Team Liquid</span>
+                    </div>
+                    <span class="vs">vs</span>
+                    <div class="team">
+                        <img src="{% static 'images/psg_lgd_logo.png' %}" alt="PSG.LGD">
+                        <span>PSG.LGD</span>
+                    </div>
+                </div>
+                <div class="mobile-score">
+                    <span class="score-win">11</span><span class="vs">vs</span><span class="score-lose">2</span>
+                </div>
+                <div class="mobile-date">24&nbsp;ноя&nbsp;2024</div>
+            </div>
+
+            <!-- 2 -->
+            <div class="mobile-table-row" style="background:#FF9D9D;">
+                <div class="mobile-game">
+                    <img src="{% static 'images/cs_logo.png' %}" alt="CS2">
+                </div>
+                <div class="mobile-teams">
+                    <div class="team">
+                        <img src="{% static 'images/navi_logo.png' %}" alt="Natus Vincere">
+                        <span>Natus Vincere</span>
+                    </div>
+                    <span class="vs">vs</span>
+                    <div class="team">
+                        <img src="{% static 'images/vitality_logo.png' %}" alt="Team Vitality">
+                        <span>Team Vitality</span>
+                    </div>
+                </div>
+                <div class="mobile-score">
+                    <span class="score-win">16</span><span class="vs">vs</span><span class="score-lose">14</span>
+                </div>
+                <div class="mobile-date">23&nbsp;ноя&nbsp;2024</div>
+            </div>
+
+            <!-- 3 -->
+            <div class="mobile-table-row" style="background:#FF7676;">
+                <div class="mobile-game">
+                    <img src="{% static 'images/cs_logo.png' %}" alt="CS2">
+                </div>
+                <div class="mobile-teams">
+                    <div class="team">
+                        <img src="{% static 'images/nigma_logo.png' %}" alt="Nigma Galaxy">
+                        <span>Nigma Galaxy</span>
+                    </div>
+                    <span class="vs">vs</span>
+                    <div class="team">
+                        <img src="{% static 'images/s2g_logo.png' %}" alt="S2G Esports">
+                        <span>S2G Esports</span>
+                    </div>
+                </div>
+                <div class="mobile-score">
+                    <span class="score-lose">12</span><span class="vs">vs</span><span class="score-win">15</span>
+                </div>
+                <div class="mobile-date">22&nbsp;ноя&nbsp;2024</div>
+            </div>
+
+            <!-- 4 -->
+            <div class="mobile-table-row" style="background:#FF9D9D;">
+                <div class="mobile-game">
+                    <img src="{% static 'images/cs_logo.png' %}" alt="CS2">
+                </div>
+                <div class="mobile-teams">
+                    <div class="team">
+                        <img src="{% static 'images/vitality_logo.png' %}" alt="Team Vitality">
+                        <span>Team Vitality</span>
+                    </div>
+                    <span class="vs">vs</span>
+                    <div class="team">
+                        <img src="{% static 'images/s2g_logo.png' %}" alt="S2G Esports">
+                        <span>S2G Esports</span>
+                    </div>
+                </div>
+                <div class="mobile-score">
+                    <span class="score-lose">12</span><span class="vs">vs</span><span class="score-win">16</span>
+                </div>
+                <div class="mobile-date">15&nbsp;фев&nbsp;2025</div>
+            </div>
+
+            <!-- 5 -->
+            <!-- <div class="mobile-table-row" style="background:#FF7676;">
+                <div class="mobile-game">
+                    <img src="{% static 'images/cs_logo.png' %}" alt="CS2">
+                </div>
+                <div class="mobile-teams">
+                    <div class="team">
+                        <img src="{% static 'images/faze_logo.png' %}" alt="FaZe Clan">
+                        <span>FaZe Clan</span>
+                    </div>
+                    <span class="vs">vs</span>
+                    <div class="team">
+                        <img src="{% static 'images/navi_logo.png' %}" alt="Natus Vincere">
+                        <span>Natus Vincere</span>
+                    </div>
+                </div>
+                <div class="mobile-score">
+                    <span class="score-lose">12</span><span class="vs">vs</span><span class="score-win">16</span>
+                </div>
+                <div class="mobile-date">5&nbsp;апр&nbsp;2025</div>
+            </div> -->
+        </div>
     </section>
 
     <section class="tournament-section" style="background-image: url('{% static 'images/tournament_promo_bg.jpg' %}');">

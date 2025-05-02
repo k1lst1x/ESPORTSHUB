@@ -32,6 +32,19 @@
 	<button class="show-spell-names-off">Показать названия заклинаний</button>
 	<button class="level-up">Повысить уровень</button>
 	<button class="invoke-challenge-button">Испытание на заклинания</button>
+
+	<!-- Новые кнопки -->
+	<form action="{% url 'home' %}" method="get" style="display:inline;">
+		<button type="submit">🏠 На главную</button>
+	</form>
+
+	<form action="{% url 'shop' %}" method="get" style="display:inline;">
+		<button type="submit">🛒 Магазин</button>
+	</form>
+
+	<form action="{% url 'profile' %}" method="get" style="display:inline;">
+		<button type="submit">👤 Профиль</button>
+	</form>
 </div>
 
 <nav>
