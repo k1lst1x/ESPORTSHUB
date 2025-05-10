@@ -22,7 +22,7 @@
         <div class="auth d-flex align-items-center gap-4">
             {% if user.is_authenticated %}
                 <a href="{% url 'profile' %}" class="d-flex align-items-center text-white text-decoration-none">
-                    <img src="{% static 'images/person.svg' %}" alt="User" class="auth-icon">
+                    <img src="{{ user.profile_picture.url }}" alt="User" class="auth-icon" style="border-radius: 50%;">
                     <span class="fs-5">{{ user.username }}</span>
                 </a>
                 <form action="{% url 'logout' %}" method="post" class="d-inline">
