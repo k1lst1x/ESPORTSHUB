@@ -136,7 +136,7 @@ class Team(models.Model):
         return self.name
 
     def clean(self):
-        if self.tournament.teams.count() >= self.tournament.max_teams:
+        if self.tournament.teams.count() >= self.tournament.max_teams+1:
             raise ValidationError(_('Достигнуто максимальное количество команд в турнире.'))
 
     def can_add_member(self):
@@ -156,3 +156,62 @@ class Participant(models.Model):
     def clean(self):
         if self.team.members.count() >= self.team.tournament.max_team_members:
             raise ValidationError(_('Достигнуто максимальное количество участников в команде.'))
+
+# tournaments/models.py
+class Match(models.Model):
+    tournament   = models.ForeignKey(
+        Tournament, on_delete=models.CASCADE,
+        related_name='matches', verbose_name=_('Турнир')
+    )
+    round_number = models.PositiveIntegerField(verbose_name=_('Раунд'))  # 1 = финал
+    order_in_round = models.PositiveIntegerField(verbose_name=_('Порядок в раунде'))
+
+    team1 = models.ForeignKey(
+        Team, on_delete=models.SET_NULL, null=True, blank=True,
+        related_name='matches_as_team1', verbose_name=_('Команда 1')
+    )
+    team2 = models.ForeignKey(
+        Team, on_delete=models.SET_NULL, null=True, blank=True,
+        related_name='matches_as_team2', verbose_name=_('Команда 2')
+    )
+
+    score_team1 = models.PositiveIntegerField(default=0, verbose_name=_('Счёт команды 1'))
+    score_team2 = models.PositiveIntegerField(default=0, verbose_name=_('Счёт команды 2'))
+    winner      = models.ForeignKey(
+        Team, on_delete=models.SET_NULL, null=True, blank=True,
+        related_name='matches_won', verbose_name=_('Победитель')
+    )
+    is_finished = models.BooleanField(default=False, verbose_name=_('Матч завершён'))
+    scheduled_at = models.DateTimeField(null=True, blank=True, verbose_name=_('Дата/время'))
+
+    class Meta:
+        verbose_name = _('Матч')
+        verbose_name_plural = _('Матчи')
+        unique_together = ('tournament', 'round_number', 'order_in_round')
+        ordering = ['round_number', 'order_in_round']
+
+    def set_winner(self):
+        """Вызывайте после сохранения счёта."""
+        if self.score_team1 == self.score_team2:
+            return  # Ничья не допускается
+        self.winner = self.team1 if self.score_team1 > self.score_team2 else self.team2
+        self.is_finished = True
+        self.save(update_fields=['winner', 'is_finished'])
+        advance_winner(self)  # создаём/обновляем следующий раунд
+
+def advance_winner(match: 'Match'):
+    next_round = match.round_number + 1
+    next_order = match.order_in_round // 2
+
+    nxt, created = Match.objects.get_or_create(
+        tournament=match.tournament,
+        round_number=next_round,
+        order_in_round=next_order,
+        defaults={'team1': None, 'team2': None},
+    )
+
+    if match.order_in_round % 2 == 0:
+        nxt.team1 = match.winner
+    else:
+        nxt.team2 = match.winner
+    nxt.save()

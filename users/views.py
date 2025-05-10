@@ -21,6 +21,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import json
 
+from collections import defaultdict
+from .models import Match
+from .utils   import generate_first_round
+
 User = get_user_model()
 
 POINTS_FOR_TOURNAMENT_CREATION = 50
@@ -136,7 +140,7 @@ def create_participant(request):
                 if user_with_email:
                     participant.user = user_with_email
                 participant.save()
-                return redirect('tournament_list')
+                return redirect('team_detail', pk=team.pk)
     else:
         form = ParticipantForm(user=request.user)
 
@@ -148,7 +152,25 @@ def tournament_list(request):
 
 def tournament_detail(request, pk):
     tournament = get_object_or_404(Tournament, pk=pk)
-    return render(request, 'tournaments/tournament_detail.html', {'tournament': tournament})
+
+    # 1) генерируем первый раунд при необходимости
+    if not tournament.matches.exists() and tournament.teams.count() >= 2:
+        generate_first_round(tournament)
+
+    # 2) группируем матчи по раундам
+    rounds = defaultdict(list)
+    for m in tournament.matches.select_related('team1', 'team2', 'winner'):
+        rounds[m.round_number].append(m)
+
+    # 3) гарантируем сортировку
+    rounds = dict(sorted(rounds.items()))
+    for r, lst in rounds.items():
+        lst.sort(key=lambda x: x.order_in_round)
+
+    return render(request, 'tournaments/tournament_detail.html', {
+        'tournament': tournament,
+        'rounds': rounds
+    })
 
 @login_required
 def team_detail(request, pk):

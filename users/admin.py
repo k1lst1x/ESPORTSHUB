@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
-from .models import Game, ProfileFrame, Tournament, Team, Participant
+from .models import Game, ProfileFrame, Tournament, Team, Participant, Match
 
 from users.forms import UserCreationForm, UserChangeForm
 
@@ -106,3 +106,9 @@ class ParticipantAdmin(admin.ModelAdmin):
     list_display = ('nickname', 'full_name', 'email', 'team', 'user')
     search_fields = ('nickname', 'full_name', 'email', 'team__name')
     list_filter = ('team__tournament__discipline',)
+
+@admin.register(Match)
+class MatchAdmin(admin.ModelAdmin):
+    list_display = ('tournament', 'round_number', 'order_in_round',
+                    'team1', 'score_team1', 'team2', 'score_team2', 'winner')
+    list_filter  = ('tournament', 'round_number', 'is_finished')

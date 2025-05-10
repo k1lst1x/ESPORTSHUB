@@ -81,10 +81,12 @@
                                             <img src="{{ team.logo.url }}" alt="Логотип {{ team.name }}" class="me-3 border border-light shadow"
                                                  style="width: 56px; height: 56px; object-fit: cover; border-radius: 10px;">
                                         {% else %}
-                                            <div class="me-3 bg-secondary d-flex align-items-center justify-content-center rounded"
+                                            <!-- <div class="me-3 bg-secondary d-flex align-items-center justify-content-center rounded"
                                                  style="width: 56px; height: 56px;">
                                                 <span class="fw-bold fs-6">🎲</span>
-                                            </div>
+                                            </div> -->
+                                            <img src="{% static 'images/default_team_logo.png' %}" alt="Логотип {{ team.name }}" class="me-3 border border-light shadow"
+                                                 style="width: 56px; height: 56px; object-fit: cover; border-radius: 10px;">
                                         {% endif %}
                                         <span class="fw-semibold fs-5">{{ team.name }}</span>
                                     </div>
@@ -98,6 +100,43 @@
                 <div class="alert alert-secondary text-center fw-semibold mt-4">
                     😢 Пока нет зарегистрированных команд. Будь первым!
                 </div>
+            {% endif %}
+
+            <h3 class="mt-5 mb-3 text-white border-bottom pb-2">🗺 Турнирная сетка</h3>
+
+            {% if rounds %}
+            <div class="bracket d-flex flex-nowrap justify-content-start overflow-auto">
+            {# ── раунды ── #}
+            {% for r_num, matches in rounds.items %}
+            <div class="round d-flex flex-column position-relative">
+                <h6 class="text-center text-white mb-3">Round {{ r_num }}</h6>
+
+                {# ── матчи ── #}
+                {% for m in matches %}
+                
+                <div class="match{% if m.is_finished %} finished{% endif %} bg-dark"
+                    style="--i:{{ forloop.counter0 }}; --r:{{ r_num }};">
+                    <div class="team {% if m.winner and m.team1 == m.winner %}winner{% endif %}">
+                        {% if m.team1 and m.team1.logo %}
+                            <img src="{{ m.team1.logo.url }}" alt="{{ m.team1.name }}">
+                            <div class="connector"></div>
+                        {% endif %}
+                        <span class="name">{{ m.team1.name|default:"TBD" }}</span>
+                        <span class="score">{{ m.score_team1 }}</span>
+                    </div>
+
+                    <div class="team {% if m.winner and m.team2 == m.winner %}winner{% endif %}">
+                        {% if m.team2 and m.team2.logo %}
+                            <img src="{{ m.team2.logo.url }}" alt="{{ m.team2.name }}">
+                        {% endif %}
+                        <span class="name">{{ m.team2.name|default:"TBD" }}</span>
+                        <span class="score">{{ m.score_team2 }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            </div>
             {% endif %}
         </div>
     </div>
@@ -179,6 +218,174 @@ body {
         margin-bottom: 2rem !important;
     }
 }
+
+/* контейнер‑колонка каждого раунда */
+.round            {min-width:220px; margin-right:48px;}
+.round:last-child {margin-right:0;}
+
+.match{
+    --line-x: 220px;             /* ширина блока матча (== min-width .round) */
+    position: relative;
+    background:#f8f9fa;
+    border:1px solid #d1d1d1;
+    border-radius:4px;
+    margin-bottom:48px;          /* расстояние между матчами */
+    min-height:72px;
+    min-width:180px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    font-size:14px;
+}
+
+/* горизонтальная линия → следующему раунду */
+.match::after{
+    content:"";
+    position:absolute;
+    right:-24px;                 /* длина горизонтали */
+    top:50%; transform:translateY(-50%);
+    width:24px;
+    height:2px;
+    background:#a0a0a0;
+}
+/* вертикальная соединяющая */
+.match:nth-child(odd)::before{
+    content:"";
+    position:absolute;
+    right:-24px;
+    top:-120%;
+    width:2px;
+    height:calc(100% + 48px);     /* 24px == margin-bottom/2 */
+    background:#a0a0a0;
+}
+/* убираем лишние линии у последнего раунда */
+.round:last-child .match::after,
+.round:last-child .match::before{display:none;}
+
+.team{
+    padding:4px 8px;
+    display:flex; align-items:center;
+    justify-content:space-between;
+}
+.team img{width:20px;height:20px;object-fit:contain;margin-right:6px;}
+.team.winner .name,
+.team.winner .score{font-weight:700;}
+.finished .team:not(.winner){opacity:.55;}
+
+/* Контейнер раунда: выравниваем по вертикали */
+.round {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    min-width: 220px;
+    margin-right: 48px;
+}
+
+/* Выровненный отступ сверху у матчей, зависит от раунда */
+.round:nth-child(2) .match { margin-top: 90px; }
+.round:nth-child(3) .match { margin-top: 120px; }
+.round:nth-child(4) .match { margin-top: 240px; }
+/* при необходимости продолжай по формуле 60 * 2^(n-2) */
+
+/* Блок матча улучшенный */
+.match {
+    position: relative;
+    background: #222; /* тёмный фон */
+    color: #fff;
+    border: 2px solid #444;
+    border-radius: 8px;
+    margin-bottom: 48px;
+    min-height: 80px;
+    min-width: 250px;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: box-shadow 0.2s ease;
+}
+.match:hover {
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+}
+
+/* Участник */
+.team {
+    padding: 4px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 4px;
+}
+.team img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    margin-right: 8px;
+}
+.team .score {
+    background: #000;
+    color: #E63946;
+    border: 1px solid #E63946;
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-weight: 600;
+    min-width: 30px;
+    text-align: center;
+}
+.team.winner .score,
+.team.winner .name {
+    color: #00FFAA;
+    font-weight: 700;
+}
+.finished .team:not(.winner) {
+    opacity: 0.4;
+}
+
+/* Линии между матчами */
+.match::after {
+    content: "";
+    position: absolute;
+    right: -24px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 2px;
+    background: #666;
+}
+.match:nth-child(odd)::before {
+    content: "";
+    position: absolute;
+    right: -24px;
+    top: -109%;
+    width: 2px;
+    height: calc(100% + 53px);
+    background: #666;
+}
+
+/* Убираем лишние линии у последнего раунда */
+.round:last-child .match::after,
+.round:last-child .match::before {
+    display: none;
+}
+
+/* Входящая соединительная линия */
+.connector {
+    position: absolute;
+    width: 26px;
+    height: 2px;
+    background: #888;
+    left: -28px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Скрываем турнирную сетку на мобилке */
+@media (max-width: 768px) {
+  .bracket {
+    display: none !important;
+  }
+}
+
 </style>
 
 {% endblock %}
