@@ -33,9 +33,17 @@ LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-DEFAULT_FROM_EMAIL = 'noreply@example.com'
+# DEFAULT_FROM_EMAIL = 'noreply@example.com'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'iokazaypost@gmail.com'
+EMAIL_HOST_PASSWORD = 'ezvo znab oxfh lihz'
+DEFAULT_FROM_EMAIL = 'iokazaypost@gmail.com'
 
 # Application definition
 
