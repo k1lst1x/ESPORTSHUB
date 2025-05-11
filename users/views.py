@@ -25,6 +25,9 @@ from collections import defaultdict
 from .models import Match
 from .utils   import generate_first_round
 
+from django.core.mail import send_mail
+from django.conf import settings
+
 User = get_user_model()
 
 POINTS_FOR_TOURNAMENT_CREATION = 50
@@ -120,7 +123,19 @@ def create_team(request):
                 request.user.points += POINTS_FOR_TEAM_CREATION
                 request.user.save()
 
-                return redirect('tournament_list')  # или на страницу турнира/команды
+                # ───── УВЕДОМЛЕНИЕ СОЗДАТЕЛЮ ТУРНИРА ─────
+                subject = f"Новая команда зарегистрирована в турнире: {tournament.name}"
+                message = (
+                    f"Привет, {tournament.creator.username}!\n\n"
+                    f"Пользователь {request.user.email} только что зарегистрировал команду «{team.name}» "
+                    f"для участия в вашем турнире «{tournament.name}».\n\n"
+                    f"Количество команд сейчас: {tournament.teams.count()}/{tournament.max_teams}."
+                )
+                recipient_list = [tournament.creator.email]
+
+                send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, recipient_list)
+
+                return redirect('tournament_list')
     else:
         form = TeamForm()
     return render(request, 'tournaments/create_team.html', {'form': form})
@@ -136,14 +151,27 @@ def create_participant(request):
             if team.members.count() >= team.tournament.max_team_members:
                 form.add_error('team', 'В этой команде уже максимальное количество участников.')
             else:
+                # Привязываем к существующему юзеру по email
                 user_with_email = User.objects.filter(email=participant.email).first()
                 if user_with_email:
                     participant.user = user_with_email
+
                 participant.save()
+
+                # ───── УВЕДОМЛЕНИЕ УЧАСТНИКУ ─────
+                subject = f"Вы зарегистрированы в турнире: {team.tournament.name}"
+                message = (
+                    f"Здравствуйте, {participant.full_name}!\n\n"
+                    f"Вы были зарегистрированы в команду «{team.name}» для участия в турнире «{team.tournament.name}».\n\n"
+                    f"Организатор турнира: {team.tournament.creator.email}"
+                )
+                recipient_list = [participant.email]
+
+                send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, recipient_list)
+
                 return redirect('team_detail', pk=team.pk)
     else:
         form = ParticipantForm(user=request.user)
-
     return render(request, 'tournaments/create_participant.html', {'form': form})
 
 def tournament_list(request):
