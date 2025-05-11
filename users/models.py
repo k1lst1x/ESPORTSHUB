@@ -119,6 +119,10 @@ class Tournament(models.Model):
     format = models.CharField(max_length=30, choices=Format.choices, verbose_name=_('Формат турнира'))
     prize_pool = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_('Призовой фонд (в $)'))
 
+    class Meta:
+        verbose_name = _('Турнир')
+        verbose_name_plural = _('Турниры')
+
     def __str__(self):
         return self.name
 
@@ -131,6 +135,10 @@ class Team(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('Создатель команды'))
     name = models.CharField(max_length=100, verbose_name=_('Название команды'))
     logo = models.ImageField(upload_to='team_logos/', blank=True, null=True, default='default_team_logo.png', verbose_name=_('Логотип'))
+
+    class Meta:
+        verbose_name = _('Команда')
+        verbose_name_plural = _('Команды')
 
     def __str__(self):
         return self.name
@@ -149,6 +157,10 @@ class Participant(models.Model):
     nickname = models.CharField(max_length=100, verbose_name=_('Никнейм'))
     email = models.EmailField(verbose_name=_('Email'))
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name=_('Пользователь сайта'))
+
+    class Meta:
+        verbose_name = _('Участник')
+        verbose_name_plural = _('Участники')
 
     def __str__(self):
         return f"{self.nickname} ({self.full_name})"
