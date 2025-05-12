@@ -4,11 +4,29 @@
 {% block title %}Создание турнира{% endblock %}
 
 {% block content %}
-<div class="form-wrapper">
+<div id="payment-wrapper" class="form-wrapper">
+    <h2 class="text-center mb-4">Оплата доступа</h2>
+    <form id="fake-payment-form">
+        <div class="form-field">
+            <label>Номер карты</label>
+            <input type="text" class="form-control" placeholder="0000 0000 0000 0000" required>
+        </div>
+        <div class="form-field">
+            <label>Срок действия</label>
+            <input type="text" class="form-control" placeholder="MM/YY" required>
+        </div>
+        <div class="form-field">
+            <label>CVC</label>
+            <input type="text" class="form-control" placeholder="123" required>
+        </div>
+        <button type="submit" class="btn btn-accent w-100 mt-3">Оплатить 0₸</button>
+    </form>
+</div>
+
+<div id="tournament-form" class="form-wrapper" style="display: none;">
     <h2 class="text-center mb-4">Создание турнира</h2>
     <form method="post">
         {% csrf_token %}
-
         <div class="form-field">{{ form.name.label_tag }}{{ form.name }}</div>
         <div class="form-field">{{ form.type.label_tag }}{{ form.type }}</div>
         <div class="form-field">{{ form.discipline.label_tag }}{{ form.discipline }}</div>
@@ -16,7 +34,6 @@
         <div class="form-field">{{ form.max_team_members.label_tag }}{{ form.max_team_members }}</div>
         <div class="form-field">{{ form.format.label_tag }}{{ form.format }}</div>
         <div class="form-field">{{ form.prize_pool.label_tag }}{{ form.prize_pool }}</div>
-
         <div class="form-check mt-3">
             {{ form.terms }}
             <label class="form-check-label terms-label" for="{{ form.terms.id_for_label }}">
@@ -24,8 +41,16 @@
             </label>
             {% if form.terms.errors %}<div class="text-danger">{{ form.terms.errors.0 }}</div>{% endif %}
         </div>
-
         <button type="submit" class="btn btn-accent w-100 mt-4">Создать турнир</button>
     </form>
 </div>
+
+<script>
+document.getElementById('fake-payment-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Оплата прошла успешно! 🎉');
+    document.getElementById('payment-wrapper').style.display = 'none';
+    document.getElementById('tournament-form').style.display = 'block';
+});
+</script>
 {% endblock %}
