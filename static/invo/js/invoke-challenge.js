@@ -271,7 +271,7 @@ function endGame() {
             'Content-Type': 'application/json',
             'X-CSRFToken': getCookie('csrftoken')  // обязательно!
         },
-        body: JSON.stringify({ score: points/4 })
+        body: JSON.stringify({ score: points/100 })
     });    
 
     spell_container.innerHTML = 'Испытание завершено';

@@ -9,20 +9,51 @@
     <form method="post">
         {% csrf_token %}
 
-        <div class="form-field">{{ form.team.label_tag }}{{ form.team }}</div>
-        <div class="form-field">{{ form.full_name.label_tag }}{{ form.full_name }}</div>
-        <div class="form-field">{{ form.nickname.label_tag }}{{ form.nickname }}</div>
-        <div class="form-field">{{ form.email.label_tag }}{{ form.email }}</div>
+        <div class="form-field">
+            {{ form.team.label_tag }}
+            {{ form.team }}
+            {% if form.team.errors %}
+                <div class="text-danger">{{ form.team.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-field">
+            {{ form.full_name.label_tag }}
+            {{ form.full_name }}
+            {% if form.full_name.errors %}
+                <div class="text-danger">{{ form.full_name.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-field">
+            {{ form.nickname.label_tag }}
+            {{ form.nickname }}
+            {% if form.nickname.errors %}
+                <div class="text-danger">{{ form.nickname.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-field">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="text-danger">{{ form.email.errors.0 }}</div>
+            {% endif %}
+        </div>
 
         <div class="form-check mt-3">
             {{ form.terms }}
             <label class="form-check-label terms-label" for="{{ form.terms.id_for_label }}">
                 Я согласен с <a href="{% url 'how_it_works' %}" target="_blank">условиями использования</a>
             </label>
-            {% if form.terms.errors %}<div class="text-danger">{{ form.terms.errors.0 }}</div>{% endif %}
+            {% if form.terms.errors %}
+                <div class="text-danger">{{ form.terms.errors.0 }}</div>
+            {% endif %}
         </div>
 
-        {% if form.non_field_errors %}<div class="text-danger mt-2">{{ form.non_field_errors }}</div>{% endif %}
+        {% if form.non_field_errors %}
+            <div class="text-danger mt-2">{{ form.non_field_errors }}</div>
+        {% endif %}
 
         <button type="submit" class="btn btn-accent w-100 mt-4">Добавить игрока</button>
     </form>

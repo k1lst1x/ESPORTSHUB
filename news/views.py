@@ -2,7 +2,7 @@ from .models import News, Comment
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 
-POINTS_FOR_COMMENT = 10
+POINTS_FOR_COMMENT = 5
 
 def news_list(request):
     """Страница со списком всех новостей"""

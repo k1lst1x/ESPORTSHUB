@@ -9,19 +9,43 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
 
-        <div class="form-field">{{ form.tournament.label_tag }}{{ form.tournament }}</div>
-        <div class="form-field">{{ form.name.label_tag }}{{ form.name }}</div>
-        <div class="form-field">{{ form.logo.label_tag }}{{ form.logo }}</div>
+        <div class="form-field">
+            {{ form.tournament.label_tag }}
+            {{ form.tournament }}
+            {% if form.tournament.errors %}
+                <div class="text-danger">{{ form.tournament.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-field">
+            {{ form.name.label_tag }}
+            {{ form.name }}
+            {% if form.name.errors %}
+                <div class="text-danger">{{ form.name.errors.0 }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-field">
+            {{ form.logo.label_tag }}
+            {{ form.logo }}
+            {% if form.logo.errors %}
+                <div class="text-danger">{{ form.logo.errors.0 }}</div>
+            {% endif %}
+        </div>
 
         <div class="form-check mt-3">
             {{ form.terms }}
             <label class="form-check-label terms-label" for="{{ form.terms.id_for_label }}">
                 Я согласен с <a href="{% url 'how_it_works' %}" target="_blank">условиями использования</a>
             </label>
-            {% if form.terms.errors %}<div class="text-danger">{{ form.terms.errors.0 }}</div>{% endif %}
+            {% if form.terms.errors %}
+                <div class="text-danger">{{ form.terms.errors.0 }}</div>
+            {% endif %}
         </div>
 
-        {% if form.non_field_errors %}<div class="text-danger mt-2">{{ form.non_field_errors }}</div>{% endif %}
+        {% if form.non_field_errors %}
+            <div class="text-danger mt-2">{{ form.non_field_errors }}</div>
+        {% endif %}
 
         <button type="submit" class="btn btn-accent w-100 mt-4">Создать команду</button>
     </form>

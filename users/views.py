@@ -30,8 +30,8 @@ from django.conf import settings
 
 User = get_user_model()
 
-POINTS_FOR_TOURNAMENT_CREATION = 50
-POINTS_FOR_TEAM_CREATION = 20
+POINTS_FOR_TOURNAMENT_CREATION = 25
+POINTS_FOR_TEAM_CREATION = 10
 
 class Register(View):
     template_name = 'registration/register.html'

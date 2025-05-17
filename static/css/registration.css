@@ -12,26 +12,26 @@
       padding: 3rem 2.5rem !important;    /* было 5rem – уменьшаем отступы */
   }
   .col-md-6 .display-4 {                  /* «Добро пожаловать!» */
-      font-size: 2.8rem;                  /* было 3.5–4rem  */
-      line-height: 1.2;
+      font-size: 2.8rem !important;                  /* было 3.5–4rem  */
+      line-height: 1.2 !important;
   }
   .col-md-6 input {                       /* поля ввода */
-      font-size: 1.05rem;
-      padding: 12px 15px;
+      font-size: 1.05rem !important;
+      padding: 12px 15px !important;
   }
   .col-md-6 button.btn {                  /* кнопка «ВХОД» */
-      font-size: 1.15rem;
-      padding: 12px 0;
+      font-size: 1.15rem !important;
+      padding: 12px 0 !important;
   }
 
   /* Логотип сверху */
   .position-absolute.top-0 img {
-      height: 110px;                      /* было 140 px */
+      height: 70px !important;                      /* было 140 px */
   }
 
   /* Правая половина с картинкой */
   .col-md-6.d-md-block {
-      background-size: 140% auto;         /* сильнее кадрируем, чтобы не «прилипало» */
+      background-size: 140% auto !important;         /* сильнее кадрируем, чтобы не «прилипало» */
   }
 
   /* ---------- универсальные блоки сайта ---------- */
