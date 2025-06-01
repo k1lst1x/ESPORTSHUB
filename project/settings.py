@@ -153,7 +153,7 @@ STATICFILES_DIRS = [
 ]
 
 # STATIC_ROOT = "staticfiles"
-STATIC_ROOT = os.getenv("STATIC_ROOT", RUNTIME_DIR / "staticfiles")
+STATIC_ROOT = os.getenv("STATIC_ROOT", str(BASE_DIR / "staticfiles"))
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 MEDIA_URL = '/uploads/'
